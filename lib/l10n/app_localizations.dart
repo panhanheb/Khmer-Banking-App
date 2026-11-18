@@ -110,6 +110,12 @@ abstract class AppLocalizations {
   /// **'Banking made simple and secure'**
   String get appTagline;
 
+  /// No description provided for @commonOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get commonOk;
+
   /// No description provided for @commonContinue.
   ///
   /// In en, this message translates to:

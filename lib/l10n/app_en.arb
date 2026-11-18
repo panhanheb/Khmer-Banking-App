@@ -3,6 +3,7 @@
   "appName": "Khmer Digital Bank",
   "appTagline": "Banking made simple and secure",
 
+  "commonOk": "OK",
   "commonContinue": "Continue",
   "commonCancel": "Cancel",
   "commonConfirm": "Confirm",

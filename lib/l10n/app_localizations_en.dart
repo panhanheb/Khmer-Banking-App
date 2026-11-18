@@ -15,6 +15,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTagline => 'Banking made simple and secure';
 
   @override
+  String get commonOk => 'OK';
+
+  @override
   String get commonContinue => 'Continue';
 
   @override

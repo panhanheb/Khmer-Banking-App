@@ -15,6 +15,9 @@ class AppLocalizationsKm extends AppLocalizations {
   String get appTagline => 'សេវាធនាគារ ងាយស្រួល និងមានសុវត្ថិភាព';
 
   @override
+  String get commonOk => 'យល់ព្រម';
+
+  @override
   String get commonContinue => 'បន្ត';
 
   @override
