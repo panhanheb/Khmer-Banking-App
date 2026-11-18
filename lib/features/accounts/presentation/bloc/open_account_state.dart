@@ -1,0 +1,19 @@
+import 'package:equatable/equatable.dart';
+
+import '../../../../core/bloc/load_status.dart';
+import '../../domain/entities/account.dart';
+
+class OpenAccountState extends Equatable {
+  const OpenAccountState({
+    this.status = LoadStatus.initial,
+    this.account,
+    this.error,
+  });
+
+  final LoadStatus status;
+  final Account? account;
+  final Object? error;
+
+  @override
+  List<Object?> get props => [status, account, error];
+}

@@ -1,0 +1,56 @@
+# Local development stack: PostgreSQL + Redis + backend (dev profile, SIMULATED money).
+# Usage: cp .env.example .env  &&  docker compose up --build
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: khmerbank
+      POSTGRES_USER: khmerbank
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U khmerbank -d khmerbank"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:?set REDIS_PASSWORD in .env}", "--appendonly", "yes"]
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-dev}
+      APP_ENV: ${APP_ENV:-local}
+      DB_URL: jdbc:postgresql://postgres:5432/khmerbank
+      DB_USERNAME: khmerbank
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      RATE_LIMIT_STORE: redis
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+      OTP_PEPPER: ${OTP_PEPPER:?set OTP_PEPPER in .env}
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
+  redisdata:
