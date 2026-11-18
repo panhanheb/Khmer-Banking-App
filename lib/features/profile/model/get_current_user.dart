@@ -1,5 +1,5 @@
-import '../entities/user_profile.dart';
-import '../repositories/profile_repository.dart';
+import 'user_profile.dart';
+import 'profile_repository.dart';
 
 class GetCurrentUserUseCase {
   const GetCurrentUserUseCase(this._repository);

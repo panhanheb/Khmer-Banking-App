@@ -4,17 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../../accounts/presentation/widgets/account_presenter.dart';
-import '../../../auth/presentation/view_model/pin_setup_state.dart';
-import '../../../transactions/presentation/widgets/transaction_presenter.dart';
+import '../../../app/routes.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../accounts/view/widgets/account_presenter.dart';
+import '../../auth/view_model/pin_setup_state.dart';
+import '../../transactions/view/widgets/transaction_presenter.dart';
 import '../view_model/home_bloc.dart';
-import '../widgets/coming_soon_sheet.dart';
-import '../widgets/quick_actions_grid.dart';
+import 'widgets/coming_soon_sheet.dart';
+import 'widgets/quick_actions_grid.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

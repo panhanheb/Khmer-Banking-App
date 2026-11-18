@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../auth/domain/usecases/credential_usecases.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../auth/model/credential_usecases.dart';
 import 'devices_event.dart';
 import 'devices_state.dart';
 

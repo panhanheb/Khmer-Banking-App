@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/network/page_result.dart';
-import '../../domain/entities/bank_transaction.dart';
-import '../../domain/entities/transaction_filter.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/network/page_result.dart';
+import '../model/bank_transaction.dart';
+import '../model/transaction_filter.dart';
 import 'transactions_event.dart';
 import 'transactions_state.dart';
 

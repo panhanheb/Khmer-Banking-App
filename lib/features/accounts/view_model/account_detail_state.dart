@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/entities/account.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/account.dart';
 
 class AccountDetailState extends Equatable {
   const AccountDetailState({

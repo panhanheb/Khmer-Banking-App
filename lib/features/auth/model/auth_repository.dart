@@ -1,4 +1,4 @@
-import '../entities/auth_entities.dart';
+import 'auth_entities.dart';
 
 /// Authentication & session contract. Implementations persist tokens.
 abstract class AuthRepository {

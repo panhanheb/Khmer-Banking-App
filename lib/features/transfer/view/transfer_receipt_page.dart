@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/utils/date_formatter.dart';
-import '../../../../core/utils/money.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../../transactions/domain/entities/bank_transaction.dart';
-import '../../../transactions/presentation/widgets/transaction_presenter.dart';
-import '../../domain/entities/transfer_entities.dart';
+import '../../../app/routes.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/utils/date_formatter.dart';
+import '../../../core/utils/money.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../transactions/model/bank_transaction.dart';
+import '../../transactions/view/widgets/transaction_presenter.dart';
+import '../model/transfer_entities.dart';
 
 /// Result of `POST /transfers`.
 class TransferReceiptPage extends StatelessWidget {

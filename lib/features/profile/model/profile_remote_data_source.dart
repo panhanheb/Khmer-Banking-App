@@ -1,5 +1,5 @@
-import '../../../../core/network/api_client.dart';
-import '../models/user_profile_model.dart';
+import '../../../core/network/api_client.dart';
+import 'user_profile_model.dart';
 
 class ProfileRemoteDataSource {
   const ProfileRemoteDataSource(this._client);

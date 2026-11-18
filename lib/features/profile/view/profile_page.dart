@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/di.dart';
-import '../../../../app/routes.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/security/biometric_service.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../../auth/presentation/view_model/auth_bloc.dart';
-import '../../../auth/presentation/view_model/pin_setup_state.dart';
-import '../../../settings/presentation/view_model/settings_bloc.dart';
-import '../../domain/entities/user_profile.dart';
+import '../../../app/di.dart';
+import '../../../app/routes.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/security/biometric_service.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../auth/view_model/auth_bloc.dart';
+import '../../auth/view_model/pin_setup_state.dart';
+import '../../settings/view_model/settings_bloc.dart';
+import '../model/user_profile.dart';
 import '../view_model/profile_bloc.dart';
 
 class ProfilePage extends StatelessWidget {

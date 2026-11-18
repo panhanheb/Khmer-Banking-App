@@ -1,5 +1,5 @@
-import '../entities/transfer_entities.dart';
-import '../repositories/transfer_repository.dart';
+import 'transfer_entities.dart';
+import 'transfer_repository.dart';
 
 class LookupRecipientUseCase {
   const LookupRecipientUseCase(this._repository);

@@ -1,4 +1,4 @@
-import '../entities/user_profile.dart';
+import 'user_profile.dart';
 
 abstract class ProfileRepository {
   Future<UserProfile> getMe();

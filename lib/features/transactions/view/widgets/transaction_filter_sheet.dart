@@ -4,8 +4,8 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/money.dart';
 import '../../../../core/widgets/app_button.dart';
-import '../../domain/entities/bank_transaction.dart';
-import '../../domain/entities/transaction_filter.dart';
+import '../../model/bank_transaction.dart';
+import '../../model/transaction_filter.dart';
 import 'transaction_presenter.dart';
 
 /// Bottom sheet editing type / status / currency / date range.

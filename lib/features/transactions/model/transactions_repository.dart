@@ -1,6 +1,6 @@
-import '../../../../core/network/page_result.dart';
-import '../entities/bank_transaction.dart';
-import '../entities/transaction_filter.dart';
+import '../../../core/network/page_result.dart';
+import 'bank_transaction.dart';
+import 'transaction_filter.dart';
 
 abstract class TransactionsRepository {
   Future<PageResult<BankTransaction>> getTransactions({

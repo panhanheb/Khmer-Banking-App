@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/widgets.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/widgets/widgets.dart';
 import '../view_model/change_password_bloc.dart';
 
 class ChangePasswordPage extends StatefulWidget {

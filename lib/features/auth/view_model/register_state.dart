@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/entities/auth_entities.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/auth_entities.dart';
 
 class RegisterState extends Equatable {
   const RegisterState({

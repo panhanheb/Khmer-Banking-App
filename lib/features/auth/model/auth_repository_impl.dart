@@ -1,10 +1,10 @@
-import '../../../../core/device/device_info_service.dart';
-import '../../../../core/network/api_exception.dart';
-import '../../../../core/storage/token_storage.dart';
-import '../../domain/entities/auth_entities.dart';
-import '../../domain/repositories/auth_repository.dart';
-import '../datasources/auth_remote_data_source.dart';
-import '../models/auth_models.dart';
+import '../../../core/device/device_info_service.dart';
+import '../../../core/network/api_exception.dart';
+import '../../../core/storage/token_storage.dart';
+import 'auth_entities.dart';
+import 'auth_repository.dart';
+import 'auth_remote_data_source.dart';
+import 'auth_models.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({

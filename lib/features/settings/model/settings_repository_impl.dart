@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' show ThemeMode;
 
 import '../../../core/storage/key_value_store.dart';
-import '../domain/entities/app_settings.dart';
-import '../domain/repositories/settings_repository.dart';
+import 'app_settings.dart';
+import 'settings_repository.dart';
 
 /// Persists preferences in the (secure) key/value store.
 class SettingsRepositoryImpl implements SettingsRepository {

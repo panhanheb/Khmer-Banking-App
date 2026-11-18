@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
 import '../view_model/transactions_bloc.dart';
-import '../widgets/transaction_filter_sheet.dart';
-import '../widgets/transactions_sliver.dart';
+import 'widgets/transaction_filter_sheet.dart';
+import 'widgets/transactions_sliver.dart';
 
 /// Full history with search, filters and infinite scroll.
 class TransactionsPage extends StatefulWidget {

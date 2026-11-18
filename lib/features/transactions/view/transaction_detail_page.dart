@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/date_formatter.dart';
-import '../../../../core/utils/money.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../domain/entities/bank_transaction.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/date_formatter.dart';
+import '../../../core/utils/money.dart';
+import '../../../core/widgets/widgets.dart';
+import '../model/bank_transaction.dart';
 import '../view_model/transaction_detail_bloc.dart';
-import '../widgets/transaction_presenter.dart';
+import 'widgets/transaction_presenter.dart';
 
 class TransactionDetailPage extends StatelessWidget {
   const TransactionDetailPage({super.key});

@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/usecases/login_usecases.dart';
-import '../../domain/usecases/registration_usecases.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/login_usecases.dart';
+import '../model/registration_usecases.dart';
 import 'otp_event.dart';
 import 'otp_state.dart';
 

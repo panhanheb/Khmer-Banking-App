@@ -1,4 +1,4 @@
-import '../../domain/entities/bank_transaction.dart';
+import 'bank_transaction.dart';
 
 class BankTransactionModel extends BankTransaction {
   const BankTransactionModel({

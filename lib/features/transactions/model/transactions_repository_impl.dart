@@ -1,8 +1,8 @@
-import '../../../../core/network/page_result.dart';
-import '../../domain/entities/bank_transaction.dart';
-import '../../domain/entities/transaction_filter.dart';
-import '../../domain/repositories/transactions_repository.dart';
-import '../datasources/transactions_remote_data_source.dart';
+import '../../../core/network/page_result.dart';
+import 'bank_transaction.dart';
+import 'transaction_filter.dart';
+import 'transactions_repository.dart';
+import 'transactions_remote_data_source.dart';
 
 class TransactionsRepositoryImpl implements TransactionsRepository {
   const TransactionsRepositoryImpl(this._remote);

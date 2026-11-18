@@ -6,8 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import '../core/l10n/l10n.dart';
 import '../core/theme/app_theme.dart';
-import '../features/auth/presentation/bloc/auth_bloc.dart';
-import '../features/settings/presentation/bloc/settings_bloc.dart';
+import '../features/auth/view_model/auth_bloc.dart';
+import '../features/settings/view_model/settings_bloc.dart';
 import 'di.dart';
 import 'router.dart';
 

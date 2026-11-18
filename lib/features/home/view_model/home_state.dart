@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/utils/money.dart';
-import '../../../accounts/domain/entities/account.dart';
-import '../../../profile/domain/entities/user_profile.dart';
-import '../../../transactions/domain/entities/bank_transaction.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/utils/money.dart';
+import '../../accounts/model/account.dart';
+import '../../profile/model/user_profile.dart';
+import '../../transactions/model/bank_transaction.dart';
 
 class HomeState extends Equatable {
   const HomeState({

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
+import '../../../core/bloc/load_status.dart';
 
 class ChangePasswordState extends Equatable {
   const ChangePasswordState({this.status = LoadStatus.initial, this.error});

@@ -123,7 +123,7 @@ Each currency balances independently.
 
 ## 5. Flutter architecture
 
-Feature-first clean architecture:
+Feature-first MVVM:
 
 ```
 lib/
@@ -137,10 +137,20 @@ lib/
 │   └── widgets/                  AppButton, AppTextField, BalanceCard, PinInput, …
 ├── l10n/                         app_en.arb, app_km.arb (gen-l10n)
 └── features/<feature>/
-    ├── data/                     models (JSON), remote data sources, repository impls
-    ├── domain/                   entities, repository contracts, use cases
-    └── presentation/             bloc/ (events, states), pages/, widgets/
+    ├── model/                    entities, JSON models, remote data sources,
+    │                             repository contracts + impls, use cases
+    ├── view/                     pages (render state, dispatch events; no logic)
+    │   └── widgets/              feature-specific widgets and presenters
+    └── view_model/               BLoCs with their events and states
 ```
+
+- *Model* (`model/`) holds the data and business rules: entities, use cases and repositories.
+- *ViewModel* (`view_model/`) is a BLoC. It calls use cases and exposes immutable state.
+- *View* (`view/`) is a page. It listens with `BlocBuilder`/`BlocConsumer` and sends user
+  actions to the ViewModel as events.
+
+Views never call repositories or use cases directly, and ViewModels never import Flutter
+widgets. Each route creates its ViewModel in `app/router.dart` via `get_it`.
 
 The pre-existing coupon/promotion screens (`lib/coupon`, `lib/coins`, `lib/store`, …) are left
 in place untouched and are no longer wired into `main.dart`.

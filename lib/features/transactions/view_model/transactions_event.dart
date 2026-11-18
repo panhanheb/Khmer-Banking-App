@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/transaction_filter.dart';
+import '../model/transaction_filter.dart';
 
 sealed class TransactionsEvent extends Equatable {
   const TransactionsEvent();

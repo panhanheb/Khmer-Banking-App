@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/utils/money.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../domain/entities/account.dart';
+import '../../../app/routes.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/utils/money.dart';
+import '../../../core/widgets/widgets.dart';
+import '../model/account.dart';
 import '../view_model/open_account_bloc.dart';
-import '../widgets/account_presenter.dart';
+import 'widgets/account_presenter.dart';
 
 /// Opens a new current or savings account (`POST /accounts`).
 class OpenAccountPage extends StatefulWidget {

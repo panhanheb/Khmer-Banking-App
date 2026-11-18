@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../../core/bloc/app_event_bus.dart';
-import '../../../../core/utils/money.dart';
-import '../../../accounts/domain/entities/account.dart';
-import '../../../accounts/domain/usecases/account_usecases.dart';
-import '../../domain/usecases/transfer_usecases.dart';
+import '../../../core/bloc/app_event_bus.dart';
+import '../../../core/utils/money.dart';
+import '../../accounts/model/account.dart';
+import '../../accounts/model/account_usecases.dart';
+import '../model/transfer_usecases.dart';
 import 'transfer_event.dart';
 import 'transfer_state.dart';
 

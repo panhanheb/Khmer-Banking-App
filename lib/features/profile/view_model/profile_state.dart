@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/entities/user_profile.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/user_profile.dart';
 
 class ProfileState extends Equatable {
   const ProfileState({

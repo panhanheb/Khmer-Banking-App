@@ -1,7 +1,7 @@
-import '../../../../core/network/api_client.dart';
-import '../../../../core/network/page_result.dart';
-import '../../domain/entities/transaction_filter.dart';
-import '../models/bank_transaction_model.dart';
+import '../../../core/network/api_client.dart';
+import '../../../core/network/page_result.dart';
+import 'transaction_filter.dart';
+import 'bank_transaction_model.dart';
 
 class TransactionsRemoteDataSource {
   const TransactionsRemoteDataSource(this._client);

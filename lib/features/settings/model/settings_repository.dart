@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' show ThemeMode;
 
-import '../entities/app_settings.dart';
+import 'app_settings.dart';
 
 abstract class SettingsRepository {
   Future<AppSettings> load();

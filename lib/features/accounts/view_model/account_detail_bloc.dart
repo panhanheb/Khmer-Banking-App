@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/entities/account.dart';
-import '../../domain/usecases/account_usecases.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/account.dart';
+import '../model/account_usecases.dart';
 import 'account_detail_event.dart';
 import 'account_detail_state.dart';
 

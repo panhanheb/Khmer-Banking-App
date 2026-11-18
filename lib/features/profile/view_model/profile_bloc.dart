@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/app_event_bus.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/usecases/get_current_user.dart';
+import '../../../core/bloc/app_event_bus.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/get_current_user.dart';
 import 'profile_event.dart';
 import 'profile_state.dart';
 

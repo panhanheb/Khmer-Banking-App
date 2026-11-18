@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/app_event_bus.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../accounts/domain/usecases/account_usecases.dart';
-import '../../../profile/domain/usecases/get_current_user.dart';
-import '../../../transactions/domain/usecases/transaction_usecases.dart';
+import '../../../core/bloc/app_event_bus.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../accounts/model/account_usecases.dart';
+import '../../profile/model/get_current_user.dart';
+import '../../transactions/model/transaction_usecases.dart';
 import 'home_event.dart';
 import 'home_state.dart';
 

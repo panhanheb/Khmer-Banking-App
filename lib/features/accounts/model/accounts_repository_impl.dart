@@ -1,10 +1,10 @@
-import '../../../../core/network/page_result.dart';
-import '../../../transactions/domain/entities/bank_transaction.dart';
-import '../../../transactions/domain/entities/transaction_filter.dart';
-import '../../domain/entities/account.dart';
-import '../../domain/repositories/accounts_repository.dart';
-import '../datasources/accounts_remote_data_source.dart';
-import '../models/account_model.dart';
+import '../../../core/network/page_result.dart';
+import '../../transactions/model/bank_transaction.dart';
+import '../../transactions/model/transaction_filter.dart';
+import 'account.dart';
+import 'accounts_repository.dart';
+import 'accounts_remote_data_source.dart';
+import 'account_model.dart';
 
 class AccountsRepositoryImpl implements AccountsRepository {
   const AccountsRepositoryImpl(this._remote);

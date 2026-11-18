@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/app_settings.dart';
-import '../../domain/usecases/settings_usecases.dart';
+import '../model/app_settings.dart';
+import '../model/settings_usecases.dart';
 import 'settings_event.dart';
 import 'settings_state.dart';
 

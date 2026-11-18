@@ -3,19 +3,19 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/di.dart';
-import '../../../../app/routes.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/network/api_exception.dart';
-import '../../../../core/security/biometric_service.dart';
-import '../../../../core/utils/money.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../../accounts/domain/entities/account.dart';
-import '../../../accounts/presentation/widgets/account_presenter.dart';
-import '../../../auth/presentation/view_model/pin_setup_state.dart';
-import '../../../settings/presentation/view_model/settings_bloc.dart';
-import '../../domain/entities/transfer_entities.dart';
+import '../../../app/di.dart';
+import '../../../app/routes.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/network/api_exception.dart';
+import '../../../core/security/biometric_service.dart';
+import '../../../core/utils/money.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../accounts/model/account.dart';
+import '../../accounts/view/widgets/account_presenter.dart';
+import '../../auth/view_model/pin_setup_state.dart';
+import '../../settings/view_model/settings_bloc.dart';
+import '../model/transfer_entities.dart';
 import '../view_model/transfer_bloc.dart';
 
 /// Transfer wizard: source → recipient → amount → review → PIN → receipt.

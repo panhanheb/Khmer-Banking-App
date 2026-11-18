@@ -4,7 +4,7 @@ import '../../../../core/l10n/l10n.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/widgets/transaction_item.dart';
-import '../../domain/entities/bank_transaction.dart';
+import '../../model/bank_transaction.dart';
 
 /// Localized labels, colors and icons for transactions.
 class TxPresenter {

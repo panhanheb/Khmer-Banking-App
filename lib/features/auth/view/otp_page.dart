@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/widgets.dart';
+import '../../../app/routes.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/widgets/widgets.dart';
 import '../view_model/auth_bloc.dart';
 import '../view_model/otp_bloc.dart';
-import '../widgets/auth_scaffold.dart';
+import 'widgets/auth_scaffold.dart';
 
 /// OTP entry for phone verification (registration) or new-device MFA.
 class OtpPage extends StatefulWidget {

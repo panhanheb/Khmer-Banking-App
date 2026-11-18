@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../accounts/domain/entities/account.dart';
-import '../../domain/entities/transfer_entities.dart';
+import '../../accounts/model/account.dart';
+import '../model/transfer_entities.dart';
 
 sealed class TransferEvent extends Equatable {
   const TransferEvent();

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../app/di.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/security/biometric_service.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../../../core/widgets/brand_logo.dart';
+import '../../../app/di.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/security/biometric_service.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../../core/widgets/brand_logo.dart';
 import '../view_model/auth_bloc.dart';
 
 /// Local biometric quick-unlock. This only gates access to the app on this

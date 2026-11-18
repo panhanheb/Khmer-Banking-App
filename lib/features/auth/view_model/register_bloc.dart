@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/usecases/registration_usecases.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/registration_usecases.dart';
 import 'register_event.dart';
 import 'register_state.dart';
 

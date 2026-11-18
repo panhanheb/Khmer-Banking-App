@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../auth/domain/usecases/credential_usecases.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../auth/model/credential_usecases.dart';
 import 'change_password_event.dart';
 import 'change_password_state.dart';
 

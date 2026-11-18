@@ -1,6 +1,6 @@
-import '../../../../core/network/api_client.dart';
-import '../../domain/entities/transfer_entities.dart';
-import '../models/transfer_models.dart';
+import '../../../core/network/api_client.dart';
+import 'transfer_entities.dart';
+import 'transfer_models.dart';
 
 class TransferRemoteDataSource {
   const TransferRemoteDataSource(this._client);

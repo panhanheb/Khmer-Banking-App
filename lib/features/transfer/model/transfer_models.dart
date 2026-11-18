@@ -1,4 +1,4 @@
-import '../../domain/entities/transfer_entities.dart';
+import 'transfer_entities.dart';
 
 String _str(Object? v, [String fallback = '0']) => v == null ? fallback : '$v';
 

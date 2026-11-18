@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/app_event_bus.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/usecases/account_usecases.dart';
+import '../../../core/bloc/app_event_bus.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/account_usecases.dart';
 import 'accounts_event.dart';
 import 'accounts_state.dart';
 

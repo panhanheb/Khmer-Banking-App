@@ -3,15 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../domain/entities/auth_entities.dart';
+import '../../../app/routes.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/widgets/widgets.dart';
+import '../model/auth_entities.dart';
 import '../view_model/otp_state.dart';
 import '../view_model/register_bloc.dart';
-import '../widgets/auth_scaffold.dart';
+import 'widgets/auth_scaffold.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

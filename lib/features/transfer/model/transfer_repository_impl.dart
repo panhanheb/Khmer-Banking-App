@@ -1,6 +1,6 @@
-import '../../domain/entities/transfer_entities.dart';
-import '../../domain/repositories/transfer_repository.dart';
-import '../datasources/transfer_remote_data_source.dart';
+import 'transfer_entities.dart';
+import 'transfer_repository.dart';
+import 'transfer_remote_data_source.dart';
 
 class TransferRepositoryImpl implements TransferRepository {
   const TransferRepositoryImpl(this._remote);

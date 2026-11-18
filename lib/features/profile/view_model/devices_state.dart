@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../auth/domain/entities/auth_entities.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../auth/model/auth_entities.dart';
 
 class DevicesState extends Equatable {
   const DevicesState({

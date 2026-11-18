@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/widgets/account_card.dart';
-import '../../domain/entities/account.dart';
+import '../../model/account.dart';
 
 class AccountPresenter {
   const AccountPresenter._();

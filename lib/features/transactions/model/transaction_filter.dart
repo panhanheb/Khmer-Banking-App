@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/utils/date_formatter.dart';
+import '../../../core/utils/date_formatter.dart';
 
 /// Query for `GET /transactions` / `GET /accounts/{id}/transactions`.
 class TransactionFilter extends Equatable {

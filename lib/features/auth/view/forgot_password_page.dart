@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/utils/validators.dart';
-import '../../../../core/widgets/widgets.dart';
+import '../../../app/routes.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/utils/validators.dart';
+import '../../../core/widgets/widgets.dart';
 import '../view_model/password_reset_bloc.dart';
-import '../widgets/auth_scaffold.dart';
+import 'widgets/auth_scaffold.dart';
 
 /// Forgot password (request code) → reset password (code + new password).
 class ForgotPasswordPage extends StatefulWidget {

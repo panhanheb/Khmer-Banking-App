@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/entities/bank_transaction.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/bank_transaction.dart';
 
 class TransactionDetailState extends Equatable {
   const TransactionDetailState({

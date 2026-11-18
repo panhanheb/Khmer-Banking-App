@@ -1,7 +1,7 @@
-import '../../../../core/network/page_result.dart';
-import '../entities/bank_transaction.dart';
-import '../entities/transaction_filter.dart';
-import '../repositories/transactions_repository.dart';
+import '../../../core/network/page_result.dart';
+import 'bank_transaction.dart';
+import 'transaction_filter.dart';
+import 'transactions_repository.dart';
 
 class GetTransactionsUseCase {
   const GetTransactionsUseCase(this._repository);

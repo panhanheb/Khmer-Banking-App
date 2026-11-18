@@ -1,4 +1,4 @@
-import '../entities/transfer_entities.dart';
+import 'transfer_entities.dart';
 
 abstract class TransferRepository {
   Future<Recipient> lookupRecipient(RecipientQuery query);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' show ThemeMode;
 
-import '../entities/app_settings.dart';
-import '../repositories/settings_repository.dart';
+import 'app_settings.dart';
+import 'settings_repository.dart';
 
 class LoadSettingsUseCase {
   const LoadSettingsUseCase(this._repository);

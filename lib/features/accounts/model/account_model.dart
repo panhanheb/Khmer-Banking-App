@@ -1,4 +1,4 @@
-import '../../domain/entities/account.dart';
+import 'account.dart';
 
 class AccountModel extends Account {
   const AccountModel({

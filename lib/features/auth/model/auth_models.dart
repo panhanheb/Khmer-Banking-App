@@ -1,4 +1,4 @@
-import '../../domain/entities/auth_entities.dart';
+import 'auth_entities.dart';
 
 class TokenPairModel extends TokenPair {
   const TokenPairModel({

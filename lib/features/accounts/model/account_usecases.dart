@@ -1,8 +1,8 @@
-import '../../../../core/network/page_result.dart';
-import '../../../transactions/domain/entities/bank_transaction.dart';
-import '../../../transactions/domain/entities/transaction_filter.dart';
-import '../entities/account.dart';
-import '../repositories/accounts_repository.dart';
+import '../../../core/network/page_result.dart';
+import '../../transactions/model/bank_transaction.dart';
+import '../../transactions/model/transaction_filter.dart';
+import 'account.dart';
+import 'accounts_repository.dart';
 
 class GetAccountsUseCase {
   const GetAccountsUseCase(this._repository);

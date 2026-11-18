@@ -1,6 +1,6 @@
-import '../../../../core/device/device_info_service.dart';
-import '../../../../core/network/api_client.dart';
-import '../models/auth_models.dart';
+import '../../../core/device/device_info_service.dart';
+import '../../../core/network/api_client.dart';
+import 'auth_models.dart';
 
 /// Raw calls to `/auth/**` (docs/API.md).
 class AuthRemoteDataSource {

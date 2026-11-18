@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/network/api_exception.dart';
-import '../../../../core/utils/validators.dart';
-import '../../domain/usecases/credential_usecases.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/network/api_exception.dart';
+import '../../../core/utils/validators.dart';
+import '../model/credential_usecases.dart';
 import 'pin_setup_event.dart';
 import 'pin_setup_state.dart';
 

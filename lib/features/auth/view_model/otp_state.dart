@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../../core/bloc/load_status.dart';
+import '../../../core/bloc/load_status.dart';
 
 /// Why the OTP is being entered.
 enum OtpPurpose { registration, loginMfa }

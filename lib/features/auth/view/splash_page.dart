@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/widgets/brand_logo.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/widgets/brand_logo.dart';
 
 /// Shown while [AuthBloc] decides the initial route from stored tokens.
 class SplashPage extends StatelessWidget {

@@ -3,18 +3,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/date_formatter.dart';
-import '../../../../core/utils/money.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../../transactions/presentation/view_model/transactions_bloc.dart';
-import '../../../transactions/presentation/widgets/transactions_sliver.dart';
-import '../../domain/entities/account.dart';
+import '../../../app/routes.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/date_formatter.dart';
+import '../../../core/utils/money.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../transactions/view_model/transactions_bloc.dart';
+import '../../transactions/view/widgets/transactions_sliver.dart';
+import '../model/account.dart';
 import '../view_model/account_detail_bloc.dart';
-import '../widgets/account_presenter.dart';
+import 'widgets/account_presenter.dart';
 
 /// One account with its details and paginated history. Expects an
 /// [AccountDetailBloc] and an account-scoped [TransactionsBloc] above it.

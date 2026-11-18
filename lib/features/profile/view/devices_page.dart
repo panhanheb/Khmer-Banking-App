@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/utils/date_formatter.dart';
-import '../../../../core/widgets/widgets.dart';
-import '../../../auth/domain/entities/auth_entities.dart';
+import '../../../core/bloc/load_status.dart';
+import '../../../core/l10n/l10n.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/utils/date_formatter.dart';
+import '../../../core/widgets/widgets.dart';
+import '../../auth/model/auth_entities.dart';
 import '../view_model/devices_bloc.dart';
 
 /// Signed-in devices with the option to revoke the other ones.

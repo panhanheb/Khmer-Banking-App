@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/bloc/load_status.dart';
-import '../../domain/entities/bank_transaction.dart';
-import '../../domain/usecases/transaction_usecases.dart';
+import '../../../core/bloc/load_status.dart';
+import '../model/bank_transaction.dart';
+import '../model/transaction_usecases.dart';
 import 'transaction_detail_event.dart';
 import 'transaction_detail_state.dart';
 

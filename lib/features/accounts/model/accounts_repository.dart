@@ -1,7 +1,7 @@
-import '../../../../core/network/page_result.dart';
-import '../../../transactions/domain/entities/bank_transaction.dart';
-import '../../../transactions/domain/entities/transaction_filter.dart';
-import '../entities/account.dart';
+import '../../../core/network/page_result.dart';
+import '../../transactions/model/bank_transaction.dart';
+import '../../transactions/model/transaction_filter.dart';
+import 'account.dart';
 
 abstract class AccountsRepository {
   Future<List<Account>> getAccounts();

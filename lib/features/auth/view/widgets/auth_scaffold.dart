@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/widgets/brand_logo.dart';
-import '../../../settings/presentation/view_model/settings_bloc.dart';
+import '../../../settings/view_model/settings_bloc.dart';
 
 /// Shared layout for the unauthenticated screens.
 class AuthScaffold extends StatelessWidget {

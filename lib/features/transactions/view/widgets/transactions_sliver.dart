@@ -7,8 +7,8 @@ import '../../../../core/bloc/load_status.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../../domain/entities/bank_transaction.dart';
-import '../view_model/transactions_bloc.dart';
+import '../../model/bank_transaction.dart';
+import '../../view_model/transactions_bloc.dart';
 import 'transaction_presenter.dart';
 
 /// Sliver rendering a [TransactionsBloc] list grouped by day, with skeleton,

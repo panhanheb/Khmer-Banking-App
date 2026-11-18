@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../domain/entities/account.dart';
+import '../model/account.dart';
 
 sealed class OpenAccountEvent extends Equatable {
   const OpenAccountEvent();
