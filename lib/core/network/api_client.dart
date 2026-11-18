@@ -25,11 +25,13 @@ class ApiClient {
     Map<String, dynamic>? query,
     bool authenticated = true,
   }) {
-    return _guard(() => dio.get<dynamic>(
-          path,
-          queryParameters: query,
-          options: _options(authenticated: authenticated),
-        ));
+    return _guard(
+      () => dio.get<dynamic>(
+        path,
+        queryParameters: query,
+        options: _options(authenticated: authenticated),
+      ),
+    );
   }
 
   Future<dynamic> post(
@@ -38,26 +40,32 @@ class ApiClient {
     bool authenticated = true,
     Map<String, dynamic>? headers,
   }) {
-    return _guard(() => dio.post<dynamic>(
-          path,
-          data: data,
-          options: _options(authenticated: authenticated, headers: headers),
-        ));
+    return _guard(
+      () => dio.post<dynamic>(
+        path,
+        data: data,
+        options: _options(authenticated: authenticated, headers: headers),
+      ),
+    );
   }
 
   Future<dynamic> put(String path, {Object? data, bool authenticated = true}) {
-    return _guard(() => dio.put<dynamic>(
-          path,
-          data: data,
-          options: _options(authenticated: authenticated),
-        ));
+    return _guard(
+      () => dio.put<dynamic>(
+        path,
+        data: data,
+        options: _options(authenticated: authenticated),
+      ),
+    );
   }
 
   Future<dynamic> delete(String path, {bool authenticated = true}) {
-    return _guard(() => dio.delete<dynamic>(
-          path,
-          options: _options(authenticated: authenticated),
-        ));
+    return _guard(
+      () => dio.delete<dynamic>(
+        path,
+        options: _options(authenticated: authenticated),
+      ),
+    );
   }
 
   Future<dynamic> _guard(Future<Response<dynamic>> Function() call) async {
@@ -92,7 +100,10 @@ Dio buildDio(
 Map<String, dynamic> asJsonMap(Object? data) {
   if (data is Map<String, dynamic>) return data;
   if (data is Map) return Map<String, dynamic>.from(data);
-  throw const ApiException(code: ApiException.unknown, detail: 'Unexpected response body');
+  throw const ApiException(
+    code: ApiException.unknown,
+    detail: 'Unexpected response body',
+  );
 }
 
 /// Decodes a JSON array body of objects.
@@ -100,5 +111,8 @@ List<Map<String, dynamic>> asJsonList(Object? data) {
   if (data is List) {
     return data.map((e) => Map<String, dynamic>.from(e as Map)).toList();
   }
-  throw const ApiException(code: ApiException.unknown, detail: 'Unexpected response body');
+  throw const ApiException(
+    code: ApiException.unknown,
+    detail: 'Unexpected response body',
+  );
 }

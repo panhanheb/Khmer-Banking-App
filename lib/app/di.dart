@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-
 import '../core/bloc/app_event_bus.dart';
 import '../core/config/app_config.dart';
 import '../core/device/device_info_service.dart';
