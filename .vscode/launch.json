@@ -10,7 +10,9 @@
       "mainClass": "com.khmerbank.KhmerBankApplication",
       "projectName": "khmer-digital-bank",
       // Same DB_PASSWORD / secrets as docker compose.
-      "envFile": "${workspaceFolder}/.env"
+      "envFile": "${workspaceFolder}/.env",
+      // Starts postgres + redis via docker compose before launching.
+      "preLaunchTask": "backend: start db"
     },
     {
       "name": "dev · debug",

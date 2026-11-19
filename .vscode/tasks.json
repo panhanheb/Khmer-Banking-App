@@ -29,6 +29,31 @@
       ],
       "problemMatcher": []
     },
+    {
+      "label": "backend: start db",
+      "detail": "docker compose up postgres + redis (uses .env) and wait until healthy",
+      "type": "shell",
+      "command": "docker compose up -d --wait postgres redis",
+      // Windows dev box uses a native PostgreSQL service instead of Docker (see backend/scripts/setup-local-db.ps1).
+      "windows": {
+        "command": "if ((Get-Service postgresql* -ErrorAction SilentlyContinue | Where-Object Status -eq 'Running')) { 'PostgreSQL service is running' } else { Write-Error 'PostgreSQL service not running - start it in services.msc'; exit 1 }"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "backend: setup local db (Windows)",
+      "detail": "Create/update khmerbank role + database in native PostgreSQL using DB_PASSWORD from .env (asks for postgres password)",
+      "type": "shell",
+      "command": "powershell -ExecutionPolicy Bypass -File backend/scripts/setup-local-db.ps1",
+      "problemMatcher": []
+    },
+    {
+      "label": "backend: reset db",
+      "detail": "Delete Postgres/Redis containers + volumes (re-init with current .env passwords). DESTROYS local data.",
+      "type": "shell",
+      "command": "docker compose down -v --remove-orphans; docker rm -f khmerbank-pg; docker volume rm khmerbank_pgdata; docker compose up -d --wait postgres redis",
+      "problemMatcher": []
+    },
     { "label": "pub get", "type": "shell", "command": "flutter pub get", "problemMatcher": [] },
     { "label": "analyze", "type": "shell", "command": "flutter analyze", "problemMatcher": [] },
     { "label": "test",    "type": "shell", "command": "flutter test",    "group": "test", "problemMatcher": [] },
