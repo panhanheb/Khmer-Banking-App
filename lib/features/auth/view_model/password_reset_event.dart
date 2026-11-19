@@ -7,21 +7,11 @@ sealed class PasswordResetEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-final class PasswordResetCodeRequested extends PasswordResetEvent {
-  const PasswordResetCodeRequested(this.phone);
+final class PasswordResetRequested extends PasswordResetEvent {
+  const PasswordResetRequested(this.email);
 
-  final String phone;
-
-  @override
-  List<Object?> get props => [phone];
-}
-
-final class PasswordResetSubmitted extends PasswordResetEvent {
-  const PasswordResetSubmitted({required this.code, required this.newPassword});
-
-  final String code;
-  final String newPassword;
+  final String email;
 
   @override
-  List<Object?> get props => [code];
+  List<Object?> get props => [email];
 }

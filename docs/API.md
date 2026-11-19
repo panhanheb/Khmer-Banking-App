@@ -6,9 +6,7 @@ Base URL: `/api/v1` · Live OpenAPI/Swagger UI: `http://localhost:8080/swagger-u
 
 - JSON, UTF-8. **All money amounts are decimal strings** (`"125.50"`, `"41000"`), never numbers.
 - Currencies: `USD` (2 decimals), `KHR` (0 decimals).
-- Auth: `Authorization: Bearer <accessToken>` on every endpoint except `/auth/register`,
-  `/auth/otp/verify`, `/auth/login`, `/auth/login/mfa`, `/auth/refresh`, `/auth/password/*`,
-  `/exchange-rates`.
+- Auth: `Authorization: Bearer <Firebase ID token>` on every endpoint except `/exchange-rates`.
 - Money-moving POSTs require header `Idempotency-Key: <uuid>`. Re-sending the same key with
   the same body returns the original result (HTTP 200); same key with a different body → 409.
 - Timestamps: ISO-8601 UTC (`2026-11-18T08:30:00Z`).
@@ -26,58 +24,34 @@ Base URL: `/api/v1` · Live OpenAPI/Swagger UI: `http://localhost:8080/swagger-u
 | code | status |
 |---|---|
 | `VALIDATION_ERROR` | 400 |
-| `INVALID_CREDENTIALS` | 401 |
-| `TOKEN_EXPIRED`, `TOKEN_INVALID` | 401 |
-| `ACCOUNT_LOCKED`, `PIN_LOCKED` | 423 |
-| `INVALID_OTP`, `OTP_EXPIRED`, `INVALID_PIN`, `PIN_NOT_SET` | 400 |
-| `FORBIDDEN` | 403 |
+| `UNAUTHORIZED`, `TOKEN_EXPIRED`, `TOKEN_INVALID`, `DEVICE_REVOKED` | 401 |
+| `PIN_LOCKED` | 423 |
+| `INVALID_PIN`, `PIN_NOT_SET` | 400 |
+| `FORBIDDEN`, `USER_NOT_ACTIVE` | 403 |
 | `NOT_FOUND`, `RECIPIENT_NOT_FOUND` | 404 |
-| `DUPLICATE`, `IDEMPOTENCY_CONFLICT`, `PHONE_ALREADY_REGISTERED` | 409 |
+| `DUPLICATE`, `IDEMPOTENCY_CONFLICT` | 409 |
 | `INSUFFICIENT_BALANCE`, `LIMIT_EXCEEDED`, `ACCOUNT_NOT_ACTIVE`, `SAME_ACCOUNT` | 422 |
 | `RATE_LIMITED` | 429 |
+| `AUTH_UNAVAILABLE` (Google keys unreachable) | 503 |
 
 ---
 
 ## Auth
 
-### POST /auth/register
-```json
-{ "phone": "+85512345678", "email": "dara@example.com", "password": "Str0ng!Pass",
-  "fullNameEn": "Sok Dara", "fullNameKm": "សុខ ដារ៉ា", "language": "km" }
-```
-Password policy: ≥8 chars, upper, lower, digit, symbol. Phone: Cambodian E.164 `+855…`.
-→ `201 { "userId": "uuid", "challengeId": "uuid", "otpExpiresAt": "…" }` (SMS OTP sent; dev profile logs it and returns `"devOtp"`).
+Sign-in, registration, SMS codes and passwords are handled by **Firebase Authentication**
+(project `khmer-flutter-bank`) in the app. The API only verifies the Firebase **ID token**:
+RS256 signature (Google `securetoken` keys), `iss = https://securetoken.google.com/<project>`,
+`aud = <project>`, `exp`/`iat`, and a non-empty `sub` (the Firebase UID).
 
-### POST /auth/otp/verify
-`{ "challengeId": "uuid", "code": "123456" }` → `200 { "verified": true }` (activates phone)
+On the **first** authenticated request of a Firebase user the API creates the customer
+(`users.firebase_uid = sub`, name from the `name` claim, phone from `phone_number`, email from
+`email`) and opens a default USD current account. A customer that existed before Firebase is
+linked by matching email or phone. Phone/email are re-synced from the token on later requests.
 
-### POST /auth/login
-```json
-{ "phone": "+85512345678", "password": "…", "deviceId": "stable-device-uuid",
-  "deviceName": "Pixel 9", "platform": "ANDROID" }
-```
-→ trusted device: `200 { "mfaRequired": false, "tokens": TokenPair }`
-→ new device:     `200 { "mfaRequired": true, "challengeId": "uuid", "devOtp": "123456"? }`
-
-### POST /auth/login/mfa
-`{ "challengeId": "uuid", "code": "123456", "deviceId": "…", "deviceName": "…", "platform": "ANDROID" }` → `200 TokenPair` (device becomes trusted)
-
-`TokenPair` = `{ "accessToken": "jwt", "refreshToken": "opaque", "tokenType": "Bearer", "expiresIn": 900 }`
-
-### POST /auth/refresh
-`{ "refreshToken": "…" }` → `200 TokenPair` (old refresh token is revoked; reuse revokes the family)
-
-### POST /auth/logout
-`{ "refreshToken": "…" }` → `204`
-
-### POST /auth/password/forgot
-`{ "phone": "+855…" }` → `200 { "challengeId": "uuid" }` (always 200 to avoid user enumeration)
-
-### POST /auth/password/reset
-`{ "challengeId": "uuid", "code": "123456", "newPassword": "…" }` → `204` (revokes all sessions)
-
-### PUT /auth/password  🔒
-`{ "currentPassword": "…", "newPassword": "…" }` → `204`
+Optional device headers (sent by the app on every request):
+`X-Device-Id: <stable install id>`, `X-Device-Name: Pixel 9`, `X-Device-Platform: ANDROID|IOS|WEB`.
+They register the device in `GET /auth/devices`; a revoked device gets `401 DEVICE_REVOKED`
+until the user signs in on it again (token `auth_time` newer than the revocation).
 
 ### PUT /auth/pin  🔒
 Set or change the 6-digit transaction PIN. `{ "currentPin": "123456" | null, "newPin": "654321" }` → `204`

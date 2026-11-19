@@ -45,5 +45,18 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<!-- Firebase phone auth: reCAPTCHA fallback redirects back via the
+	     encoded Firebase app ID (set per flavor in Flutter/*.xcconfig). -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>$(FIREBASE_ENCODED_APP_ID)</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -1,30 +1,13 @@
 import 'auth_entities.dart';
 import 'auth_repository.dart';
 
-class ForgotPasswordUseCase {
-  const ForgotPasswordUseCase(this._repository);
+class SendPasswordResetEmailUseCase {
+  const SendPasswordResetEmailUseCase(this._repository);
 
   final AuthRepository _repository;
 
-  Future<String> call({required String phone}) =>
-      _repository.forgotPassword(phone: phone);
-}
-
-class ResetPasswordUseCase {
-  const ResetPasswordUseCase(this._repository);
-
-  final AuthRepository _repository;
-
-  Future<void> call({
-    required String challengeId,
-    required String code,
-    required String newPassword,
-  }) =>
-      _repository.resetPassword(
-        challengeId: challengeId,
-        code: code,
-        newPassword: newPassword,
-      );
+  Future<void> call({required String email}) =>
+      _repository.sendPasswordResetEmail(email: email);
 }
 
 class ChangePasswordUseCase {
@@ -35,11 +18,10 @@ class ChangePasswordUseCase {
   Future<void> call({
     required String currentPassword,
     required String newPassword,
-  }) =>
-      _repository.changePassword(
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      );
+  }) => _repository.changePassword(
+    currentPassword: currentPassword,
+    newPassword: newPassword,
+  );
 }
 
 class SetPinUseCase {

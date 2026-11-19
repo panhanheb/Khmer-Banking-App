@@ -9,6 +9,7 @@ import '../../../core/l10n/l10n.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/widgets.dart';
 import '../model/auth_entities.dart';
+import '../view_model/auth_bloc.dart';
 import '../view_model/otp_state.dart';
 import '../view_model/register_bloc.dart';
 import 'widgets/auth_scaffold.dart';
@@ -40,14 +41,18 @@ class _RegisterPageState extends State<RegisterPage> {
   void _submit() {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    context.read<RegisterBloc>().add(RegisterSubmitted(RegisterParams(
+    context.read<RegisterBloc>().add(
+      RegisterSubmitted(
+        RegisterParams(
           phone: Validators.normalizePhone(_phone.text),
           email: _email.text.trim(),
           password: _password.text,
           fullNameEn: _nameEn.text.trim(),
           fullNameKm: _nameKm.text.trim(),
           language: context.languageCode,
-        )));
+        ),
+      ),
+    );
   }
 
   @override
@@ -58,17 +63,25 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return BlocConsumer<RegisterBloc, RegisterState>(
       listener: (context, state) {
-        if (state.status.isSuccess && state.result != null) {
+        final result = state.result;
+        if (state.status.isSuccess && result != null) {
           HapticFeedback.mediumImpact();
-          context.pushReplacement(
-            Routes.otp,
-            extra: OtpArgs(
-              purpose: OtpPurpose.registration,
-              challengeId: state.result!.challengeId,
-              phone: state.phone,
-              devOtp: state.result!.devOtp,
-            ),
-          );
+          if (result.needsCode) {
+            context.pushReplacement(
+              Routes.otp,
+              extra: OtpArgs(
+                purpose: OtpPurpose.registration,
+                verificationId: result.verificationId!,
+                phone: state.phone,
+              ),
+            );
+          } else {
+            // Android verified the number automatically; account is ready.
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(l10n.otpVerifiedRegistration)),
+            );
+            context.read<AuthBloc>().add(const AuthLoggedIn());
+          }
         } else if (state.status.isFailure) {
           HapticFeedback.heavyImpact();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -116,8 +129,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9+ ]')),
                   ],
-                  validator: (v) => required(v) ??
-                      (Validators.isValidPhone(v!) ? null : l10n.validationPhone),
+                  validator: (v) =>
+                      required(v) ??
+                      (Validators.isValidPhone(v!)
+                          ? null
+                          : l10n.validationPhone),
                 ),
                 const SizedBox(height: 14),
                 AppTextField(
@@ -127,8 +143,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   autofillHints: const [AutofillHints.email],
-                  validator: (v) => required(v) ??
-                      (Validators.isValidEmail(v!) ? null : l10n.validationEmail),
+                  validator: (v) =>
+                      required(v) ??
+                      (Validators.isValidEmail(v!)
+                          ? null
+                          : l10n.validationEmail),
                 ),
                 const SizedBox(height: 14),
                 AppTextField(
@@ -139,7 +158,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscure: true,
                   textInputAction: TextInputAction.next,
                   autofillHints: const [AutofillHints.newPassword],
-                  validator: (v) => required(v) ??
+                  validator: (v) =>
+                      required(v) ??
                       (Validators.isStrongPassword(v!)
                           ? null
                           : l10n.validationPassword),
@@ -152,8 +172,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   obscure: true,
                   textInputAction: TextInputAction.done,
                   onSubmitted: (_) => _submit(),
-                  validator: (v) => required(v) ??
-                      (v == _password.text ? null : l10n.validationPasswordMatch),
+                  validator: (v) =>
+                      required(v) ??
+                      (v == _password.text
+                          ? null
+                          : l10n.validationPasswordMatch),
                 ),
                 const SizedBox(height: 24),
                 AppButton(

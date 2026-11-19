@@ -263,7 +263,7 @@ abstract class AppLocalizations {
   /// No description provided for @loginSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Sign in with your phone number'**
+  /// **'Sign in with your email or phone number'**
   String get loginSubtitle;
 
   /// No description provided for @phoneLabel.
@@ -368,23 +368,17 @@ abstract class AppLocalizations {
   /// **'Verify your phone'**
   String get otpTitle;
 
-  /// No description provided for @otpMfaTitle.
+  /// No description provided for @otpLoginTitle.
   ///
   /// In en, this message translates to:
-  /// **'Verify new device'**
-  String get otpMfaTitle;
+  /// **'Enter verification code'**
+  String get otpLoginTitle;
 
   /// No description provided for @otpSubtitle.
   ///
   /// In en, this message translates to:
   /// **'Enter the 6-digit code we sent by SMS'**
   String get otpSubtitle;
-
-  /// No description provided for @otpDevHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Development code: {code}'**
-  String otpDevHint(String code);
 
   /// No description provided for @otpVerifyButton.
   ///
@@ -395,7 +389,7 @@ abstract class AppLocalizations {
   /// No description provided for @otpVerifiedRegistration.
   ///
   /// In en, this message translates to:
-  /// **'Phone verified. Please sign in.'**
+  /// **'Phone verified. Welcome to Khmer Bank!'**
   String get otpVerifiedRegistration;
 
   /// No description provided for @forgotTitle.
@@ -407,7 +401,7 @@ abstract class AppLocalizations {
   /// No description provided for @forgotSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Enter your phone number to receive a reset code'**
+  /// **'Enter your email to receive a password reset link'**
   String get forgotSubtitle;
 
   /// No description provided for @sendCodeButton.
@@ -416,23 +410,23 @@ abstract class AppLocalizations {
   /// **'Send code'**
   String get sendCodeButton;
 
-  /// No description provided for @resetTitle.
+  /// No description provided for @sendResetLinkButton.
   ///
   /// In en, this message translates to:
-  /// **'Reset password'**
-  String get resetTitle;
+  /// **'Send reset link'**
+  String get sendResetLinkButton;
 
-  /// No description provided for @resetSubtitle.
+  /// No description provided for @resetLinkSent.
   ///
   /// In en, this message translates to:
-  /// **'Enter the code we sent and choose a new password'**
-  String get resetSubtitle;
+  /// **'We sent a password reset link to {email}'**
+  String resetLinkSent(String email);
 
-  /// No description provided for @otpCodeLabel.
+  /// No description provided for @loginMethodEmail.
   ///
   /// In en, this message translates to:
-  /// **'Verification code'**
-  String get otpCodeLabel;
+  /// **'Email'**
+  String get loginMethodEmail;
 
   /// No description provided for @newPasswordLabel.
   ///
@@ -446,17 +440,11 @@ abstract class AppLocalizations {
   /// **'Current password'**
   String get currentPasswordLabel;
 
-  /// No description provided for @resetButton.
+  /// No description provided for @loginMethodPhone.
   ///
   /// In en, this message translates to:
-  /// **'Reset password'**
-  String get resetButton;
-
-  /// No description provided for @resetSuccess.
-  ///
-  /// In en, this message translates to:
-  /// **'Password reset. Please sign in again.'**
-  String get resetSuccess;
+  /// **'Phone'**
+  String get loginMethodPhone;
 
   /// No description provided for @setPinTitle.
   ///
@@ -1421,7 +1409,7 @@ abstract class AppLocalizations {
   /// No description provided for @errorInvalidCredentials.
   ///
   /// In en, this message translates to:
-  /// **'Incorrect phone number or password'**
+  /// **'Incorrect email or password'**
   String get errorInvalidCredentials;
 
   /// No description provided for @errorAccountLocked.
@@ -1477,6 +1465,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This phone number is already registered'**
   String get errorPhoneRegistered;
+
+  /// No description provided for @errorEmailRegistered.
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered'**
+  String get errorEmailRegistered;
 
   /// No description provided for @errorDuplicate.
   ///

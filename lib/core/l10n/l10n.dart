@@ -51,6 +51,8 @@ String localizedError(AppLocalizations l10n, Object error) {
       return l10n.errorIdempotencyConflict;
     case ApiException.phoneAlreadyRegistered:
       return l10n.errorPhoneRegistered;
+    case ApiException.emailAlreadyRegistered:
+      return l10n.errorEmailRegistered;
     case ApiException.insufficientBalance:
       return l10n.errorInsufficientBalance;
     case ApiException.limitExceeded:

@@ -8,57 +8,27 @@ import 'password_reset_state.dart';
 export 'password_reset_event.dart';
 export 'password_reset_state.dart';
 
+/// Sends a Firebase password reset email.
 class PasswordResetBloc extends Bloc<PasswordResetEvent, PasswordResetState> {
-  PasswordResetBloc({
-    required ForgotPasswordUseCase forgotPassword,
-    required ResetPasswordUseCase resetPassword,
-  })  : _forgot = forgotPassword,
-        _reset = resetPassword,
-        super(const PasswordResetState()) {
-    on<PasswordResetCodeRequested>(_onCodeRequested);
-    on<PasswordResetSubmitted>(_onSubmitted);
+  PasswordResetBloc({required SendPasswordResetEmailUseCase sendResetEmail})
+    : _sendResetEmail = sendResetEmail,
+      super(const PasswordResetState()) {
+    on<PasswordResetRequested>(_onRequested);
   }
 
-  final ForgotPasswordUseCase _forgot;
-  final ResetPasswordUseCase _reset;
+  final SendPasswordResetEmailUseCase _sendResetEmail;
 
-  Future<void> _onCodeRequested(
-    PasswordResetCodeRequested event,
+  Future<void> _onRequested(
+    PasswordResetRequested event,
     Emitter<PasswordResetState> emit,
   ) async {
-    emit(state.copyWith(status: LoadStatus.loading, error: () => null));
+    if (state.status.isLoading) return;
+    emit(const PasswordResetState(status: LoadStatus.loading));
     try {
-      final challengeId = await _forgot(phone: event.phone);
-      emit(state.copyWith(
-        step: PasswordResetStep.enterCode,
-        status: LoadStatus.initial,
-        phone: event.phone,
-        challengeId: challengeId,
-      ));
+      await _sendResetEmail(email: event.email);
+      emit(PasswordResetState(status: LoadStatus.success, email: event.email));
     } catch (e) {
-      emit(state.copyWith(status: LoadStatus.failure, error: () => e));
-    }
-  }
-
-  Future<void> _onSubmitted(
-    PasswordResetSubmitted event,
-    Emitter<PasswordResetState> emit,
-  ) async {
-    final challengeId = state.challengeId;
-    if (challengeId == null) return;
-    emit(state.copyWith(status: LoadStatus.loading, error: () => null));
-    try {
-      await _reset(
-        challengeId: challengeId,
-        code: event.code,
-        newPassword: event.newPassword,
-      );
-      emit(state.copyWith(
-        step: PasswordResetStep.done,
-        status: LoadStatus.success,
-      ));
-    } catch (e) {
-      emit(state.copyWith(status: LoadStatus.failure, error: () => e));
+      emit(PasswordResetState(status: LoadStatus.failure, error: e));
     }
   }
 }

@@ -1,2 +1,5 @@
 #include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile-uat.xcconfig"
 #include "Generated.xcconfig"
+
+// Firebase phone auth reCAPTCHA redirect (Info.plist CFBundleURLSchemes)
+FIREBASE_ENCODED_APP_ID = app-1-905465248798-ios-5e3a369b265d82225e420f

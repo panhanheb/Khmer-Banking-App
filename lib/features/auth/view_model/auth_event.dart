@@ -7,12 +7,12 @@ sealed class AuthEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// App launch: decide the initial route from stored tokens.
+/// App launch: decide the initial route from the restored Firebase user.
 final class AuthStarted extends AuthEvent {
   const AuthStarted();
 }
 
-/// Tokens were just issued (login / MFA).
+/// The user just signed in (email, phone code or registration).
 final class AuthLoggedIn extends AuthEvent {
   const AuthLoggedIn();
 }
@@ -26,7 +26,7 @@ final class AuthLogoutRequested extends AuthEvent {
   const AuthLogoutRequested();
 }
 
-/// The refresh token was rejected by the server.
+/// The signed-in user is gone (signed out, disabled or deleted).
 final class AuthSessionExpired extends AuthEvent {
   const AuthSessionExpired();
 }

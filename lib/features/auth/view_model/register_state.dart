@@ -12,7 +12,7 @@ class RegisterState extends Equatable {
   });
 
   final LoadStatus status;
-  final RegistrationResult? result;
+  final PhoneCodeResult? result;
   final String? phone;
   final Object? error;
 

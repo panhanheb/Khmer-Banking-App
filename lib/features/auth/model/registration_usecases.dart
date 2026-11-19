@@ -6,15 +6,18 @@ class RegisterUseCase {
 
   final AuthRepository _repository;
 
-  Future<RegistrationResult> call(RegisterParams params) =>
+  Future<PhoneCodeResult> call(RegisterParams params) =>
       _repository.register(params);
 }
 
-class VerifyOtpUseCase {
-  const VerifyOtpUseCase(this._repository);
+class VerifyRegistrationCodeUseCase {
+  const VerifyRegistrationCodeUseCase(this._repository);
 
   final AuthRepository _repository;
 
-  Future<void> call({required String challengeId, required String code}) =>
-      _repository.verifyOtp(challengeId: challengeId, code: code);
+  Future<void> call({required String verificationId, required String code}) =>
+      _repository.verifyRegistrationCode(
+        verificationId: verificationId,
+        code: code,
+      );
 }

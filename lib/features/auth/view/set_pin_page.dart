@@ -36,9 +36,11 @@ class _SetPinPageState extends State<SetPinPage> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.mode == PinSetupMode.change
-            ? l10n.changePinTitle
-            : l10n.setPinTitle),
+        title: Text(
+          widget.mode == PinSetupMode.change
+              ? l10n.changePinTitle
+              : l10n.setPinTitle,
+        ),
       ),
       body: BlocConsumer<PinSetupBloc, PinSetupState>(
         listenWhen: (a, b) => a.attempt != b.attempt || a.status != b.status,
@@ -47,9 +49,9 @@ class _SetPinPageState extends State<SetPinPage> {
           if (state.status.isSuccess) {
             HapticFeedback.mediumImpact();
             sl<AppEventBus>().emit(AppEvent.profileChanged);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.pinSetSuccess)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(l10n.pinSetSuccess)));
             if (context.canPop()) {
               context.pop(true);
             } else {
@@ -66,13 +68,18 @@ class _SetPinPageState extends State<SetPinPage> {
           final error = switch (state.localError) {
             PinLocalError.weak => l10n.pinWeak,
             PinLocalError.mismatch => l10n.pinMismatch,
-            null => state.error == null ? null : localizedError(l10n, state.error!),
+            null =>
+              state.error == null ? null : localizedError(l10n, state.error!),
           };
           return SafeArea(
             child: Column(
               children: [
                 const Spacer(),
-                Icon(Icons.pin_outlined, size: 48, color: theme.colorScheme.primary),
+                Icon(
+                  Icons.pin_outlined,
+                  size: 48,
+                  color: theme.colorScheme.primary,
+                ),
                 const SizedBox(height: 16),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
@@ -80,8 +87,9 @@ class _SetPinPageState extends State<SetPinPage> {
                     prompt,
                     key: ValueKey(prompt),
                     textAlign: TextAlign.center,
-                    style: theme.textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 24),

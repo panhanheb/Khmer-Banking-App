@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 enum AuthStatus {
-  /// Still reading stored credentials (splash).
+  /// Still restoring the Firebase session (splash).
   unknown,
 
-  /// Tokens exist but biometric quick-unlock is required first.
+  /// Signed in, but biometric quick-unlock is required first.
   locked,
   authenticated,
   unauthenticated,

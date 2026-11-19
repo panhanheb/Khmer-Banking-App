@@ -21,11 +21,11 @@ class PinSetupState extends Equatable {
   });
 
   factory PinSetupState.initial(PinSetupMode mode) => PinSetupState(
-        mode: mode,
-        step: mode == PinSetupMode.change
-            ? PinSetupStep.current
-            : PinSetupStep.enterNew,
-      );
+    mode: mode,
+    step: mode == PinSetupMode.change
+        ? PinSetupStep.current
+        : PinSetupStep.enterNew,
+  );
 
   final PinSetupMode mode;
   final PinSetupStep step;
@@ -39,6 +39,14 @@ class PinSetupState extends Equatable {
   final int attempt;
 
   @override
-  List<Object?> get props =>
-      [mode, step, currentPin, newPin, status, localError, error, attempt];
+  List<Object?> get props => [
+    mode,
+    step,
+    currentPin,
+    newPin,
+    status,
+    localError,
+    error,
+    attempt,
+  ];
 }

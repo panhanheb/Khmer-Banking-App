@@ -3,9 +3,9 @@ import 'dart:io' show Platform;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
-import '../storage/token_storage.dart';
+import '../storage/device_id_store.dart';
 
-/// What the backend needs to identify the device on login.
+/// Identifies this device (shown on the Devices screen).
 class DeviceDescriptor extends Equatable {
   const DeviceDescriptor({
     required this.deviceId,
@@ -24,15 +24,15 @@ class DeviceDescriptor extends Equatable {
 }
 
 class DeviceInfoService {
-  DeviceInfoService(this._tokenStorage);
+  DeviceInfoService(this._deviceIdStore);
 
-  final TokenStorage _tokenStorage;
+  final DeviceIdStore _deviceIdStore;
   DeviceDescriptor? _cached;
 
   Future<DeviceDescriptor> describe() async {
     final cached = _cached;
     if (cached != null) return cached;
-    final id = await _tokenStorage.getOrCreateDeviceId();
+    final id = await _deviceIdStore.getOrCreateDeviceId();
     return _cached = DeviceDescriptor(
       deviceId: id,
       deviceName: _deviceName(),

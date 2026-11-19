@@ -31,8 +31,9 @@ class _LockPageState extends State<LockPage> {
   Future<void> _unlock() async {
     if (_busy) return;
     setState(() => _busy = true);
-    final ok = await sl<BiometricService>()
-        .authenticate(context.l10n.biometricReasonUnlock);
+    final ok = await sl<BiometricService>().authenticate(
+      context.l10n.biometricReasonUnlock,
+    );
     if (!mounted) return;
     setState(() {
       _busy = false;
@@ -62,8 +63,9 @@ class _LockPageState extends State<LockPage> {
               Text(
                 l10n.lockTitle,
                 textAlign: TextAlign.center,
-                style: theme.textTheme.titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w700),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                ),
               ),
               const SizedBox(height: 32),
               IconButton.filledTonal(

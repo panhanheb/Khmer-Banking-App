@@ -2,25 +2,31 @@ import 'package:equatable/equatable.dart';
 
 import '../../../core/bloc/load_status.dart';
 
-/// Why the OTP is being entered.
-enum OtpPurpose { registration, loginMfa }
+/// Why the SMS code is being entered.
+enum OtpPurpose {
+  /// Verify the phone number of a new account (links it to the account).
+  registration,
+
+  /// Sign in with phone number.
+  phoneLogin,
+}
 
 /// Route arguments for the OTP page.
 class OtpArgs extends Equatable {
   const OtpArgs({
     required this.purpose,
-    required this.challengeId,
+    required this.verificationId,
     this.phone,
-    this.devOtp,
   });
 
   final OtpPurpose purpose;
-  final String challengeId;
+
+  /// Firebase phone verification id.
+  final String verificationId;
   final String? phone;
-  final String? devOtp;
 
   @override
-  List<Object?> get props => [purpose, challengeId, phone, devOtp];
+  List<Object?> get props => [purpose, verificationId, phone];
 }
 
 class OtpState extends Equatable {

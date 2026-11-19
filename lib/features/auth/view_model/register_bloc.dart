@@ -10,8 +10,8 @@ export 'register_state.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc({required RegisterUseCase register})
-      : _register = register,
-        super(const RegisterState()) {
+    : _register = register,
+      super(const RegisterState()) {
     on<RegisterSubmitted>(_onSubmitted);
   }
 
@@ -25,11 +25,13 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     emit(const RegisterState(status: LoadStatus.loading));
     try {
       final result = await _register(event.params);
-      emit(RegisterState(
-        status: LoadStatus.success,
-        result: result,
-        phone: event.params.phone,
-      ));
+      emit(
+        RegisterState(
+          status: LoadStatus.success,
+          result: result,
+          phone: event.params.phone,
+        ),
+      );
     } catch (e) {
       emit(RegisterState(status: LoadStatus.failure, error: e));
     }

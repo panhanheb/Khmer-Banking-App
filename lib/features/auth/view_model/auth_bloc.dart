@@ -15,14 +15,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     required LogoutUseCase logout,
     required SettingsRepository settings,
     Duration splashDelay = const Duration(milliseconds: 900),
-  })  : _checkSession = checkSession,
-        _logout = logout,
-        _settings = settings,
-        _splashDelay = splashDelay,
-        super(const AuthState()) {
+  }) : _checkSession = checkSession,
+       _logout = logout,
+       _settings = settings,
+       _splashDelay = splashDelay,
+       super(const AuthState()) {
     on<AuthStarted>(_onStarted);
-    on<AuthLoggedIn>((_, emit) => emit(const AuthState(status: AuthStatus.authenticated)));
-    on<AuthUnlocked>((_, emit) => emit(const AuthState(status: AuthStatus.authenticated)));
+    on<AuthLoggedIn>(
+      (_, emit) => emit(const AuthState(status: AuthStatus.authenticated)),
+    );
+    on<AuthUnlocked>(
+      (_, emit) => emit(const AuthState(status: AuthStatus.authenticated)),
+    );
     on<AuthLogoutRequested>(_onLogout);
     on<AuthSessionExpired>(_onExpired);
   }
@@ -45,7 +49,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } else if (biometric) {
       emit(const AuthState(status: AuthStatus.locked));
     } else {
-      // The access token may be stale; the interceptor refreshes on 401.
       emit(const AuthState(status: AuthStatus.authenticated));
     }
   }
@@ -58,11 +61,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(const AuthState(status: AuthStatus.unauthenticated));
   }
 
-  void _onExpired(AuthSessionExpired event, Emitter<AuthState> emit) {
+  Future<void> _onExpired(
+    AuthSessionExpired event,
+    Emitter<AuthState> emit,
+  ) async {
     if (state.status == AuthStatus.unauthenticated) return;
-    emit(const AuthState(
-      status: AuthStatus.unauthenticated,
-      sessionExpired: true,
-    ));
+    // Sign out of Firebase too, otherwise the next launch would restore the
+    // session; a fresh sign-in is what re-enables a revoked device.
+    await _logout();
+    emit(
+      const AuthState(status: AuthStatus.unauthenticated, sessionExpired: true),
+    );
   }
 }

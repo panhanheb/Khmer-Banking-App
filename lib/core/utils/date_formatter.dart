@@ -14,9 +14,6 @@ class DateFormatter {
   static String date(DateTime value, String locale) =>
       DateFormat.yMMMd(locale).format(value.toLocal());
 
-  static String shortDate(DateTime value, String locale) =>
-      DateFormat.MMMd(locale).format(value.toLocal());
-
   static String time(DateTime value, String locale) =>
       DateFormat.Hm(locale).format(value.toLocal());
 

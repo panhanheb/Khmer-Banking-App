@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import '../core/bloc/app_event_bus.dart';
@@ -5,9 +6,10 @@ import '../core/config/app_config.dart';
 import '../core/device/device_info_service.dart';
 import '../core/network/api_client.dart';
 import '../core/network/auth_interceptor.dart';
+import '../core/network/device_headers_interceptor.dart';
 import '../core/security/biometric_service.dart';
 import '../core/storage/key_value_store.dart';
-import '../core/storage/token_storage.dart';
+import '../core/storage/device_id_store.dart';
 import '../features/accounts/model/accounts_remote_data_source.dart';
 import '../features/accounts/model/accounts_repository_impl.dart';
 import '../features/accounts/model/account.dart';
@@ -63,7 +65,8 @@ Future<void> configureDependencies({
   // ---- Core ----
   sl
     ..registerLazySingleton<KeyValueStore>(() => store ?? SecureKeyValueStore())
-    ..registerLazySingleton(() => TokenStorage(sl()))
+    ..registerLazySingleton(() => FirebaseAuth.instance)
+    ..registerLazySingleton(() => DeviceIdStore(sl()))
     ..registerLazySingleton(() => DeviceInfoService(sl()))
     ..registerLazySingleton(BiometricService.new)
     ..registerLazySingleton(AppEventBus.new);
@@ -73,17 +76,16 @@ Future<void> configureDependencies({
     connectTimeout: AppConfig.connectTimeout,
     receiveTimeout: AppConfig.receiveTimeout,
   );
-  final refreshDio = buildDio(
-    baseUrl,
-    connectTimeout: AppConfig.connectTimeout,
-    receiveTimeout: AppConfig.receiveTimeout,
-  );
-  dio.interceptors.add(AuthInterceptor(
-    dio: dio,
-    refreshDio: refreshDio,
-    tokenStorage: sl(),
-    onSessionExpired: () => sl<AuthBloc>().add(const AuthSessionExpired()),
-  ));
+  dio.interceptors
+    ..add(DeviceHeadersInterceptor(sl()))
+    ..add(
+      AuthInterceptor(
+        dio: dio,
+        idToken: ({bool forceRefresh = false}) =>
+            sl<AuthRepository>().idToken(forceRefresh: forceRefresh),
+        onSessionExpired: () => sl<AuthBloc>().add(const AuthSessionExpired()),
+      ),
+    );
   sl
     ..registerSingleton<Dio>(dio)
     ..registerLazySingleton(() => ApiClient(sl()));
@@ -98,32 +100,35 @@ Future<void> configureDependencies({
 
   // ---- Repositories ----
   sl
-    ..registerLazySingleton<AuthRepository>(() => AuthRepositoryImpl(
-          remote: sl(),
-          tokenStorage: sl(),
-          deviceInfo: sl(),
-        ))
+    ..registerLazySingleton<AuthRepository>(
+      () => FirebaseAuthRepository(auth: sl(), remote: sl()),
+    )
     ..registerLazySingleton<SettingsRepository>(
-        () => SettingsRepositoryImpl(sl()))
+      () => SettingsRepositoryImpl(sl()),
+    )
     ..registerLazySingleton<ProfileRepository>(
-        () => ProfileRepositoryImpl(sl()))
+      () => ProfileRepositoryImpl(sl()),
+    )
     ..registerLazySingleton<AccountsRepository>(
-        () => AccountsRepositoryImpl(sl()))
+      () => AccountsRepositoryImpl(sl()),
+    )
     ..registerLazySingleton<TransactionsRepository>(
-        () => TransactionsRepositoryImpl(sl()))
+      () => TransactionsRepositoryImpl(sl()),
+    )
     ..registerLazySingleton<TransferRepository>(
-        () => TransferRepositoryImpl(sl()));
+      () => TransferRepositoryImpl(sl()),
+    );
 
   // ---- Use cases ----
   sl
-    ..registerFactory(() => LoginUseCase(sl()))
-    ..registerFactory(() => VerifyLoginMfaUseCase(sl()))
+    ..registerFactory(() => LoginWithEmailUseCase(sl()))
+    ..registerFactory(() => SendPhoneLoginCodeUseCase(sl()))
+    ..registerFactory(() => VerifyPhoneLoginCodeUseCase(sl()))
     ..registerFactory(() => CheckSessionUseCase(sl()))
     ..registerFactory(() => LogoutUseCase(sl()))
     ..registerFactory(() => RegisterUseCase(sl()))
-    ..registerFactory(() => VerifyOtpUseCase(sl()))
-    ..registerFactory(() => ForgotPasswordUseCase(sl()))
-    ..registerFactory(() => ResetPasswordUseCase(sl()))
+    ..registerFactory(() => VerifyRegistrationCodeUseCase(sl()))
+    ..registerFactory(() => SendPasswordResetEmailUseCase(sl()))
     ..registerFactory(() => ChangePasswordUseCase(sl()))
     ..registerFactory(() => SetPinUseCase(sl()))
     ..registerFactory(() => GetDevicesUseCase(sl()))
@@ -146,50 +151,52 @@ Future<void> configureDependencies({
   // ---- App-wide BLoCs ----
   final initialSettings = await sl<SettingsRepository>().load();
   sl
-    ..registerLazySingleton(() => AuthBloc(
-          checkSession: sl(),
-          logout: sl(),
-          settings: sl(),
-        ))
-    ..registerLazySingleton(() => SettingsBloc(
-          loadSettings: sl(),
-          updateLanguage: sl(),
-          updateTheme: sl(),
-          updateBiometric: sl(),
-          initial: initialSettings,
-        ));
+    ..registerLazySingleton(
+      () => AuthBloc(checkSession: sl(), logout: sl(), settings: sl()),
+    )
+    ..registerLazySingleton(
+      () => SettingsBloc(
+        loadSettings: sl(),
+        updateLanguage: sl(),
+        updateTheme: sl(),
+        updateBiometric: sl(),
+        initial: initialSettings,
+      ),
+    );
 
   // ---- Screen BLoCs (new instance per screen) ----
   sl
-    ..registerFactory(() => LoginBloc(login: sl()))
+    ..registerFactory(
+      () => LoginBloc(loginWithEmail: sl(), sendPhoneCode: sl()),
+    )
     ..registerFactory(() => RegisterBloc(register: sl()))
     ..registerFactoryParam<OtpBloc, OtpArgs, void>(
-      (args, _) => OtpBloc(args: args, verifyOtp: sl(), verifyLoginMfa: sl()),
+      (args, _) => OtpBloc(
+        args: args,
+        verifyRegistrationCode: sl(),
+        verifyPhoneLoginCode: sl(),
+      ),
     )
-    ..registerFactory(() => PasswordResetBloc(
-          forgotPassword: sl(),
-          resetPassword: sl(),
-        ))
+    ..registerFactory(() => PasswordResetBloc(sendResetEmail: sl()))
     ..registerFactoryParam<PinSetupBloc, PinSetupMode, void>(
       (mode, _) => PinSetupBloc(mode: mode, setPin: sl()),
     )
-    ..registerFactory(() => HomeBloc(
-          getCurrentUser: sl(),
-          getAccounts: sl(),
-          getTransactions: sl(),
-          eventBus: sl(),
-        ))
+    ..registerFactory(
+      () => HomeBloc(
+        getCurrentUser: sl(),
+        getAccounts: sl(),
+        getTransactions: sl(),
+        eventBus: sl(),
+      ),
+    )
     ..registerFactory(() => ProfileBloc(getCurrentUser: sl(), eventBus: sl()))
     ..registerFactory(() => DevicesBloc(getDevices: sl(), revokeDevice: sl()))
     ..registerFactory(() => ChangePasswordBloc(changePassword: sl()))
     ..registerFactory(() => AccountsBloc(getAccounts: sl(), eventBus: sl()))
     ..registerFactory(() => OpenAccountBloc(openAccount: sl(), eventBus: sl()))
     ..registerFactoryParam<AccountDetailBloc, String, Account?>(
-      (id, initial) => AccountDetailBloc(
-        accountId: id,
-        getAccount: sl(),
-        initial: initial,
-      ),
+      (id, initial) =>
+          AccountDetailBloc(accountId: id, getAccount: sl(), initial: initial),
     )
     ..registerFactory(() {
       final useCase = sl<GetTransactionsUseCase>();
@@ -199,18 +206,18 @@ Future<void> configureDependencies({
       );
     })
     ..registerFactoryParam<TransactionDetailBloc, BankTransaction?, void>(
-      (initial, _) => TransactionDetailBloc(
-        getTransaction: sl(),
-        initial: initial,
-      ),
+      (initial, _) =>
+          TransactionDetailBloc(getTransaction: sl(), initial: initial),
     )
-    ..registerFactory(() => TransferBloc(
-          getAccounts: sl(),
-          lookupRecipient: sl(),
-          getQuote: sl(),
-          submitTransfer: sl(),
-          eventBus: sl(),
-        ));
+    ..registerFactory(
+      () => TransferBloc(
+        getAccounts: sl(),
+        lookupRecipient: sl(),
+        getQuote: sl(),
+        submitTransfer: sl(),
+        eventBus: sl(),
+      ),
+    );
 }
 
 /// History bloc bound to a single account's endpoint.

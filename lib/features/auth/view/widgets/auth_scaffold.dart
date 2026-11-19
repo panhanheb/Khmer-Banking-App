@@ -47,8 +47,9 @@ class AuthScaffold extends StatelessWidget {
                   Text(
                     title,
                     textAlign: showLogo ? TextAlign.center : TextAlign.start,
-                    style: theme.textTheme.headlineSmall
-                        ?.copyWith(fontWeight: FontWeight.w800),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                   if (subtitle != null) ...[
                     const SizedBox(height: 6),
@@ -80,11 +81,13 @@ class LanguageToggle extends StatelessWidget {
   Widget build(BuildContext context) {
     final isKm = context.languageCode == 'km';
     return TextButton.icon(
-      onPressed: () => context
-          .read<SettingsBloc>()
-          .add(SettingsLanguageChanged(isKm ? 'en' : 'km')),
+      onPressed: () => context.read<SettingsBloc>().add(
+        SettingsLanguageChanged(isKm ? 'en' : 'km'),
+      ),
       icon: const Icon(Icons.translate, size: 18),
-      label: Text(isKm ? context.l10n.languageEnglish : context.l10n.languageKhmer),
+      label: Text(
+        isKm ? context.l10n.languageEnglish : context.l10n.languageKhmer,
+      ),
     );
   }
 }

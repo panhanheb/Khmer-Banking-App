@@ -40,6 +40,7 @@ class ApiException extends Equatable implements Exception {
   static const String duplicate = 'DUPLICATE';
   static const String idempotencyConflict = 'IDEMPOTENCY_CONFLICT';
   static const String phoneAlreadyRegistered = 'PHONE_ALREADY_REGISTERED';
+  static const String emailAlreadyRegistered = 'EMAIL_ALREADY_REGISTERED';
   static const String insufficientBalance = 'INSUFFICIENT_BALANCE';
   static const String limitExceeded = 'LIMIT_EXCEEDED';
   static const String accountNotActive = 'ACCOUNT_NOT_ACTIVE';
@@ -130,8 +131,14 @@ class ApiException extends Equatable implements Exception {
   }
 
   @override
-  List<Object?> get props =>
-      [code, statusCode, title, detail, traceId, fieldErrors];
+  List<Object?> get props => [
+    code,
+    statusCode,
+    title,
+    detail,
+    traceId,
+    fieldErrors,
+  ];
 
   @override
   String toString() => 'ApiException($code, $statusCode, $detail)';

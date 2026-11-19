@@ -92,7 +92,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loginTitle => 'Welcome back';
 
   @override
-  String get loginSubtitle => 'Sign in with your phone number';
+  String get loginSubtitle => 'Sign in with your email or phone number';
 
   @override
   String get phoneLabel => 'Phone number';
@@ -147,41 +147,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get otpTitle => 'Verify your phone';
 
   @override
-  String get otpMfaTitle => 'Verify new device';
+  String get otpLoginTitle => 'Enter verification code';
 
   @override
   String get otpSubtitle => 'Enter the 6-digit code we sent by SMS';
 
   @override
-  String otpDevHint(String code) {
-    return 'Development code: $code';
-  }
-
-  @override
   String get otpVerifyButton => 'Verify';
 
   @override
-  String get otpVerifiedRegistration => 'Phone verified. Please sign in.';
+  String get otpVerifiedRegistration =>
+      'Phone verified. Welcome to Khmer Bank!';
 
   @override
   String get forgotTitle => 'Forgot password';
 
   @override
   String get forgotSubtitle =>
-      'Enter your phone number to receive a reset code';
+      'Enter your email to receive a password reset link';
 
   @override
   String get sendCodeButton => 'Send code';
 
   @override
-  String get resetTitle => 'Reset password';
+  String get sendResetLinkButton => 'Send reset link';
 
   @override
-  String get resetSubtitle =>
-      'Enter the code we sent and choose a new password';
+  String resetLinkSent(String email) {
+    return 'We sent a password reset link to $email';
+  }
 
   @override
-  String get otpCodeLabel => 'Verification code';
+  String get loginMethodEmail => 'Email';
 
   @override
   String get newPasswordLabel => 'New password';
@@ -190,10 +187,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get currentPasswordLabel => 'Current password';
 
   @override
-  String get resetButton => 'Reset password';
-
-  @override
-  String get resetSuccess => 'Password reset. Please sign in again.';
+  String get loginMethodPhone => 'Phone';
 
   @override
   String get setPinTitle => 'Set transaction PIN';
@@ -690,7 +684,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorTimeout => 'The request timed out. Please try again.';
 
   @override
-  String get errorInvalidCredentials => 'Incorrect phone number or password';
+  String get errorInvalidCredentials => 'Incorrect email or password';
 
   @override
   String get errorAccountLocked =>
@@ -720,6 +714,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorPhoneRegistered => 'This phone number is already registered';
+
+  @override
+  String get errorEmailRegistered => 'This email is already registered';
 
   @override
   String get errorDuplicate => 'Duplicate request';

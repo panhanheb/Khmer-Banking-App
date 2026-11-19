@@ -1,22 +1,34 @@
 import 'auth_entities.dart';
 import 'auth_repository.dart';
 
-class LoginUseCase {
-  const LoginUseCase(this._repository);
+class LoginWithEmailUseCase {
+  const LoginWithEmailUseCase(this._repository);
 
   final AuthRepository _repository;
 
-  Future<LoginResult> call({required String phone, required String password}) =>
-      _repository.login(phone: phone, password: password);
+  Future<void> call({required String email, required String password}) =>
+      _repository.loginWithEmail(email: email, password: password);
 }
 
-class VerifyLoginMfaUseCase {
-  const VerifyLoginMfaUseCase(this._repository);
+class SendPhoneLoginCodeUseCase {
+  const SendPhoneLoginCodeUseCase(this._repository);
 
   final AuthRepository _repository;
 
-  Future<void> call({required String challengeId, required String code}) =>
-      _repository.verifyLoginMfa(challengeId: challengeId, code: code);
+  Future<PhoneCodeResult> call({required String phone}) =>
+      _repository.sendPhoneLoginCode(phone: phone);
+}
+
+class VerifyPhoneLoginCodeUseCase {
+  const VerifyPhoneLoginCodeUseCase(this._repository);
+
+  final AuthRepository _repository;
+
+  Future<void> call({required String verificationId, required String code}) =>
+      _repository.verifyPhoneLoginCode(
+        verificationId: verificationId,
+        code: code,
+      );
 }
 
 class CheckSessionUseCase {

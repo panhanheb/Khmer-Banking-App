@@ -1,0 +1,13 @@
+# Local development profile. Mock integrations are enabled and money created via
+# /api/v1/dev/** is flagged simulated = true.
+spring:
+  datasource:
+    password: ${DB_PASSWORD:khmerbank_dev}
+
+app:
+  rate-limit:
+    store: ${RATE_LIMIT_STORE:memory}
+
+logging:
+  level:
+    com.khmerbank: DEBUG

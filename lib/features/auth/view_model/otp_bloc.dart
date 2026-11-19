@@ -9,21 +9,21 @@ import 'otp_state.dart';
 export 'otp_event.dart';
 export 'otp_state.dart';
 
-/// Verifies a registration OTP or completes a new-device (MFA) login.
+/// Verifies an SMS code: links the phone to a new account, or signs in.
 class OtpBloc extends Bloc<OtpEvent, OtpState> {
   OtpBloc({
     required this.args,
-    required VerifyOtpUseCase verifyOtp,
-    required VerifyLoginMfaUseCase verifyLoginMfa,
-  })  : _verifyOtp = verifyOtp,
-        _verifyLoginMfa = verifyLoginMfa,
-        super(const OtpState()) {
+    required VerifyRegistrationCodeUseCase verifyRegistrationCode,
+    required VerifyPhoneLoginCodeUseCase verifyPhoneLoginCode,
+  }) : _verifyRegistrationCode = verifyRegistrationCode,
+       _verifyPhoneLoginCode = verifyPhoneLoginCode,
+       super(const OtpState()) {
     on<OtpSubmitted>(_onSubmitted);
   }
 
   final OtpArgs args;
-  final VerifyOtpUseCase _verifyOtp;
-  final VerifyLoginMfaUseCase _verifyLoginMfa;
+  final VerifyRegistrationCodeUseCase _verifyRegistrationCode;
+  final VerifyPhoneLoginCodeUseCase _verifyPhoneLoginCode;
 
   Future<void> _onSubmitted(OtpSubmitted event, Emitter<OtpState> emit) async {
     if (state.status.isLoading) return;
@@ -31,9 +31,15 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     try {
       switch (args.purpose) {
         case OtpPurpose.registration:
-          await _verifyOtp(challengeId: args.challengeId, code: event.code);
-        case OtpPurpose.loginMfa:
-          await _verifyLoginMfa(challengeId: args.challengeId, code: event.code);
+          await _verifyRegistrationCode(
+            verificationId: args.verificationId,
+            code: event.code,
+          );
+        case OtpPurpose.phoneLogin:
+          await _verifyPhoneLoginCode(
+            verificationId: args.verificationId,
+            code: event.code,
+          );
       }
       emit(const OtpState(status: LoadStatus.success));
     } catch (e) {

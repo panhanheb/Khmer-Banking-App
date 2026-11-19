@@ -1,29 +1,33 @@
 import 'auth_entities.dart';
 
-/// Authentication & session contract. Implementations persist tokens.
+/// Authentication & session contract (backed by Firebase Authentication).
 abstract class AuthRepository {
-  Future<RegistrationResult> register(RegisterParams params);
+  /// Creates an email/password account, then sends an SMS code to
+  /// [RegisterParams.phone] so the number can be linked to the account.
+  Future<PhoneCodeResult> register(RegisterParams params);
 
-  Future<void> verifyOtp({required String challengeId, required String code});
-
-  /// Logs in from this device. When MFA is not required the returned tokens
-  /// are already persisted.
-  Future<LoginResult> login({required String phone, required String password});
-
-  /// Completes a new-device login; persists the issued tokens.
-  Future<void> verifyLoginMfa({
-    required String challengeId,
+  /// Links the verified phone number to the newly registered account.
+  Future<void> verifyRegistrationCode({
+    required String verificationId,
     required String code,
   });
 
-  /// Returns the challenge id for the reset code.
-  Future<String> forgotPassword({required String phone});
-
-  Future<void> resetPassword({
-    required String challengeId,
-    required String code,
-    required String newPassword,
+  Future<void> loginWithEmail({
+    required String email,
+    required String password,
   });
+
+  /// Sends a sign-in SMS code to [phone] (E.164).
+  Future<PhoneCodeResult> sendPhoneLoginCode({required String phone});
+
+  /// Completes a phone sign-in with the SMS code.
+  Future<void> verifyPhoneLoginCode({
+    required String verificationId,
+    required String code,
+  });
+
+  /// Emails a password reset link.
+  Future<void> sendPasswordResetEmail({required String email});
 
   Future<void> changePassword({
     required String currentPassword,
@@ -36,8 +40,10 @@ abstract class AuthRepository {
 
   Future<void> revokeDevice(String id);
 
-  /// Revokes the refresh token server-side (best effort) and wipes tokens.
   Future<void> logout();
 
   Future<bool> hasSession();
+
+  /// Firebase ID token for authenticating API calls (`null` when signed out).
+  Future<String?> idToken({bool forceRefresh = false});
 }

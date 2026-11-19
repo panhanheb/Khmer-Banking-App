@@ -12,6 +12,8 @@ import '../view_model/login_bloc.dart';
 import '../view_model/otp_state.dart';
 import 'widgets/auth_scaffold.dart';
 
+enum _LoginMethod { email, phone }
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -21,28 +23,41 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final _phone = TextEditingController();
+  final _email = TextEditingController();
   final _password = TextEditingController();
+  final _phone = TextEditingController();
+  _LoginMethod _method = _LoginMethod.email;
 
   @override
   void dispose() {
-    _phone.dispose();
+    _email.dispose();
     _password.dispose();
+    _phone.dispose();
     super.dispose();
   }
 
   void _submit() {
     FocusScope.of(context).unfocus();
     if (!(_formKey.currentState?.validate() ?? false)) return;
-    context.read<LoginBloc>().add(LoginSubmitted(
-          phone: Validators.normalizePhone(_phone.text),
-          password: _password.text,
-        ));
+    final bloc = context.read<LoginBloc>();
+    switch (_method) {
+      case _LoginMethod.email:
+        bloc.add(
+          LoginSubmitted(email: _email.text.trim(), password: _password.text),
+        );
+      case _LoginMethod.phone:
+        bloc.add(
+          LoginPhoneCodeRequested(Validators.normalizePhone(_phone.text)),
+        );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    String? required(String? v) =>
+        (v == null || v.trim().isEmpty) ? l10n.validationRequired : null;
+
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
         switch (state.status) {
@@ -50,14 +65,13 @@ class _LoginPageState extends State<LoginPage> {
             HapticFeedback.mediumImpact();
             TextInput.finishAutofillContext();
             context.read<AuthBloc>().add(const AuthLoggedIn());
-          case LoginStatus.mfaRequired:
+          case LoginStatus.codeSent:
             context.push(
               Routes.otp,
               extra: OtpArgs(
-                purpose: OtpPurpose.loginMfa,
-                challengeId: state.challengeId ?? '',
+                purpose: OtpPurpose.phoneLogin,
+                verificationId: state.verificationId ?? '',
                 phone: state.phone,
-                devOtp: state.devOtp,
               ),
             );
             context.read<LoginBloc>().add(const LoginReset());
@@ -73,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       builder: (context, state) {
         final busy = state.status == LoginStatus.submitting;
+        final isEmail = _method == _LoginMethod.email;
         return AuthScaffold(
           title: l10n.loginTitle,
           subtitle: l10n.loginSubtitle,
@@ -82,48 +97,91 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  AppTextField(
-                    controller: _phone,
-                    label: l10n.phoneLabel,
-                    hint: l10n.phoneHint,
-                    prefixIcon: Icons.phone_iphone,
-                    keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.next,
-                    autofillHints: const [AutofillHints.telephoneNumber],
-                    inputFormatters: [
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9+ ]')),
+                  SegmentedButton<_LoginMethod>(
+                    segments: [
+                      ButtonSegment(
+                        value: _LoginMethod.email,
+                        icon: const Icon(Icons.alternate_email),
+                        label: Text(l10n.loginMethodEmail),
+                      ),
+                      ButtonSegment(
+                        value: _LoginMethod.phone,
+                        icon: const Icon(Icons.phone_iphone),
+                        label: Text(l10n.loginMethodPhone),
+                      ),
                     ],
-                    validator: (v) {
-                      if (v == null || v.trim().isEmpty) {
-                        return l10n.validationRequired;
-                      }
-                      return Validators.isValidPhone(v) ? null : l10n.validationPhone;
-                    },
+                    selected: {_method},
+                    onSelectionChanged: busy
+                        ? null
+                        : (s) => setState(() {
+                            _method = s.first;
+                            _formKey.currentState?.reset();
+                          }),
                   ),
-                  const SizedBox(height: 16),
-                  AppTextField(
-                    controller: _password,
-                    label: l10n.passwordLabel,
-                    prefixIcon: Icons.lock_outline,
-                    obscure: true,
-                    textInputAction: TextInputAction.done,
-                    autofillHints: const [AutofillHints.password],
-                    onSubmitted: (_) => _submit(),
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? l10n.validationRequired : null,
-                  ),
-                  Align(
-                    alignment: AlignmentDirectional.centerEnd,
-                    child: TextButton(
-                      onPressed: busy
-                          ? null
-                          : () => context.push(Routes.forgotPassword),
-                      child: Text(l10n.forgotPasswordLink),
+                  const SizedBox(height: 20),
+                  if (isEmail) ...[
+                    AppTextField(
+                      key: const ValueKey('email'),
+                      controller: _email,
+                      label: l10n.emailLabel,
+                      prefixIcon: Icons.alternate_email,
+                      keyboardType: TextInputType.emailAddress,
+                      textInputAction: TextInputAction.next,
+                      autofillHints: const [AutofillHints.email],
+                      validator: (v) =>
+                          required(v) ??
+                          (Validators.isValidEmail(v!)
+                              ? null
+                              : l10n.validationEmail),
                     ),
-                  ),
-                  const SizedBox(height: 8),
+                    const SizedBox(height: 16),
+                    AppTextField(
+                      key: const ValueKey('password'),
+                      controller: _password,
+                      label: l10n.passwordLabel,
+                      prefixIcon: Icons.lock_outline,
+                      obscure: true,
+                      textInputAction: TextInputAction.done,
+                      autofillHints: const [AutofillHints.password],
+                      onSubmitted: (_) => _submit(),
+                      validator: (v) => (v == null || v.isEmpty)
+                          ? l10n.validationRequired
+                          : null,
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: TextButton(
+                        onPressed: busy
+                            ? null
+                            : () => context.push(Routes.forgotPassword),
+                        child: Text(l10n.forgotPasswordLink),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                  ] else ...[
+                    AppTextField(
+                      key: const ValueKey('phone'),
+                      controller: _phone,
+                      label: l10n.phoneLabel,
+                      hint: l10n.phoneHint,
+                      prefixIcon: Icons.phone_iphone,
+                      keyboardType: TextInputType.phone,
+                      textInputAction: TextInputAction.done,
+                      autofillHints: const [AutofillHints.telephoneNumber],
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(RegExp(r'[0-9+ ]')),
+                      ],
+                      onSubmitted: (_) => _submit(),
+                      validator: (v) =>
+                          required(v) ??
+                          (Validators.isValidPhone(v!)
+                              ? null
+                              : l10n.validationPhone),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
                   AppButton(
-                    label: l10n.loginButton,
+                    label: isEmail ? l10n.loginButton : l10n.sendCodeButton,
                     isLoading: busy,
                     onPressed: _submit,
                   ),
@@ -133,8 +191,9 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Flexible(child: Text(l10n.noAccountPrompt)),
                       TextButton(
-                        onPressed:
-                            busy ? null : () => context.push(Routes.register),
+                        onPressed: busy
+                            ? null
+                            : () => context.push(Routes.register),
                         child: Text(l10n.registerLink),
                       ),
                     ],

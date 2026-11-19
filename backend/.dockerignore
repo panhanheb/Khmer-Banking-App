@@ -1,0 +1,9 @@
+target/
+scripts/
+.idea/
+.vscode/
+*.iml
+.env
+.env.*
+Dockerfile
+.dockerignore

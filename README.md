@@ -5,7 +5,7 @@ Digital banking for Cambodia — Khmer / English, USD / KHR.
 | Part | Location | Stack |
 |---|---|---|
 | Mobile app | [`lib/`](lib/) | Flutter, BLoC, go_router, Dio, get_it |
-| Backend API | [`backend/`](backend/) | Java 21, Spring Boot 3, PostgreSQL, Redis, Flyway, JWT |
+| Backend API | [`backend/`](backend/) | Java 21, Spring Boot 3, PostgreSQL, Flyway, Firebase ID-token auth |
 | Admin dashboard | — | Phase 9 (planned) |
 
 **Docs:** [Architecture & roadmap](docs/ARCHITECTURE.md) · [Database / ER](docs/DATABASE.md) ·
@@ -15,8 +15,9 @@ Digital banking for Cambodia — Khmer / English, USD / KHR.
 > Those integrations are defined as interfaces and require licensed, authorized credentials.
 > Money added through the dev-only deposit endpoint is **SIMULATED** and flagged as such.
 
-Quick start: `cp .env.example .env`, fill in secrets, `docker compose up --build`, then
-press F5 → `dev · debug` in VS Code (or `flutter run --flavor dev --dart-define-from-file=config/env/dev.json`).
+Quick start: `cp .env.example .env`, then run the backend (`docker compose up --build`, or F5 →
+`KhmerBankApplication`) and the app (F5 → `dev · debug`). Sign-in uses Firebase Authentication;
+see [docs/SETUP.md](docs/SETUP.md).
 
 ## Flavors (environments)
 

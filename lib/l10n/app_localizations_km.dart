@@ -93,7 +93,7 @@ class AppLocalizationsKm extends AppLocalizations {
   String get loginTitle => 'សូមស្វាគមន៍ការត្រឡប់មកវិញ';
 
   @override
-  String get loginSubtitle => 'ចូលប្រើដោយលេខទូរស័ព្ទរបស់អ្នក';
+  String get loginSubtitle => 'ចូលប្រើដោយអ៊ីមែល ឬលេខទូរស័ព្ទរបស់អ្នក';
 
   @override
   String get phoneLabel => 'លេខទូរស័ព្ទ';
@@ -148,42 +148,38 @@ class AppLocalizationsKm extends AppLocalizations {
   String get otpTitle => 'ផ្ទៀងផ្ទាត់លេខទូរស័ព្ទ';
 
   @override
-  String get otpMfaTitle => 'ផ្ទៀងផ្ទាត់ឧបករណ៍ថ្មី';
+  String get otpLoginTitle => 'បញ្ចូលលេខកូដផ្ទៀងផ្ទាត់';
 
   @override
   String get otpSubtitle => 'បញ្ចូលលេខកូដ ៦ ខ្ទង់ដែលយើងបានផ្ញើតាមសារ SMS';
-
-  @override
-  String otpDevHint(String code) {
-    return 'លេខកូដសម្រាប់ការអភិវឌ្ឍ៖ $code';
-  }
 
   @override
   String get otpVerifyButton => 'ផ្ទៀងផ្ទាត់';
 
   @override
   String get otpVerifiedRegistration =>
-      'បានផ្ទៀងផ្ទាត់លេខទូរស័ព្ទ។ សូមចូលប្រើ។';
+      'បានផ្ទៀងផ្ទាត់លេខទូរស័ព្ទ។ សូមស្វាគមន៍មកកាន់ Khmer Bank!';
 
   @override
   String get forgotTitle => 'ភ្លេចពាក្យសម្ងាត់';
 
   @override
   String get forgotSubtitle =>
-      'បញ្ចូលលេខទូរស័ព្ទរបស់អ្នក ដើម្បីទទួលលេខកូដកំណត់ឡើងវិញ';
+      'បញ្ចូលអ៊ីមែលរបស់អ្នក ដើម្បីទទួលតំណកំណត់ពាក្យសម្ងាត់ឡើងវិញ';
 
   @override
   String get sendCodeButton => 'ផ្ញើលេខកូដ';
 
   @override
-  String get resetTitle => 'កំណត់ពាក្យសម្ងាត់ឡើងវិញ';
+  String get sendResetLinkButton => 'ផ្ញើតំណកំណត់ឡើងវិញ';
 
   @override
-  String get resetSubtitle =>
-      'បញ្ចូលលេខកូដដែលយើងបានផ្ញើ ហើយជ្រើសរើសពាក្យសម្ងាត់ថ្មី';
+  String resetLinkSent(String email) {
+    return 'យើងបានផ្ញើតំណកំណត់ពាក្យសម្ងាត់ឡើងវិញទៅ $email';
+  }
 
   @override
-  String get otpCodeLabel => 'លេខកូដផ្ទៀងផ្ទាត់';
+  String get loginMethodEmail => 'អ៊ីមែល';
 
   @override
   String get newPasswordLabel => 'ពាក្យសម្ងាត់ថ្មី';
@@ -192,10 +188,7 @@ class AppLocalizationsKm extends AppLocalizations {
   String get currentPasswordLabel => 'ពាក្យសម្ងាត់បច្ចុប្បន្ន';
 
   @override
-  String get resetButton => 'កំណត់ពាក្យសម្ងាត់ឡើងវិញ';
-
-  @override
-  String get resetSuccess => 'បានកំណត់ពាក្យសម្ងាត់ឡើងវិញ។ សូមចូលប្រើម្ដងទៀត។';
+  String get loginMethodPhone => 'ទូរស័ព្ទ';
 
   @override
   String get setPinTitle => 'កំណត់លេខ PIN ប្រតិបត្តិការ';
@@ -693,8 +686,7 @@ class AppLocalizationsKm extends AppLocalizations {
   String get errorTimeout => 'សំណើអស់ពេល។ សូមព្យាយាមម្ដងទៀត។';
 
   @override
-  String get errorInvalidCredentials =>
-      'លេខទូរស័ព្ទ ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ';
+  String get errorInvalidCredentials => 'អ៊ីមែល ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ';
 
   @override
   String get errorAccountLocked =>
@@ -724,6 +716,9 @@ class AppLocalizationsKm extends AppLocalizations {
 
   @override
   String get errorPhoneRegistered => 'លេខទូរស័ព្ទនេះត្រូវបានចុះឈ្មោះរួចហើយ';
+
+  @override
+  String get errorEmailRegistered => 'អ៊ីមែលនេះត្រូវបានចុះឈ្មោះរួចហើយ';
 
   @override
   String get errorDuplicate => 'សំណើស្ទួន';
