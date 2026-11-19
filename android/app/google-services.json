@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:905465248798:android:f0414f4b2921827b5e420f",
+        "mobilesdk_app_id": "1:905465248798:android:279425f2ecad25cc5e420f",
         "android_client_info": {
-          "package_name": "com.example.coupon"
+          "package_name": "com.nhebpanha.khmerbank"
         }
       },
       "oauth_client": [

@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.coupon"
+    namespace = "com.nhebpanha.khmerbank"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.coupon"
+        applicationId = "com.nhebpanha.khmerbank"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -37,13 +37,13 @@ android {
     productFlavors {
         create("dev") {
             dimension = "env"
-            applicationId = "com.example.coupon"
-            resValue("string", "app_name", "Coupon Dev")
+            applicationId = "com.nhebpanha.khmerbank"
+            resValue("string", "app_name", "khmerbank Dev")
         }
         create("uat") {
             dimension = "env"
             applicationId = "com.khmerflutterbank.uat"
-            resValue("string", "app_name", "Coupon UAT")
+            resValue("string", "app_name", "khmerbank UAT")
         }
     }
 
