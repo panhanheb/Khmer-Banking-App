@@ -8,7 +8,9 @@
       "name": "KhmerBankApplication",
       "request": "launch",
       "mainClass": "com.khmerbank.KhmerBankApplication",
-      "projectName": "khmer-digital-bank"
+      "projectName": "khmer-digital-bank",
+      // Same DB_PASSWORD / secrets as docker compose.
+      "envFile": "${workspaceFolder}/.env"
     },
     {
       "name": "dev · debug",
