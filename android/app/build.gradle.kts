@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.nhebpanha.khmerbank"
+    namespace = "com.khmerflutterbank"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -18,13 +18,9 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
-    }
-
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.nhebpanha.khmerbank"
+        applicationId = "com.khmerflutterbank"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -35,15 +31,31 @@ android {
 
     flavorDimensions += "env"
     productFlavors {
+        // Each flavor reads android/app/src/<flavor>/google-services.json.
         create("dev") {
             dimension = "env"
-            applicationId = "com.nhebpanha.khmerbank"
-            resValue("string", "app_name", "khmerbank Dev")
+            applicationId = "com.khmerflutterbank.dev"
+            resValue("string", "app_name", "Khmer Bank Dev")
+        }
+        create("sit") {
+            dimension = "env"
+            applicationId = "com.khmerflutterbank.sit"
+            resValue("string", "app_name", "Khmer Bank SIT")
         }
         create("uat") {
             dimension = "env"
             applicationId = "com.khmerflutterbank.uat"
-            resValue("string", "app_name", "khmerbank UAT")
+            resValue("string", "app_name", "Khmer Bank UAT")
+        }
+        create("preprod") {
+            dimension = "env"
+            applicationId = "com.khmerflutterbank.preprod"
+            resValue("string", "app_name", "Khmer Bank Pre-Prod")
+        }
+        create("prod") {
+            dimension = "env"
+            applicationId = "com.khmerflutterbank"
+            resValue("string", "app_name", "Khmer Bank")
         }
     }
 
@@ -53,6 +65,12 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 }
 

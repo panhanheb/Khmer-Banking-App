@@ -1,0 +1,42 @@
+{
+  // Terminal > Run Task… (or Ctrl+Shift+B for "build"). You'll be asked for the environment/target.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "detail": "flutter build <target> --flavor <env> --<mode>",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "build", "${input:target}",
+        "--flavor", "${input:flavor}",
+        "--${input:mode}",
+        "--dart-define-from-file=config/env/${input:flavor}.json"
+      ],
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "run",
+      "detail": "flutter run --flavor <env> --<mode> (terminal; use F5 to debug)",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "run",
+        "--flavor", "${input:flavor}",
+        "--${input:mode}",
+        "--dart-define-from-file=config/env/${input:flavor}.json"
+      ],
+      "problemMatcher": []
+    },
+    { "label": "pub get", "type": "shell", "command": "flutter pub get", "problemMatcher": [] },
+    { "label": "analyze", "type": "shell", "command": "flutter analyze", "problemMatcher": [] },
+    { "label": "test",    "type": "shell", "command": "flutter test",    "group": "test", "problemMatcher": [] },
+    { "label": "clean",   "type": "shell", "command": "flutter clean; flutter pub get", "problemMatcher": [] }
+  ],
+  "inputs": [
+    { "id": "flavor", "type": "pickString", "description": "Environment", "options": ["dev", "sit", "uat", "preprod", "prod"], "default": "dev" },
+    { "id": "mode",   "type": "pickString", "description": "Build mode",  "options": ["debug", "profile", "release"], "default": "release" },
+    { "id": "target", "type": "pickString", "description": "Target",      "options": ["apk", "appbundle", "ios", "ipa"], "default": "apk" }
+  ]
+}

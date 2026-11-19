@@ -1,6 +1,6 @@
 {
   "@@locale": "km",
-  "appName": "ធនាគារឌីជីថលខ្មែរ",
+  "appName": "ធនាគារខ្មែរ",
   "appTagline": "សេវាធនាគារ ងាយស្រួល និងមានសុវត្ថិភាព",
 
   "commonOk": "យល់ព្រម",
@@ -41,7 +41,7 @@
   "registerLink": "បង្កើតគណនី",
   "haveAccountPrompt": "មានគណនីរួចហើយ?",
   "registerTitle": "បង្កើតគណនីរបស់អ្នក",
-  "registerSubtitle": "ចូលរួមជាមួយធនាគារឌីជីថលខ្មែរក្នុងរយៈពេលមួយនាទី",
+  "registerSubtitle": "ចូលរួមជាមួយធនាគារខ្មែរក្នុងរយៈពេលមួយនាទី",
   "fullNameEnLabel": "ឈ្មោះពេញ (ឡាតាំង)",
   "fullNameKmLabel": "ឈ្មោះពេញ (ខ្មែរ)",
   "emailLabel": "អ៊ីមែល",
@@ -73,7 +73,7 @@
   "pinWeak": "សូមជៀសវាងលេខ PIN ងាយៗ ដូចជា 123456 ឬ 111111",
   "pinSetSuccess": "បានរក្សាទុកលេខ PIN ប្រតិបត្តិការ",
   "pinNotSetBanner": "កំណត់លេខ PIN ប្រតិបត្តិការ ដើម្បីចាប់ផ្ដើមផ្ទេរប្រាក់",
-  "lockTitle": "ដោះសោធនាគារឌីជីថលខ្មែរ",
+  "lockTitle": "ដោះសោធនាគារខ្មែរ",
   "lockUnlockButton": "ដោះសោ",
   "lockUsePassword": "ចូលដោយប្រើពាក្យសម្ងាត់",
   "biometricReasonUnlock": "ដោះសោកម្មវិធីធនាគាររបស់អ្នក",

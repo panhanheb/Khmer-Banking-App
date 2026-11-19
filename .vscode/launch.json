@@ -1,0 +1,146 @@
+{
+  // Run and Debug panel (F5): pick an environment + mode.
+  // Values per environment (API_BASE_URL, …) live in config/env/<flavor>.json.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "KhmerBankApplication",
+      "request": "launch",
+      "mainClass": "com.khmerbank.KhmerBankApplication",
+      "projectName": "khmer-digital-bank"
+    },
+    {
+      "name": "dev · debug",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file=config/env/dev.json"
+      ]
+    },
+    {
+      "name": "dev · release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define-from-file=config/env/dev.json"
+      ]
+    },
+    {
+      "name": "sit · debug",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "sit",
+        "--dart-define-from-file=config/env/sit.json"
+      ]
+    },
+    {
+      "name": "sit · release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "sit",
+        "--dart-define-from-file=config/env/sit.json"
+      ]
+    },
+    {
+      "name": "uat · debug",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "uat",
+        "--dart-define-from-file=config/env/uat.json"
+      ]
+    },
+    {
+      "name": "uat · release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "uat",
+        "--dart-define-from-file=config/env/uat.json"
+      ]
+    },
+    {
+      "name": "preprod · debug",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "preprod",
+        "--dart-define-from-file=config/env/preprod.json"
+      ]
+    },
+    {
+      "name": "preprod · release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "preprod",
+        "--dart-define-from-file=config/env/preprod.json"
+      ]
+    },
+    {
+      "name": "prod · debug",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": [
+        "--flavor",
+        "prod",
+        "--dart-define-from-file=config/env/prod.json"
+      ]
+    },
+    {
+      "name": "prod · profile",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "profile",
+      "args": [
+        "--flavor",
+        "prod",
+        "--dart-define-from-file=config/env/prod.json"
+      ]
+    },
+    {
+      "name": "prod · release",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "release",
+      "args": [
+        "--flavor",
+        "prod",
+        "--dart-define-from-file=config/env/prod.json"
+      ]
+    }
+  ]
+}

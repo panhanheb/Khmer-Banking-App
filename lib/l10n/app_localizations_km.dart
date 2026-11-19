@@ -9,7 +9,7 @@ class AppLocalizationsKm extends AppLocalizations {
   AppLocalizationsKm([String locale = 'km']) : super(locale);
 
   @override
-  String get appName => 'ធនាគារឌីជីថលខ្មែរ';
+  String get appName => 'ធនាគារខ្មែរ';
 
   @override
   String get appTagline => 'សេវាធនាគារ ងាយស្រួល និងមានសុវត្ថិភាព';
@@ -123,8 +123,7 @@ class AppLocalizationsKm extends AppLocalizations {
   String get registerTitle => 'បង្កើតគណនីរបស់អ្នក';
 
   @override
-  String get registerSubtitle =>
-      'ចូលរួមជាមួយធនាគារឌីជីថលខ្មែរក្នុងរយៈពេលមួយនាទី';
+  String get registerSubtitle => 'ចូលរួមជាមួយធនាគារខ្មែរក្នុងរយៈពេលមួយនាទី';
 
   @override
   String get fullNameEnLabel => 'ឈ្មោះពេញ (ឡាតាំង)';
@@ -227,7 +226,7 @@ class AppLocalizationsKm extends AppLocalizations {
       'កំណត់លេខ PIN ប្រតិបត្តិការ ដើម្បីចាប់ផ្ដើមផ្ទេរប្រាក់';
 
   @override
-  String get lockTitle => 'ដោះសោធនាគារឌីជីថលខ្មែរ';
+  String get lockTitle => 'ដោះសោធនាគារខ្មែរ';
 
   @override
   String get lockUnlockButton => 'ដោះសោ';

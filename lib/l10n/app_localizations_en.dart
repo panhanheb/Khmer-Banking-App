@@ -9,7 +9,7 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appName => 'Khmer Digital Bank';
+  String get appName => 'Khmer Bank';
 
   @override
   String get appTagline => 'Banking made simple and secure';
@@ -122,7 +122,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get registerTitle => 'Create your account';
 
   @override
-  String get registerSubtitle => 'Join Khmer Digital Bank in a minute';
+  String get registerSubtitle => 'Join Khmer Bank in a minute';
 
   @override
   String get fullNameEnLabel => 'Full name (English)';
@@ -224,7 +224,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Set your transaction PIN to start sending money';
 
   @override
-  String get lockTitle => 'Unlock Khmer Digital Bank';
+  String get lockTitle => 'Unlock Khmer Bank';
 
   @override
   String get lockUnlockButton => 'Unlock';

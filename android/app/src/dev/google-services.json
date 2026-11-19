@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "905465248798",
+    "project_id": "khmer-flutter-bank",
+    "storage_bucket": "khmer-flutter-bank.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905465248798:android:4bf61ea763c1cbdb5e420f",
+        "android_client_info": {
+          "package_name": "com.khmerflutterbank.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905465248798-88oru7k1qcsoa3vjd3afd7cknvl0le1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX1HPadxaTzGMjYTdOBmsmvx3nQS3xXwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905465248798-88oru7k1qcsoa3vjd3afd7cknvl0le1i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "905465248798-876f4kj9ggl0ti89akul92mun1kakth9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coupon"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905465248798:android:2b6a6b9f706817815e420f",
+        "android_client_info": {
+          "package_name": "com.khmerflutterbank.uat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905465248798-88oru7k1qcsoa3vjd3afd7cknvl0le1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX1HPadxaTzGMjYTdOBmsmvx3nQS3xXwQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905465248798-88oru7k1qcsoa3vjd3afd7cknvl0le1i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "905465248798-876f4kj9ggl0ti89akul92mun1kakth9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.coupon"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

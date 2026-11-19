@@ -1,7 +1,10 @@
+import 'package:coupon/features/home/view/home_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'app/app.dart';
 import 'app/di.dart';
+import 'app/flavor.dart';
 
 /// Khmer Digital Bank entry point.
 ///
@@ -10,6 +13,7 @@ import 'app/di.dart';
 /// the source tree but are no longer wired into the app.
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: currentFlavor.firebaseOptions);
   await configureDependencies();
   runApp(const KhmerBankApp());
 }

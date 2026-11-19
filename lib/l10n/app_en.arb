@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "appName": "Khmer Digital Bank",
+  "appName": "Khmer Bank",
   "appTagline": "Banking made simple and secure",
 
   "commonOk": "OK",
@@ -42,7 +42,7 @@
   "registerLink": "Create account",
   "haveAccountPrompt": "Already have an account?",
   "registerTitle": "Create your account",
-  "registerSubtitle": "Join Khmer Digital Bank in a minute",
+  "registerSubtitle": "Join Khmer Bank in a minute",
   "fullNameEnLabel": "Full name (English)",
   "fullNameKmLabel": "Full name (Khmer)",
   "emailLabel": "Email",
@@ -75,7 +75,7 @@
   "pinWeak": "Avoid simple PINs like 123456 or 111111",
   "pinSetSuccess": "Transaction PIN saved",
   "pinNotSetBanner": "Set your transaction PIN to start sending money",
-  "lockTitle": "Unlock Khmer Digital Bank",
+  "lockTitle": "Unlock Khmer Bank",
   "lockUnlockButton": "Unlock",
   "lockUsePassword": "Sign in with password",
   "biometricReasonUnlock": "Unlock your banking app",

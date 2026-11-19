@@ -101,7 +101,7 @@ abstract class AppLocalizations {
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:
-  /// **'Khmer Digital Bank'**
+  /// **'Khmer Bank'**
   String get appName;
 
   /// No description provided for @appTagline.
@@ -323,7 +323,7 @@ abstract class AppLocalizations {
   /// No description provided for @registerSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Join Khmer Digital Bank in a minute'**
+  /// **'Join Khmer Bank in a minute'**
   String get registerSubtitle;
 
   /// No description provided for @fullNameEnLabel.
@@ -515,7 +515,7 @@ abstract class AppLocalizations {
   /// No description provided for @lockTitle.
   ///
   /// In en, this message translates to:
-  /// **'Unlock Khmer Digital Bank'**
+  /// **'Unlock Khmer Bank'**
   String get lockTitle;
 
   /// No description provided for @lockUnlockButton.
