@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+
+import '../../../app/navigation.dart';
 
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
@@ -33,10 +34,12 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   void _submit() {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     FocusScope.of(context).unfocus();
-    context.read<ChangePasswordBloc>().add(ChangePasswordSubmitted(
-          currentPassword: _current.text,
-          newPassword: _new.text,
-        ));
+    context.read<ChangePasswordBloc>().add(
+      ChangePasswordSubmitted(
+        currentPassword: _current.text,
+        newPassword: _new.text,
+      ),
+    );
   }
 
   @override
@@ -47,10 +50,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         if (state.status.isSuccess) {
           HapticFeedback.mediumImpact();
           TextInput.finishAutofillContext();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.passwordChanged)),
-          );
-          context.pop();
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.passwordChanged)));
+          context.popPage();
         } else if (state.status.isFailure) {
           HapticFeedback.heavyImpact();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -76,8 +79,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     enabled: !busy,
                     textInputAction: TextInputAction.next,
                     autofillHints: const [AutofillHints.password],
-                    validator: (v) =>
-                        (v == null || v.isEmpty) ? l10n.validationRequired : null,
+                    validator: (v) => (v == null || v.isEmpty)
+                        ? l10n.validationRequired
+                        : null,
                   ),
                   const SizedBox(height: 16),
                   AppTextField(
@@ -90,7 +94,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     textInputAction: TextInputAction.next,
                     autofillHints: const [AutofillHints.newPassword],
                     validator: (v) {
-                      if (v == null || v.isEmpty) return l10n.validationRequired;
+                      if (v == null || v.isEmpty) {
+                        return l10n.validationRequired;
+                      }
                       return Validators.isStrongPassword(v)
                           ? null
                           : l10n.validationPassword;
@@ -106,9 +112,8 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     textInputAction: TextInputAction.done,
                     autofillHints: const [AutofillHints.newPassword],
                     onSubmitted: (_) => _submit(),
-                    validator: (v) => v == _new.text
-                        ? null
-                        : l10n.validationPasswordMatch,
+                    validator: (v) =>
+                        v == _new.text ? null : l10n.validationPasswordMatch,
                   ),
                   const SizedBox(height: 24),
                   AppButton(

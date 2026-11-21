@@ -20,6 +20,5 @@ class TransferRepositoryImpl implements TransferRepository {
     TransferRequest request, {
     required String pin,
     required String idempotencyKey,
-  }) =>
-      _remote.submit(request, pin: pin, idempotencyKey: idempotencyKey);
+  }) => _remote.submit(request, pin: pin, idempotencyKey: idempotencyKey);
 }

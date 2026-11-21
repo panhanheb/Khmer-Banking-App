@@ -16,11 +16,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     required UpdateThemeModeUseCase updateTheme,
     required UpdateBiometricUseCase updateBiometric,
     AppSettings initial = const AppSettings(),
-  })  : _load = loadSettings,
-        _updateLanguage = updateLanguage,
-        _updateTheme = updateTheme,
-        _updateBiometric = updateBiometric,
-        super(SettingsState(settings: initial)) {
+  }) : _load = loadSettings,
+       _updateLanguage = updateLanguage,
+       _updateTheme = updateTheme,
+       _updateBiometric = updateBiometric,
+       super(SettingsState(settings: initial)) {
     on<SettingsLoaded>(_onLoaded);
     on<SettingsLanguageChanged>(_onLanguage);
     on<SettingsThemeChanged>(_onTheme);
@@ -40,13 +40,18 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsLanguageChanged e,
     Emitter<SettingsState> emit,
   ) async {
-    emit(SettingsState(
-      settings: state.settings.copyWith(languageCode: e.languageCode),
-    ));
+    emit(
+      SettingsState(
+        settings: state.settings.copyWith(languageCode: e.languageCode),
+      ),
+    );
     await _updateLanguage(e.languageCode);
   }
 
-  Future<void> _onTheme(SettingsThemeChanged e, Emitter<SettingsState> emit) async {
+  Future<void> _onTheme(
+    SettingsThemeChanged e,
+    Emitter<SettingsState> emit,
+  ) async {
     emit(SettingsState(settings: state.settings.copyWith(themeMode: e.mode)));
     await _updateTheme(e.mode);
   }
@@ -55,9 +60,11 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     SettingsBiometricChanged e,
     Emitter<SettingsState> emit,
   ) async {
-    emit(SettingsState(
-      settings: state.settings.copyWith(biometricEnabled: e.enabled),
-    ));
+    emit(
+      SettingsState(
+        settings: state.settings.copyWith(biometricEnabled: e.enabled),
+      ),
+    );
     await _updateBiometric(e.enabled);
   }
 }

@@ -8,7 +8,7 @@ import 'auth_state.dart';
 export 'auth_event.dart';
 export 'auth_state.dart';
 
-/// Global session state. Drives go_router redirects.
+/// Global session state. Drives the root screen (see `AuthGate`).
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc({
     required CheckSessionUseCase checkSession,

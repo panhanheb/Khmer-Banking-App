@@ -23,13 +23,13 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
     required SubmitTransferUseCase submitTransfer,
     AppEventBus? eventBus,
     String Function()? idempotencyKeyGenerator,
-  })  : _getAccounts = getAccounts,
-        _lookupRecipient = lookupRecipient,
-        _getQuote = getQuote,
-        _submitTransfer = submitTransfer,
-        _eventBus = eventBus,
-        _newKey = idempotencyKeyGenerator ?? (() => const Uuid().v4()),
-        super(const TransferState()) {
+  }) : _getAccounts = getAccounts,
+       _lookupRecipient = lookupRecipient,
+       _getQuote = getQuote,
+       _submitTransfer = submitTransfer,
+       _eventBus = eventBus,
+       _newKey = idempotencyKeyGenerator ?? (() => const Uuid().v4()),
+       super(const TransferState()) {
     on<TransferStarted>(_onStarted);
     on<TransferSourceSelected>(_onSourceSelected);
     on<TransferRecipientLookupRequested>(_onLookup);
@@ -55,11 +55,13 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
     TransferStarted event,
     Emitter<TransferState> emit,
   ) async {
-    emit(state.copyWith(
-      pending: () => TransferOperation.loadAccounts,
-      error: () => null,
-      errorOrigin: () => null,
-    ));
+    emit(
+      state.copyWith(
+        pending: () => TransferOperation.loadAccounts,
+        error: () => null,
+        errorOrigin: () => null,
+      ),
+    );
     try {
       final accounts = await _getAccounts();
       Account? preselected;
@@ -69,20 +71,24 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
           if (a.id == event.preselectedAccountId) preselected = a;
         }
       }
-      emit(state.copyWith(
-        accounts: accounts,
-        accountsLoaded: true,
-        pending: () => null,
-        source: preselected == null ? null : () => preselected,
-        currency: preselected == null ? null : () => preselected!.currency,
-        step: preselected == null ? null : TransferStep.recipient,
-      ));
+      emit(
+        state.copyWith(
+          accounts: accounts,
+          accountsLoaded: true,
+          pending: () => null,
+          source: preselected == null ? null : () => preselected,
+          currency: preselected == null ? null : () => preselected!.currency,
+          step: preselected == null ? null : TransferStep.recipient,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        pending: () => null,
-        error: () => e,
-        errorOrigin: () => TransferOperation.loadAccounts,
-      ));
+      emit(
+        state.copyWith(
+          pending: () => null,
+          error: () => e,
+          errorOrigin: () => TransferOperation.loadAccounts,
+        ),
+      );
     }
   }
 
@@ -90,18 +96,20 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
     TransferSourceSelected event,
     Emitter<TransferState> emit,
   ) {
-    emit(state.copyWith(
-      source: () => event.account,
-      currency: () => event.account.currency,
-      step: state.recipient == null
-          ? TransferStep.recipient
-          : TransferStep.amount,
-      quote: () => null,
-      idempotencyKey: () => null,
-      amountError: () => null,
-      error: () => null,
-      errorOrigin: () => null,
-    ));
+    emit(
+      state.copyWith(
+        source: () => event.account,
+        currency: () => event.account.currency,
+        step: state.recipient == null
+            ? TransferStep.recipient
+            : TransferStep.amount,
+        quote: () => null,
+        idempotencyKey: () => null,
+        amountError: () => null,
+        error: () => null,
+        errorOrigin: () => null,
+      ),
+    );
   }
 
   Future<void> _onLookup(
@@ -109,27 +117,33 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
     Emitter<TransferState> emit,
   ) async {
     if (state.pending != null) return;
-    emit(state.copyWith(
-      pending: () => TransferOperation.lookup,
-      error: () => null,
-      errorOrigin: () => null,
-    ));
+    emit(
+      state.copyWith(
+        pending: () => TransferOperation.lookup,
+        error: () => null,
+        errorOrigin: () => null,
+      ),
+    );
     try {
       final recipient = await _lookupRecipient(event.query);
-      emit(state.copyWith(
-        pending: () => null,
-        recipient: () => recipient,
-        currency: () => state.source?.currency ?? recipient.currency,
-        step: TransferStep.amount,
-        quote: () => null,
-        idempotencyKey: () => null,
-      ));
+      emit(
+        state.copyWith(
+          pending: () => null,
+          recipient: () => recipient,
+          currency: () => state.source?.currency ?? recipient.currency,
+          step: TransferStep.amount,
+          quote: () => null,
+          idempotencyKey: () => null,
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        pending: () => null,
-        error: () => e,
-        errorOrigin: () => TransferOperation.lookup,
-      ));
+      emit(
+        state.copyWith(
+          pending: () => null,
+          error: () => e,
+          errorOrigin: () => TransferOperation.lookup,
+        ),
+      );
     }
   }
 
@@ -137,25 +151,29 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
     TransferRecipientCleared event,
     Emitter<TransferState> emit,
   ) {
-    emit(state.copyWith(
-      recipient: () => null,
-      step: TransferStep.recipient,
-      quote: () => null,
-      idempotencyKey: () => null,
-      currency: () => state.source?.currency,
-    ));
+    emit(
+      state.copyWith(
+        recipient: () => null,
+        step: TransferStep.recipient,
+        quote: () => null,
+        idempotencyKey: () => null,
+        currency: () => state.source?.currency,
+      ),
+    );
   }
 
   void _onAmountChanged(
     TransferAmountChanged event,
     Emitter<TransferState> emit,
   ) {
-    emit(state.copyWith(
-      amount: event.amount,
-      amountError: () => null,
-      quote: () => null,
-      idempotencyKey: () => null,
-    ));
+    emit(
+      state.copyWith(
+        amount: event.amount,
+        amountError: () => null,
+        quote: () => null,
+        idempotencyKey: () => null,
+      ),
+    );
   }
 
   void _onCurrencyChanged(
@@ -163,12 +181,14 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
     Emitter<TransferState> emit,
   ) {
     if (!state.currencyOptions.contains(event.currency)) return;
-    emit(state.copyWith(
-      currency: () => event.currency,
-      amountError: () => null,
-      quote: () => null,
-      idempotencyKey: () => null,
-    ));
+    emit(
+      state.copyWith(
+        currency: () => event.currency,
+        amountError: () => null,
+        quote: () => null,
+        idempotencyKey: () => null,
+      ),
+    );
   }
 
   void _onDescriptionChanged(
@@ -200,27 +220,33 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
       }
     }
     final request = state.request!;
-    emit(state.copyWith(
-      pending: () => TransferOperation.quote,
-      amountError: () => null,
-      error: () => null,
-      errorOrigin: () => null,
-    ));
+    emit(
+      state.copyWith(
+        pending: () => TransferOperation.quote,
+        amountError: () => null,
+        error: () => null,
+        errorOrigin: () => null,
+      ),
+    );
     try {
       final quote = await _getQuote(request);
-      emit(state.copyWith(
-        pending: () => null,
-        quote: () => quote,
-        step: TransferStep.review,
-        // One key per review screen: reused for every retry of this transfer.
-        idempotencyKey: () => _newKey(),
-      ));
+      emit(
+        state.copyWith(
+          pending: () => null,
+          quote: () => quote,
+          step: TransferStep.review,
+          // One key per review screen: reused for every retry of this transfer.
+          idempotencyKey: () => _newKey(),
+        ),
+      );
     } catch (e) {
-      emit(state.copyWith(
-        pending: () => null,
-        error: () => e,
-        errorOrigin: () => TransferOperation.quote,
-      ));
+      emit(
+        state.copyWith(
+          pending: () => null,
+          error: () => e,
+          errorOrigin: () => TransferOperation.quote,
+        ),
+      );
     }
   }
 
@@ -238,11 +264,13 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
         request == null) {
       return;
     }
-    emit(state.copyWith(
-      pending: () => TransferOperation.submit,
-      error: () => null,
-      errorOrigin: () => null,
-    ));
+    emit(
+      state.copyWith(
+        pending: () => TransferOperation.submit,
+        error: () => null,
+        errorOrigin: () => null,
+      ),
+    );
     try {
       final receipt = await _submitTransfer(
         request,
@@ -253,11 +281,13 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
       _eventBus?.emit(AppEvent.balancesChanged);
     } catch (e) {
       // Keep the same key: a retry after a timeout must not double-debit.
-      emit(state.copyWith(
-        pending: () => null,
-        error: () => e,
-        errorOrigin: () => TransferOperation.submit,
-      ));
+      emit(
+        state.copyWith(
+          pending: () => null,
+          error: () => e,
+          errorOrigin: () => TransferOperation.submit,
+        ),
+      );
     }
   }
 
@@ -265,13 +295,15 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
     if (state.pending != null) return;
     switch (state.step) {
       case TransferStep.review:
-        emit(state.copyWith(
-          step: TransferStep.amount,
-          quote: () => null,
-          idempotencyKey: () => null,
-          error: () => null,
-          errorOrigin: () => null,
-        ));
+        emit(
+          state.copyWith(
+            step: TransferStep.amount,
+            quote: () => null,
+            idempotencyKey: () => null,
+            error: () => null,
+            errorOrigin: () => null,
+          ),
+        );
       case TransferStep.amount:
         emit(state.copyWith(step: TransferStep.recipient));
       case TransferStep.recipient:
@@ -289,9 +321,11 @@ class TransferBloc extends Bloc<TransferEvent, TransferState> {
   }
 
   void _onReset(TransferReset event, Emitter<TransferState> emit) {
-    emit(TransferState(
-      accounts: state.accounts,
-      accountsLoaded: state.accountsLoaded,
-    ));
+    emit(
+      TransferState(
+        accounts: state.accounts,
+        accountsLoaded: state.accountsLoaded,
+      ),
+    );
   }
 }

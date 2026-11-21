@@ -12,9 +12,9 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
   DevicesBloc({
     required GetDevicesUseCase getDevices,
     required RevokeDeviceUseCase revokeDevice,
-  })  : _getDevices = getDevices,
-        _revokeDevice = revokeDevice,
-        super(const DevicesState()) {
+  }) : _getDevices = getDevices,
+       _revokeDevice = revokeDevice,
+       super(const DevicesState()) {
     on<DevicesRequested>(_onRequested);
     on<DeviceRevokeRequested>(_onRevoke);
   }
@@ -37,11 +37,13 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
       });
       emit(DevicesState(status: LoadStatus.success, devices: devices));
     } catch (e) {
-      emit(DevicesState(
-        status: LoadStatus.failure,
-        devices: state.devices,
-        error: e,
-      ));
+      emit(
+        DevicesState(
+          status: LoadStatus.failure,
+          devices: state.devices,
+          error: e,
+        ),
+      );
     }
   }
 
@@ -49,24 +51,30 @@ class DevicesBloc extends Bloc<DevicesEvent, DevicesState> {
     DeviceRevokeRequested event,
     Emitter<DevicesState> emit,
   ) async {
-    emit(DevicesState(
-      status: state.status,
-      devices: state.devices,
-      revokingId: event.deviceId,
-    ));
+    emit(
+      DevicesState(
+        status: state.status,
+        devices: state.devices,
+        revokingId: event.deviceId,
+      ),
+    );
     try {
       await _revokeDevice(event.deviceId);
-      emit(DevicesState(
-        status: LoadStatus.success,
-        devices: state.devices.where((d) => d.id != event.deviceId).toList(),
-        revokedId: event.deviceId,
-      ));
+      emit(
+        DevicesState(
+          status: LoadStatus.success,
+          devices: state.devices.where((d) => d.id != event.deviceId).toList(),
+          revokedId: event.deviceId,
+        ),
+      );
     } catch (e) {
-      emit(DevicesState(
-        status: LoadStatus.success,
-        devices: state.devices,
-        error: e,
-      ));
+      emit(
+        DevicesState(
+          status: LoadStatus.success,
+          devices: state.devices,
+          error: e,
+        ),
+      );
     }
   }
 }

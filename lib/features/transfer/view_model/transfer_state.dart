@@ -117,8 +117,9 @@ class TransferState extends Equatable {
       currency: currency != null ? currency() : this.currency,
       description: description ?? this.description,
       quote: quote != null ? quote() : this.quote,
-      idempotencyKey:
-          idempotencyKey != null ? idempotencyKey() : this.idempotencyKey,
+      idempotencyKey: idempotencyKey != null
+          ? idempotencyKey()
+          : this.idempotencyKey,
       receipt: receipt != null ? receipt() : this.receipt,
       pending: pending != null ? pending() : this.pending,
       error: error != null ? error() : this.error,
@@ -129,20 +130,20 @@ class TransferState extends Equatable {
 
   @override
   List<Object?> get props => [
-        step,
-        accounts,
-        accountsLoaded,
-        source,
-        recipient,
-        amount,
-        currency,
-        description,
-        quote,
-        idempotencyKey,
-        receipt,
-        pending,
-        error,
-        errorOrigin,
-        amountError,
-      ];
+    step,
+    accounts,
+    accountsLoaded,
+    source,
+    recipient,
+    amount,
+    currency,
+    description,
+    quote,
+    idempotencyKey,
+    receipt,
+    pending,
+    error,
+    errorOrigin,
+    amountError,
+  ];
 }

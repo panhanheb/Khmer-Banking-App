@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
+import '../../../../app/navigation.dart';
+import '../../../../app/pages.dart';
 import '../../../../core/bloc/load_status.dart';
 import '../../../../core/l10n/l10n.dart';
 import '../../../../core/utils/date_formatter.dart';
@@ -37,9 +37,9 @@ class TransactionsSliver extends StatelessWidget {
               child: AppErrorWidget(
                 message: localizedError(l10n, state.error!),
                 retryLabel: l10n.commonRetry,
-                onRetry: () => context
-                    .read<TransactionsBloc>()
-                    .add(const TransactionsRefreshed()),
+                onRetry: () => context.read<TransactionsBloc>().add(
+                  const TransactionsRefreshed(),
+                ),
               ),
             );
           }
@@ -47,7 +47,8 @@ class TransactionsSliver extends StatelessWidget {
             hasScrollBody: false,
             child: EmptyStateWidget(
               icon: Icons.receipt_long_outlined,
-              title: emptyTitle ??
+              title:
+                  emptyTitle ??
                   (state.filter.hasActiveFilters ||
                           (state.filter.query ?? '').isNotEmpty
                       ? l10n.noTransactionsFound
@@ -63,14 +64,14 @@ class TransactionsSliver extends StatelessWidget {
                 child: Center(child: CircularProgressIndicator()),
               )
             : state.loadMoreError != null
-                ? TextButton.icon(
-                    onPressed: () => context
-                        .read<TransactionsBloc>()
-                        .add(const TransactionsNextPageRequested()),
-                    icon: const Icon(Icons.refresh),
-                    label: Text(l10n.commonLoadMoreFailed),
-                  )
-                : const SizedBox(height: 24);
+            ? TextButton.icon(
+                onPressed: () => context.read<TransactionsBloc>().add(
+                  const TransactionsNextPageRequested(),
+                ),
+                icon: const Icon(Icons.refresh),
+                label: Text(l10n.commonLoadMoreFailed),
+              )
+            : const SizedBox(height: 24);
         return SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           sliver: SliverList.builder(
@@ -93,21 +94,26 @@ class TransactionsSliver extends StatelessWidget {
       if (day != lastDay) {
         lastDay = day;
         if (day.isNotEmpty) {
-          rows.add(Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 4),
-            child: Text(
-              day,
-              style: theme.textTheme.labelLarge?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
+          rows.add(
+            Padding(
+              padding: const EdgeInsets.only(top: 16, bottom: 4),
+              child: Text(
+                day,
+                style: theme.textTheme.labelLarge?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
-          ));
+          );
         }
       }
-      rows.add(BankTransactionTile(
-        transaction: tx,
-        onTap: () => context.push(Routes.transactionDetail(tx.id), extra: tx),
-      ));
+      rows.add(
+        BankTransactionTile(
+          transaction: tx,
+          onTap: () =>
+              context.pushPage(Pages.transactionDetail(tx.id, initial: tx)),
+        ),
+      );
     }
     return rows;
   }
@@ -124,9 +130,9 @@ class InfiniteScrollListener extends StatelessWidget {
     return NotificationListener<ScrollNotification>(
       onNotification: (n) {
         if (n.metrics.axis == Axis.vertical && n.metrics.extentAfter < 400) {
-          context
-              .read<TransactionsBloc>()
-              .add(const TransactionsNextPageRequested());
+          context.read<TransactionsBloc>().add(
+            const TransactionsNextPageRequested(),
+          );
         }
         return false;
       },

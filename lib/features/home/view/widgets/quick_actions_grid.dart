@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../../app/routes.dart';
+import '../../../../app/navigation.dart';
 import '../../../../core/l10n/l10n.dart';
 import 'coming_soon_sheet.dart';
 
@@ -22,20 +21,41 @@ class QuickActionsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final actions = [
-      _QuickAction(Icons.swap_horiz_rounded, l10n.actionTransfer,
-          (c) => c.go(Routes.transfer)),
-      _QuickAction(Icons.qr_code_scanner_rounded, l10n.actionScanQr,
-          (c) => showComingSoonSheet(c, l10n.actionScanQr)),
-      _QuickAction(Icons.add_card_rounded, l10n.actionDeposit,
-          (c) => showComingSoonSheet(c, l10n.actionDeposit)),
-      _QuickAction(Icons.local_atm_rounded, l10n.actionWithdraw,
-          (c) => showComingSoonSheet(c, l10n.actionWithdraw)),
-      _QuickAction(Icons.receipt_rounded, l10n.actionPayBills,
-          (c) => showComingSoonSheet(c, l10n.actionPayBills)),
-      _QuickAction(Icons.phone_android_rounded, l10n.actionTopUp,
-          (c) => showComingSoonSheet(c, l10n.actionTopUp)),
-      _QuickAction(Icons.history_rounded, l10n.actionHistory,
-          (c) => c.go(Routes.transactions)),
+      _QuickAction(
+        Icons.swap_horiz_rounded,
+        l10n.actionTransfer,
+        (c) => c.showTab(MainTab.transfer),
+      ),
+      _QuickAction(
+        Icons.qr_code_scanner_rounded,
+        l10n.actionScanQr,
+        (c) => showComingSoonSheet(c, l10n.actionScanQr),
+      ),
+      _QuickAction(
+        Icons.add_card_rounded,
+        l10n.actionDeposit,
+        (c) => showComingSoonSheet(c, l10n.actionDeposit),
+      ),
+      _QuickAction(
+        Icons.local_atm_rounded,
+        l10n.actionWithdraw,
+        (c) => showComingSoonSheet(c, l10n.actionWithdraw),
+      ),
+      _QuickAction(
+        Icons.receipt_rounded,
+        l10n.actionPayBills,
+        (c) => showComingSoonSheet(c, l10n.actionPayBills),
+      ),
+      _QuickAction(
+        Icons.phone_android_rounded,
+        l10n.actionTopUp,
+        (c) => showComingSoonSheet(c, l10n.actionTopUp),
+      ),
+      _QuickAction(
+        Icons.history_rounded,
+        l10n.actionHistory,
+        (c) => c.showTab(MainTab.transactions),
+      ),
     ];
     return Card(
       child: Padding(

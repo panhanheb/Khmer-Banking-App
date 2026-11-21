@@ -38,19 +38,19 @@ class BankTransactionModel extends BankTransaction {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'reference': reference,
-        'type': type,
-        'status': status,
-        'direction': direction,
-        'amount': amount,
-        'fee': fee,
-        'currency': currency,
-        'description': description,
-        'counterpartyName': counterpartyName,
-        'counterpartyAccount': counterpartyAccount,
-        'accountId': accountId,
-        'simulated': simulated,
-        'createdAt': createdAt?.toUtc().toIso8601String(),
-      };
+    'id': id,
+    'reference': reference,
+    'type': type,
+    'status': status,
+    'direction': direction,
+    'amount': amount,
+    'fee': fee,
+    'currency': currency,
+    'description': description,
+    'counterpartyName': counterpartyName,
+    'counterpartyAccount': counterpartyAccount,
+    'accountId': accountId,
+    'simulated': simulated,
+    'createdAt': createdAt?.toUtc().toIso8601String(),
+  };
 }

@@ -21,11 +21,11 @@ class Recipient extends Equatable {
 /// Lookup by account number OR phone (exactly one is set).
 class RecipientQuery extends Equatable {
   const RecipientQuery.byAccountNumber(String this.accountNumber)
-      : phone = null,
-        currency = null;
+    : phone = null,
+      currency = null;
 
   const RecipientQuery.byPhone(String this.phone, {this.currency})
-      : accountNumber = null;
+    : accountNumber = null;
 
   final String? accountNumber;
   final String? phone;
@@ -55,8 +55,13 @@ class TransferRequest extends Equatable {
   final String? description;
 
   @override
-  List<Object?> get props =>
-      [sourceAccountId, destinationAccountNumber, amount, currency, description];
+  List<Object?> get props => [
+    sourceAccountId,
+    destinationAccountNumber,
+    amount,
+    currency,
+    description,
+  ];
 }
 
 /// `POST /transfers/quote`: fee, FX rate and totals computed by the server.
@@ -89,17 +94,17 @@ class TransferQuote extends Equatable {
 
   @override
   List<Object?> get props => [
-        debitAmount,
-        debitCurrency,
-        creditAmount,
-        creditCurrency,
-        fee,
-        feeCurrency,
-        exchangeRate,
-        totalDebit,
-        destinationName,
-        dailyLimitRemaining,
-      ];
+    debitAmount,
+    debitCurrency,
+    creditAmount,
+    creditCurrency,
+    fee,
+    feeCurrency,
+    exchangeRate,
+    totalDebit,
+    destinationName,
+    dailyLimitRemaining,
+  ];
 }
 
 /// `POST /transfers` result.
@@ -138,19 +143,19 @@ class TransferReceipt extends Equatable {
 
   @override
   List<Object?> get props => [
-        transactionId,
-        reference,
-        status,
-        debitAmount,
-        debitCurrency,
-        creditAmount,
-        creditCurrency,
-        fee,
-        exchangeRate,
-        sourceAccountNumber,
-        destinationAccountNumber,
-        destinationName,
-        description,
-        createdAt,
-      ];
+    transactionId,
+    reference,
+    status,
+    debitAmount,
+    debitCurrency,
+    creditAmount,
+    creditCurrency,
+    fee,
+    exchangeRate,
+    sourceAccountNumber,
+    destinationAccountNumber,
+    destinationName,
+    description,
+    createdAt,
+  ];
 }

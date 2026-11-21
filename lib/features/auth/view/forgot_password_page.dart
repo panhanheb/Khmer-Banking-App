@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/utils/validators.dart';
@@ -47,7 +46,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(l10n.resetLinkSent(state.email ?? ''))),
           );
-          context.go(Routes.login);
+          context.popPage();
         } else if (state.status.isFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(localizedError(l10n, state.error!))),

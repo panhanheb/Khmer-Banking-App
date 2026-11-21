@@ -2,14 +2,14 @@ import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../core/l10n/l10n.dart';
 import '../core/theme/app_theme.dart';
 import '../features/auth/view_model/auth_bloc.dart';
 import '../features/settings/view_model/settings_bloc.dart';
 import 'di.dart';
-import 'router.dart';
+import 'auth_gate.dart';
+import 'navigation.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -24,13 +24,6 @@ class KhmerBankApp extends StatefulWidget {
 
 class _KhmerBankAppState extends State<KhmerBankApp> {
   late final AuthBloc _authBloc = sl<AuthBloc>()..add(const AuthStarted());
-  late final GoRouter _router = createRouter(_authBloc);
-
-  @override
-  void dispose() {
-    _router.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +35,14 @@ class _KhmerBankAppState extends State<KhmerBankApp> {
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, state) {
           final settings = state.settings;
-          final code = settings.languageCode ??
+          final code =
+              settings.languageCode ??
               (PlatformDispatcher.instance.locale.languageCode == 'km'
                   ? 'km'
                   : 'en');
           final khmer = code == 'km';
-          return MaterialApp.router(
+          return MaterialApp(
+            navigatorKey: rootNavigatorKey,
             debugShowCheckedModeBanner: false,
             onGenerateTitle: (context) => context.l10n.appName,
             scaffoldMessengerKey: scaffoldMessengerKey,
@@ -57,7 +52,7 @@ class _KhmerBankAppState extends State<KhmerBankApp> {
             locale: Locale(code),
             supportedLocales: AppLocalizations.supportedLocales,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
-            routerConfig: _router,
+            home: const AuthGate(),
             builder: (context, child) => BlocListener<AuthBloc, AuthState>(
               listenWhen: (prev, curr) =>
                   curr.sessionExpired && !prev.sessionExpired,

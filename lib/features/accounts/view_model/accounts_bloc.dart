@@ -13,8 +13,8 @@ export 'accounts_state.dart';
 
 class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
   AccountsBloc({required GetAccountsUseCase getAccounts, AppEventBus? eventBus})
-      : _getAccounts = getAccounts,
-        super(const AccountsState()) {
+    : _getAccounts = getAccounts,
+      super(const AccountsState()) {
     on<AccountsRequested>(_onRequested);
     _subscription = eventBus?.stream
         .where((e) => e == AppEvent.balancesChanged)
@@ -33,11 +33,13 @@ class AccountsBloc extends Bloc<AccountsEvent, AccountsState> {
       final accounts = await _getAccounts();
       emit(AccountsState(status: LoadStatus.success, accounts: accounts));
     } catch (e) {
-      emit(AccountsState(
-        status: LoadStatus.failure,
-        accounts: state.accounts,
-        error: e,
-      ));
+      emit(
+        AccountsState(
+          status: LoadStatus.failure,
+          accounts: state.accounts,
+          error: e,
+        ),
+      );
     }
   }
 

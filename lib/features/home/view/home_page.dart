@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/app_colors.dart';
@@ -67,11 +67,12 @@ class HomePage extends StatelessWidget {
                     title: l10n.totalBalance,
                     totals: state.totals,
                     hidden: state.balanceHidden,
-                    toggleTooltip:
-                        state.balanceHidden ? l10n.showBalance : l10n.hideBalance,
-                    onToggleVisibility: () => context
-                        .read<HomeBloc>()
-                        .add(const HomeBalanceVisibilityToggled()),
+                    toggleTooltip: state.balanceHidden
+                        ? l10n.showBalance
+                        : l10n.hideBalance,
+                    onToggleVisibility: () => context.read<HomeBloc>().add(
+                      const HomeBalanceVisibilityToggled(),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   SectionHeader(title: l10n.quickActions),
@@ -80,14 +81,14 @@ class HomePage extends StatelessWidget {
                   SectionHeader(
                     title: l10n.myAccounts,
                     actionLabel: l10n.commonSeeAll,
-                    onAction: () => context.push(Routes.accounts),
+                    onAction: () => context.pushPage(Pages.accounts()),
                   ),
                   _AccountsCarousel(state: state),
                   const SizedBox(height: 12),
                   SectionHeader(
                     title: l10n.recentTransactions,
                     actionLabel: l10n.commonSeeAll,
-                    onAction: () => context.go(Routes.transactions),
+                    onAction: () => context.showTab(MainTab.transactions),
                   ),
                   if (state.recentTransactions.isEmpty)
                     EmptyStateWidget(
@@ -107,9 +108,8 @@ class HomePage extends StatelessWidget {
                               BankTransactionTile(
                                 transaction: tx,
                                 hidden: state.balanceHidden,
-                                onTap: () => context.push(
-                                  Routes.transactionDetail(tx.id),
-                                  extra: tx,
+                                onTap: () => context.pushPage(
+                                  Pages.transactionDetail(tx.id, initial: tx),
                                 ),
                               ),
                           ],
@@ -139,7 +139,7 @@ class _Header extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => context.go(Routes.profile),
+          onTap: () => context.showTab(MainTab.profile),
           child: CircleAvatar(
             radius: 24,
             backgroundColor: AppColors.gold.withValues(alpha: 0.25),
@@ -167,8 +167,9 @@ class _Header extends StatelessWidget {
                 user.displayName(context.languageCode),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w800),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
               ),
             ],
           ),
@@ -194,7 +195,7 @@ class _PinBanner extends StatelessWidget {
         leading: const Icon(Icons.pin_outlined, color: AppColors.navy),
         title: Text(l10n.pinNotSetBanner),
         trailing: FilledButton.tonal(
-          onPressed: () => context.push(Routes.setPin, extra: PinSetupMode.set),
+          onPressed: () => context.pushPage(Pages.setPin(PinSetupMode.set)),
           child: Text(l10n.setPinAction),
         ),
       ),
@@ -224,7 +225,7 @@ class _AccountsCarousel extends StatelessWidget {
               child: Card(
                 child: InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: () => context.push(Routes.openAccount),
+                  onTap: () => context.pushPage(Pages.openAccount()),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Column(
@@ -237,7 +238,9 @@ class _AccountsCarousel extends StatelessWidget {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          accounts.isEmpty ? l10n.noAccountsYet : l10n.openAccount,
+                          accounts.isEmpty
+                              ? l10n.noAccountsYet
+                              : l10n.openAccount,
                           textAlign: TextAlign.center,
                         ),
                         if (accounts.isEmpty) ...[
@@ -262,8 +265,9 @@ class _AccountsCarousel extends StatelessWidget {
             width: 280,
             account: account,
             hidden: state.balanceHidden,
-            onTap: () =>
-                context.push(Routes.accountDetail(account.id), extra: account),
+            onTap: () => context.pushPage(
+              Pages.accountDetail(account.id, initial: account),
+            ),
           );
         },
       ),

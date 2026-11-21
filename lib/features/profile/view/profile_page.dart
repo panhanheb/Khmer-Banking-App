@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../app/di.dart';
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/security/biometric_service.dart';
@@ -123,8 +123,9 @@ class _ProfileHeader extends StatelessWidget {
                 user.displayName(context.languageCode),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: theme.textTheme.titleLarge
-                    ?.copyWith(fontWeight: FontWeight.w800),
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
               ),
               const SizedBox(height: 2),
               Text(
@@ -201,12 +202,15 @@ class _SettingsSection extends StatelessWidget {
                   showSelectedIcon: false,
                   segments: [
                     ButtonSegment(value: 'km', label: Text(l10n.languageKhmer)),
-                    ButtonSegment(value: 'en', label: Text(l10n.languageEnglish)),
+                    ButtonSegment(
+                      value: 'en',
+                      label: Text(l10n.languageEnglish),
+                    ),
                   ],
                   selected: {language},
-                  onSelectionChanged: (s) => context
-                      .read<SettingsBloc>()
-                      .add(SettingsLanguageChanged(s.first)),
+                  onSelectionChanged: (s) => context.read<SettingsBloc>().add(
+                    SettingsLanguageChanged(s.first),
+                  ),
                 ),
                 const SizedBox(height: 16),
                 Text(l10n.theme),
@@ -231,9 +235,9 @@ class _SettingsSection extends StatelessWidget {
                     ),
                   ],
                   selected: {settings.themeMode},
-                  onSelectionChanged: (s) => context
-                      .read<SettingsBloc>()
-                      .add(SettingsThemeChanged(s.first)),
+                  onSelectionChanged: (s) => context.read<SettingsBloc>().add(
+                    SettingsThemeChanged(s.first),
+                  ),
                 ),
               ],
             ),
@@ -259,7 +263,9 @@ class _SecuritySection extends StatelessWidget {
     }
     final biometrics = sl<BiometricService>();
     if (!await biometrics.isAvailable()) {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.biometricUnavailable)));
+      messenger.showSnackBar(
+        SnackBar(content: Text(l10n.biometricUnavailable)),
+      );
       return;
     }
     final ok = await biometrics.authenticate(l10n.biometricReasonUnlock);
@@ -293,9 +299,10 @@ class _SecuritySection extends StatelessWidget {
             leading: const Icon(Icons.pin_outlined),
             title: Text(user.pinSet ? l10n.changePin : l10n.setPinAction),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push(
-              Routes.setPin,
-              extra: user.pinSet ? PinSetupMode.change : PinSetupMode.set,
+            onTap: () => context.pushPage(
+              Pages.setPin(
+                user.pinSet ? PinSetupMode.change : PinSetupMode.set,
+              ),
             ),
           ),
           const Divider(height: 1),
@@ -303,7 +310,7 @@ class _SecuritySection extends StatelessWidget {
             leading: const Icon(Icons.lock_reset),
             title: Text(l10n.changePassword),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push(Routes.changePassword),
+            onTap: () => context.pushPage(Pages.changePassword()),
           ),
           const Divider(height: 1),
           ListTile(
@@ -311,7 +318,7 @@ class _SecuritySection extends StatelessWidget {
             title: Text(l10n.devices),
             subtitle: Text(l10n.devicesSubtitle),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => context.push(Routes.devices),
+            onTap: () => context.pushPage(Pages.devices()),
           ),
         ],
       ),

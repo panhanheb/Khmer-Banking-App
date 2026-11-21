@@ -16,11 +16,13 @@ class AccountDetailBloc extends Bloc<AccountDetailEvent, AccountDetailState> {
     required this.accountId,
     required GetAccountUseCase getAccount,
     Account? initial,
-  })  : _getAccount = getAccount,
-        super(AccountDetailState(
-          status: initial == null ? LoadStatus.initial : LoadStatus.success,
-          account: initial,
-        )) {
+  }) : _getAccount = getAccount,
+       super(
+         AccountDetailState(
+           status: initial == null ? LoadStatus.initial : LoadStatus.success,
+           account: initial,
+         ),
+       ) {
     on<AccountDetailRequested>(_onRequested);
   }
 
@@ -31,16 +33,22 @@ class AccountDetailBloc extends Bloc<AccountDetailEvent, AccountDetailState> {
     AccountDetailRequested event,
     Emitter<AccountDetailState> emit,
   ) async {
-    emit(AccountDetailState(status: LoadStatus.loading, account: state.account));
+    emit(
+      AccountDetailState(status: LoadStatus.loading, account: state.account),
+    );
     try {
       final account = await _getAccount(accountId);
       emit(AccountDetailState(status: LoadStatus.success, account: account));
     } catch (e) {
-      emit(AccountDetailState(
-        status: state.account == null ? LoadStatus.failure : LoadStatus.success,
-        account: state.account,
-        error: e,
-      ));
+      emit(
+        AccountDetailState(
+          status: state.account == null
+              ? LoadStatus.failure
+              : LoadStatus.success,
+          account: state.account,
+          error: e,
+        ),
+      );
     }
   }
 }

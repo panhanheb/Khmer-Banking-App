@@ -14,11 +14,13 @@ class TransactionDetailBloc
   TransactionDetailBloc({
     required GetTransactionUseCase getTransaction,
     BankTransaction? initial,
-  })  : _getTransaction = getTransaction,
-        super(TransactionDetailState(
-          status: initial == null ? LoadStatus.initial : LoadStatus.success,
-          transaction: initial,
-        )) {
+  }) : _getTransaction = getTransaction,
+       super(
+         TransactionDetailState(
+           status: initial == null ? LoadStatus.initial : LoadStatus.success,
+           transaction: initial,
+         ),
+       ) {
     on<TransactionDetailRequested>(_onRequested);
   }
 
@@ -28,19 +30,25 @@ class TransactionDetailBloc
     TransactionDetailRequested event,
     Emitter<TransactionDetailState> emit,
   ) async {
-    emit(TransactionDetailState(
-      status: LoadStatus.loading,
-      transaction: state.transaction,
-    ));
+    emit(
+      TransactionDetailState(
+        status: LoadStatus.loading,
+        transaction: state.transaction,
+      ),
+    );
     try {
       final tx = await _getTransaction(event.id);
       emit(TransactionDetailState(status: LoadStatus.success, transaction: tx));
     } catch (e) {
-      emit(TransactionDetailState(
-        status: state.transaction == null ? LoadStatus.failure : LoadStatus.success,
-        transaction: state.transaction,
-        error: e,
-      ));
+      emit(
+        TransactionDetailState(
+          status: state.transaction == null
+              ? LoadStatus.failure
+              : LoadStatus.success,
+          transaction: state.transaction,
+          error: e,
+        ),
+      );
     }
   }
 }

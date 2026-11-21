@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../app/di.dart';
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
 import '../../../core/bloc/app_event_bus.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
@@ -52,11 +51,7 @@ class _SetPinPageState extends State<SetPinPage> {
             ScaffoldMessenger.of(
               context,
             ).showSnackBar(SnackBar(content: Text(l10n.pinSetSuccess)));
-            if (context.canPop()) {
-              context.pop(true);
-            } else {
-              context.go(Routes.home);
-            }
+            context.popPage(true);
           }
         },
         builder: (context, state) {

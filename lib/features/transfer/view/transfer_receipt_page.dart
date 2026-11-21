@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/utils/date_formatter.dart';
 import '../../../core/utils/money.dart';
@@ -25,9 +24,9 @@ class TransferReceiptPage extends StatelessWidget {
     final statusColor = TxPresenter.statusColor(receipt.status);
     final (title, icon) = switch (receipt.status) {
       TransactionStatus.completed => (
-          l10n.transferSuccessful,
-          Icons.check_circle_rounded,
-        ),
+        l10n.transferSuccessful,
+        Icons.check_circle_rounded,
+      ),
       TransactionStatus.failed => (l10n.transferFailed, Icons.error_rounded),
       _ => (l10n.transferPending, Icons.schedule_rounded),
     };
@@ -57,8 +56,9 @@ class TransferReceiptPage extends StatelessWidget {
                         receipt.debitAmount,
                         receipt.debitCurrency,
                       ),
-                      style: theme.textTheme.headlineMedium
-                          ?.copyWith(fontWeight: FontWeight.w800),
+                      style: theme.textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -109,7 +109,8 @@ class TransferReceiptPage extends StatelessWidget {
                   ),
                   DetailRow(
                     label: l10n.toAccount,
-                    value: '${receipt.destinationName}\n'
+                    value:
+                        '${receipt.destinationName}\n'
                         '${receipt.destinationAccountNumber}',
                   ),
                   if (crossCurrency) ...[
@@ -123,7 +124,8 @@ class TransferReceiptPage extends StatelessWidget {
                     if (receipt.exchangeRate != null)
                       DetailRow(
                         label: l10n.exchangeRate,
-                        value: '1 ${receipt.debitCurrency} = '
+                        value:
+                            '1 ${receipt.debitCurrency} = '
                             '${MoneyFormatter.formatRate(receipt.exchangeRate!)} '
                             '${receipt.creditCurrency}',
                       ),
@@ -151,13 +153,13 @@ class TransferReceiptPage extends StatelessWidget {
           const SizedBox(height: 24),
           AppButton(
             label: l10n.commonDone,
-            onPressed: () => context.go(Routes.home),
+            onPressed: () => context.showTab(MainTab.home),
           ),
           const SizedBox(height: 12),
           AppButton(
             label: l10n.newTransfer,
             variant: AppButtonVariant.outline,
-            onPressed: () => context.go(Routes.transfer),
+            onPressed: () => context.popPage(),
           ),
         ],
       ),

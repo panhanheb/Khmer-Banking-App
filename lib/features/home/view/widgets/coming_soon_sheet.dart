@@ -34,8 +34,9 @@ Future<void> showComingSoonSheet(BuildContext context, String feature) {
             const SizedBox(height: 16),
             Text(
               l10n.comingSoonTitle,
-              style: theme.textTheme.titleLarge
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 8),
             Text(

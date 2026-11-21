@@ -36,20 +36,26 @@ class TransactionsState extends Equatable {
     bool? loadingMore,
     Object? Function()? loadMoreError,
     Object? Function()? error,
-  }) =>
-      TransactionsState(
-        status: status ?? this.status,
-        items: items ?? this.items,
-        filter: filter ?? this.filter,
-        page: page ?? this.page,
-        hasMore: hasMore ?? this.hasMore,
-        loadingMore: loadingMore ?? this.loadingMore,
-        loadMoreError:
-            loadMoreError != null ? loadMoreError() : this.loadMoreError,
-        error: error != null ? error() : this.error,
-      );
+  }) => TransactionsState(
+    status: status ?? this.status,
+    items: items ?? this.items,
+    filter: filter ?? this.filter,
+    page: page ?? this.page,
+    hasMore: hasMore ?? this.hasMore,
+    loadingMore: loadingMore ?? this.loadingMore,
+    loadMoreError: loadMoreError != null ? loadMoreError() : this.loadMoreError,
+    error: error != null ? error() : this.error,
+  );
 
   @override
-  List<Object?> get props =>
-      [status, items, filter, page, hasMore, loadingMore, loadMoreError, error];
+  List<Object?> get props => [
+    status,
+    items,
+    filter,
+    page,
+    hasMore,
+    loadingMore,
+    loadMoreError,
+    error,
+  ];
 }

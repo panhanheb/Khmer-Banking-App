@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/utils/validators.dart';
@@ -67,12 +67,13 @@ class _RegisterPageState extends State<RegisterPage> {
         if (state.status.isSuccess && result != null) {
           HapticFeedback.mediumImpact();
           if (result.needsCode) {
-            context.pushReplacement(
-              Routes.otp,
-              extra: OtpArgs(
-                purpose: OtpPurpose.registration,
-                verificationId: result.verificationId!,
-                phone: state.phone,
+            context.replacePage(
+              Pages.otp(
+                OtpArgs(
+                  purpose: OtpPurpose.registration,
+                  verificationId: result.verificationId!,
+                  phone: state.phone,
+                ),
               ),
             );
           } else {
@@ -190,7 +191,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     Flexible(child: Text(l10n.haveAccountPrompt)),
                     TextButton(
-                      onPressed: busy ? null : () => context.go(Routes.login),
+                      onPressed: busy ? null : () => context.popPage(),
                       child: Text(l10n.loginButton),
                     ),
                   ],

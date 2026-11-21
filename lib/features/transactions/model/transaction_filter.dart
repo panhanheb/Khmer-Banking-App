@@ -23,7 +23,8 @@ class TransactionFilter extends Equatable {
   bool get hasActiveFilters =>
       type != null || status != null || currency != null || from != null;
 
-  int get activeFilterCount => [type, status, currency, from].where((e) => e != null).length;
+  int get activeFilterCount =>
+      [type, status, currency, from].where((e) => e != null).length;
 
   TransactionFilter copyWith({
     String? Function()? type,
@@ -32,24 +33,23 @@ class TransactionFilter extends Equatable {
     DateTime? Function()? from,
     DateTime? Function()? to,
     String? Function()? query,
-  }) =>
-      TransactionFilter(
-        type: type != null ? type() : this.type,
-        status: status != null ? status() : this.status,
-        currency: currency != null ? currency() : this.currency,
-        from: from != null ? from() : this.from,
-        to: to != null ? to() : this.to,
-        query: query != null ? query() : this.query,
-      );
+  }) => TransactionFilter(
+    type: type != null ? type() : this.type,
+    status: status != null ? status() : this.status,
+    currency: currency != null ? currency() : this.currency,
+    from: from != null ? from() : this.from,
+    to: to != null ? to() : this.to,
+    query: query != null ? query() : this.query,
+  );
 
   Map<String, dynamic> toQuery() => {
-        if (type != null) 'type': type,
-        if (status != null) 'status': status,
-        if (currency != null) 'currency': currency,
-        if (from != null) 'from': DateFormatter.apiDate(from!),
-        if (to != null) 'to': DateFormatter.apiDate(to!),
-        if (query != null && query!.trim().isNotEmpty) 'q': query!.trim(),
-      };
+    if (type != null) 'type': type,
+    if (status != null) 'status': status,
+    if (currency != null) 'currency': currency,
+    if (from != null) 'from': DateFormatter.apiDate(from!),
+    if (to != null) 'to': DateFormatter.apiDate(to!),
+    if (query != null && query!.trim().isNotEmpty) 'q': query!.trim(),
+  };
 
   @override
   List<Object?> get props => [type, status, currency, from, to, query];

@@ -27,14 +27,14 @@ class UserProfileModel extends UserProfile {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'phone': phone,
-        'email': email,
-        'fullNameEn': fullNameEn,
-        'fullNameKm': fullNameKm,
-        'language': language,
-        'kycStatus': kycStatus,
-        'pinSet': pinSet,
-        'createdAt': createdAt?.toUtc().toIso8601String(),
-      };
+    'id': id,
+    'phone': phone,
+    'email': email,
+    'fullNameEn': fullNameEn,
+    'fullNameKm': fullNameKm,
+    'language': language,
+    'kycStatus': kycStatus,
+    'pinSet': pinSet,
+    'createdAt': createdAt?.toUtc().toIso8601String(),
+  };
 }

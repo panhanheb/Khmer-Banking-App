@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/widgets.dart';
@@ -66,12 +66,13 @@ class _LoginPageState extends State<LoginPage> {
             TextInput.finishAutofillContext();
             context.read<AuthBloc>().add(const AuthLoggedIn());
           case LoginStatus.codeSent:
-            context.push(
-              Routes.otp,
-              extra: OtpArgs(
-                purpose: OtpPurpose.phoneLogin,
-                verificationId: state.verificationId ?? '',
-                phone: state.phone,
+            context.pushPage(
+              Pages.otp(
+                OtpArgs(
+                  purpose: OtpPurpose.phoneLogin,
+                  verificationId: state.verificationId ?? '',
+                  phone: state.phone,
+                ),
               ),
             );
             context.read<LoginBloc>().add(const LoginReset());
@@ -153,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: TextButton(
                         onPressed: busy
                             ? null
-                            : () => context.push(Routes.forgotPassword),
+                            : () => context.pushPage(Pages.forgotPassword()),
                         child: Text(l10n.forgotPasswordLink),
                       ),
                     ),
@@ -193,7 +194,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextButton(
                         onPressed: busy
                             ? null
-                            : () => context.push(Routes.register),
+                            : () => context.pushPage(Pages.register()),
                         child: Text(l10n.registerLink),
                       ),
                     ],

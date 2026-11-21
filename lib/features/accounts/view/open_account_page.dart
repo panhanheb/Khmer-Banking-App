@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/utils/money.dart';
@@ -34,13 +34,15 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
   void _submit() {
     FocusScope.of(context).unfocus();
     final nickname = _nickname.text.trim();
-    context.read<OpenAccountBloc>().add(OpenAccountSubmitted(
-          OpenAccountParams(
-            type: _type,
-            currency: _currency,
-            nickname: nickname.isEmpty ? null : nickname,
-          ),
-        ));
+    context.read<OpenAccountBloc>().add(
+      OpenAccountSubmitted(
+        OpenAccountParams(
+          type: _type,
+          currency: _currency,
+          nickname: nickname.isEmpty ? null : nickname,
+        ),
+      ),
+    );
   }
 
   @override
@@ -51,12 +53,11 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
       listener: (context, state) {
         if (state.status.isSuccess && state.account != null) {
           HapticFeedback.mediumImpact();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.accountOpened)),
-          );
-          context.pushReplacement(
-            Routes.accountDetail(state.account!.id),
-            extra: state.account,
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(l10n.accountOpened)));
+          context.replacePage(
+            Pages.accountDetail(state.account!.id, initial: state.account),
           );
         } else if (state.status.isFailure) {
           HapticFeedback.heavyImpact();
@@ -80,9 +81,11 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
                   for (final type in AccountType.all)
                     ButtonSegment(
                       value: type,
-                      icon: Icon(type == AccountType.savings
-                          ? Icons.savings_outlined
-                          : Icons.account_balance_wallet_outlined),
+                      icon: Icon(
+                        type == AccountType.savings
+                            ? Icons.savings_outlined
+                            : Icons.account_balance_wallet_outlined,
+                      ),
                       label: Text(AccountPresenter.typeLabel(l10n, type)),
                     ),
                 ],

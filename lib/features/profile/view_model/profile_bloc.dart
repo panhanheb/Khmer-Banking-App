@@ -15,8 +15,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc({
     required GetCurrentUserUseCase getCurrentUser,
     AppEventBus? eventBus,
-  })  : _getCurrentUser = getCurrentUser,
-        super(const ProfileState()) {
+  }) : _getCurrentUser = getCurrentUser,
+       super(const ProfileState()) {
     on<ProfileRequested>(_onRequested);
     _subscription = eventBus?.stream
         .where((e) => e == AppEvent.profileChanged)
@@ -35,7 +35,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       final user = await _getCurrentUser();
       emit(ProfileState(status: LoadStatus.success, user: user));
     } catch (e) {
-      emit(ProfileState(status: LoadStatus.failure, user: state.user, error: e));
+      emit(
+        ProfileState(status: LoadStatus.failure, user: state.user, error: e),
+      );
     }
   }
 

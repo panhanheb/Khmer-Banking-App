@@ -12,8 +12,7 @@ class GetTransactionsUseCase {
     int page = 0,
     int size = 20,
     TransactionFilter filter = const TransactionFilter(),
-  }) =>
-      _repository.getTransactions(page: page, size: size, filter: filter);
+  }) => _repository.getTransactions(page: page, size: size, filter: filter);
 }
 
 class GetTransactionUseCase {

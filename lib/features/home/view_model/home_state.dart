@@ -30,7 +30,9 @@ class HomeState extends Equatable {
     final result = <String, String>{};
     for (final currency in Currencies.all) {
       final balances = accounts
-          .where((a) => a.currency == currency && a.status != AccountStatus.closed)
+          .where(
+            (a) => a.currency == currency && a.status != AccountStatus.closed,
+          )
           .map((a) => a.balance)
           .toList();
       if (balances.isEmpty) continue;
@@ -46,17 +48,22 @@ class HomeState extends Equatable {
     List<BankTransaction>? recentTransactions,
     bool? balanceHidden,
     Object? Function()? error,
-  }) =>
-      HomeState(
-        status: status ?? this.status,
-        user: user ?? this.user,
-        accounts: accounts ?? this.accounts,
-        recentTransactions: recentTransactions ?? this.recentTransactions,
-        balanceHidden: balanceHidden ?? this.balanceHidden,
-        error: error != null ? error() : this.error,
-      );
+  }) => HomeState(
+    status: status ?? this.status,
+    user: user ?? this.user,
+    accounts: accounts ?? this.accounts,
+    recentTransactions: recentTransactions ?? this.recentTransactions,
+    balanceHidden: balanceHidden ?? this.balanceHidden,
+    error: error != null ? error() : this.error,
+  );
 
   @override
-  List<Object?> get props =>
-      [status, user, accounts, recentTransactions, balanceHidden, error];
+  List<Object?> get props => [
+    status,
+    user,
+    accounts,
+    recentTransactions,
+    balanceHidden,
+    error,
+  ];
 }

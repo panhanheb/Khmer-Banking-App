@@ -20,18 +20,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     required GetAccountsUseCase getAccounts,
     required GetTransactionsUseCase getTransactions,
     AppEventBus? eventBus,
-  })  : _getCurrentUser = getCurrentUser,
-        _getAccounts = getAccounts,
-        _getTransactions = getTransactions,
-        super(const HomeState()) {
+  }) : _getCurrentUser = getCurrentUser,
+       _getAccounts = getAccounts,
+       _getTransactions = getTransactions,
+       super(const HomeState()) {
     on<HomeStarted>(_onLoad);
     on<HomeRefreshed>(_onLoad);
     on<HomeBalanceVisibilityToggled>(
       (_, emit) => emit(state.copyWith(balanceHidden: !state.balanceHidden)),
     );
     _subscription = eventBus?.stream
-        .where((e) =>
-            e == AppEvent.balancesChanged || e == AppEvent.profileChanged)
+        .where(
+          (e) => e == AppEvent.balancesChanged || e == AppEvent.profileChanged,
+        )
         .listen((_) => add(const HomeRefreshed()));
   }
 
@@ -48,17 +49,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         _getAccounts(),
         _getTransactions(page: 0, size: 5),
       ).wait;
-      emit(state.copyWith(
-        status: LoadStatus.success,
-        user: user,
-        accounts: accounts,
-        recentTransactions: page.content,
-      ));
+      emit(
+        state.copyWith(
+          status: LoadStatus.success,
+          user: user,
+          accounts: accounts,
+          recentTransactions: page.content,
+        ),
+      );
     } on ParallelWaitError<dynamic, dynamic> catch (e) {
-      emit(state.copyWith(
-        status: LoadStatus.failure,
-        error: () => _firstError(e.errors),
-      ));
+      emit(
+        state.copyWith(
+          status: LoadStatus.failure,
+          error: () => _firstError(e.errors),
+        ),
+      );
     } catch (e) {
       emit(state.copyWith(status: LoadStatus.failure, error: () => e));
     } finally {

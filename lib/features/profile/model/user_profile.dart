@@ -42,14 +42,14 @@ class UserProfile extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        phone,
-        email,
-        fullNameEn,
-        fullNameKm,
-        language,
-        kycStatus,
-        pinSet,
-        createdAt,
-      ];
+    id,
+    phone,
+    email,
+    fullNameEn,
+    fullNameKm,
+    language,
+    kycStatus,
+    pinSet,
+    createdAt,
+  ];
 }

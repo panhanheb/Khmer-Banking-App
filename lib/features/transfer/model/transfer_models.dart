@@ -11,42 +11,42 @@ class RecipientModel extends Recipient {
   });
 
   factory RecipientModel.fromJson(Map<String, dynamic> json) => RecipientModel(
-        accountNumber: json['accountNumber'] as String? ?? '',
-        accountName: json['accountName'] as String? ?? '',
-        currency: json['currency'] as String? ?? 'USD',
-        bankName: json['bankName'] as String? ?? '',
-      );
+    accountNumber: json['accountNumber'] as String? ?? '',
+    accountName: json['accountName'] as String? ?? '',
+    currency: json['currency'] as String? ?? 'USD',
+    bankName: json['bankName'] as String? ?? '',
+  );
 
   Map<String, dynamic> toJson() => {
-        'accountNumber': accountNumber,
-        'accountName': accountName,
-        'currency': currency,
-        'bankName': bankName,
-      };
+    'accountNumber': accountNumber,
+    'accountName': accountName,
+    'currency': currency,
+    'bankName': bankName,
+  };
 }
 
 extension RecipientQueryJson on RecipientQuery {
   Map<String, dynamic> toJson() => {
-        if (accountNumber != null) 'accountNumber': accountNumber,
-        if (phone != null) 'phone': phone,
-        if (currency != null) 'currency': currency,
-      };
+    if (accountNumber != null) 'accountNumber': accountNumber,
+    if (phone != null) 'phone': phone,
+    if (currency != null) 'currency': currency,
+  };
 }
 
 extension TransferRequestJson on TransferRequest {
   Map<String, dynamic> toQuoteJson() => {
-        'sourceAccountId': sourceAccountId,
-        'destinationAccountNumber': destinationAccountNumber,
-        'amount': amount,
-        'currency': currency,
-      };
+    'sourceAccountId': sourceAccountId,
+    'destinationAccountNumber': destinationAccountNumber,
+    'amount': amount,
+    'currency': currency,
+  };
 
   Map<String, dynamic> toSubmitJson(String pin) => {
-        ...toQuoteJson(),
-        if (description != null && description!.trim().isNotEmpty)
-          'description': description!.trim(),
-        'pin': pin,
-      };
+    ...toQuoteJson(),
+    if (description != null && description!.trim().isNotEmpty)
+      'description': description!.trim(),
+    'pin': pin,
+  };
 }
 
 class TransferQuoteModel extends TransferQuote {
@@ -70,7 +70,8 @@ class TransferQuoteModel extends TransferQuote {
         creditAmount: _str(json['creditAmount']),
         creditCurrency: json['creditCurrency'] as String? ?? 'USD',
         fee: _str(json['fee']),
-        feeCurrency: json['feeCurrency'] as String? ??
+        feeCurrency:
+            json['feeCurrency'] as String? ??
             json['debitCurrency'] as String? ??
             'USD',
         exchangeRate: json['exchangeRate']?.toString(),
@@ -80,17 +81,17 @@ class TransferQuoteModel extends TransferQuote {
       );
 
   Map<String, dynamic> toJson() => {
-        'debitAmount': debitAmount,
-        'debitCurrency': debitCurrency,
-        'creditAmount': creditAmount,
-        'creditCurrency': creditCurrency,
-        'fee': fee,
-        'feeCurrency': feeCurrency,
-        'exchangeRate': exchangeRate,
-        'totalDebit': totalDebit,
-        'destinationName': destinationName,
-        'dailyLimitRemaining': dailyLimitRemaining,
-      };
+    'debitAmount': debitAmount,
+    'debitCurrency': debitCurrency,
+    'creditAmount': creditAmount,
+    'creditCurrency': creditCurrency,
+    'fee': fee,
+    'feeCurrency': feeCurrency,
+    'exchangeRate': exchangeRate,
+    'totalDebit': totalDebit,
+    'destinationName': destinationName,
+    'dailyLimitRemaining': dailyLimitRemaining,
+  };
 }
 
 class TransferReceiptModel extends TransferReceipt {
@@ -131,19 +132,19 @@ class TransferReceiptModel extends TransferReceipt {
       );
 
   Map<String, dynamic> toJson() => {
-        'transactionId': transactionId,
-        'reference': reference,
-        'status': status,
-        'debitAmount': debitAmount,
-        'debitCurrency': debitCurrency,
-        'creditAmount': creditAmount,
-        'creditCurrency': creditCurrency,
-        'fee': fee,
-        'exchangeRate': exchangeRate,
-        'sourceAccountNumber': sourceAccountNumber,
-        'destinationAccountNumber': destinationAccountNumber,
-        'destinationName': destinationName,
-        'description': description,
-        'createdAt': createdAt?.toUtc().toIso8601String(),
-      };
+    'transactionId': transactionId,
+    'reference': reference,
+    'status': status,
+    'debitAmount': debitAmount,
+    'debitCurrency': debitCurrency,
+    'creditAmount': creditAmount,
+    'creditCurrency': creditCurrency,
+    'fee': fee,
+    'exchangeRate': exchangeRate,
+    'sourceAccountNumber': sourceAccountNumber,
+    'destinationAccountNumber': destinationAccountNumber,
+    'destinationName': destinationName,
+    'description': description,
+    'createdAt': createdAt?.toUtc().toIso8601String(),
+  };
 }

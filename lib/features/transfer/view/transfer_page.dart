@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../app/di.dart';
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/security/biometric_service.dart';
@@ -31,7 +31,7 @@ class TransferPage extends StatelessWidget {
     final receipt = state.receipt;
     if (receipt != null) {
       HapticFeedback.mediumImpact();
-      context.push(Routes.transferReceipt, extra: receipt);
+      context.pushPage(Pages.transferReceipt(receipt));
       bloc.add(const TransferReset());
       return;
     }
@@ -43,16 +43,18 @@ class TransferPage extends StatelessWidget {
     HapticFeedback.heavyImpact();
     final pinNotSet =
         error is ApiException && error.code == ApiException.pinNotSet;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(localizedError(l10n, error)),
-      action: pinNotSet
-          ? SnackBarAction(
-              label: l10n.setPinAction,
-              onPressed: () =>
-                  context.push(Routes.setPin, extra: PinSetupMode.set),
-            )
-          : null,
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(localizedError(l10n, error)),
+        action: pinNotSet
+            ? SnackBarAction(
+                label: l10n.setPinAction,
+                onPressed: () =>
+                    context.pushPage(Pages.setPin(PinSetupMode.set)),
+              )
+            : null,
+      ),
+    );
     bloc.add(const TransferErrorDismissed());
   }
 
@@ -78,9 +80,9 @@ class TransferPage extends StatelessWidget {
               title: Text(l10n.transferTitle),
               leading: canGoBack
                   ? BackButton(
-                      onPressed: () => context
-                          .read<TransferBloc>()
-                          .add(const TransferStepBack()),
+                      onPressed: () => context.read<TransferBloc>().add(
+                        const TransferStepBack(),
+                      ),
                     )
                   : null,
             ),
@@ -100,8 +102,8 @@ class TransferPage extends StatelessWidget {
           message: localizedError(l10n, state.error!),
           retryLabel: l10n.commonRetry,
           onRetry: () => context.read<TransferBloc>().add(
-                TransferStarted(preselectedAccountId: preselectedAccountId),
-              ),
+            TransferStarted(preselectedAccountId: preselectedAccountId),
+          ),
         );
       }
       return Padding(
@@ -114,7 +116,7 @@ class TransferPage extends StatelessWidget {
         icon: Icons.account_balance_wallet_outlined,
         title: l10n.noAccountsYet,
         action: FilledButton.icon(
-          onPressed: () => context.push(Routes.openAccount),
+          onPressed: () => context.pushPage(Pages.openAccount()),
           icon: const Icon(Icons.add),
           label: Text(l10n.openAccount),
         ),
@@ -128,21 +130,21 @@ class TransferPage extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             child: switch (state.step) {
               TransferStep.source => _SourceStep(
-                  key: const ValueKey(TransferStep.source),
-                  state: state,
-                ),
+                key: const ValueKey(TransferStep.source),
+                state: state,
+              ),
               TransferStep.recipient => _RecipientStep(
-                  key: const ValueKey(TransferStep.recipient),
-                  state: state,
-                ),
+                key: const ValueKey(TransferStep.recipient),
+                state: state,
+              ),
               TransferStep.amount => _AmountStep(
-                  key: const ValueKey(TransferStep.amount),
-                  state: state,
-                ),
+                key: const ValueKey(TransferStep.amount),
+                state: state,
+              ),
               TransferStep.review => _ReviewStep(
-                  key: const ValueKey(TransferStep.review),
-                  state: state,
-                ),
+                key: const ValueKey(TransferStep.review),
+                state: state,
+              ),
             },
           ),
         ),
@@ -160,7 +162,12 @@ class _StepIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
-    final labels = [l10n.stepFrom, l10n.stepTo, l10n.stepAmount, l10n.stepReview];
+    final labels = [
+      l10n.stepFrom,
+      l10n.stepTo,
+      l10n.stepAmount,
+      l10n.stepReview,
+    ];
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
       child: Row(
@@ -193,8 +200,9 @@ class _StepIndicator extends StatelessWidget {
                         color: i == step.index
                             ? theme.colorScheme.primary
                             : theme.colorScheme.onSurfaceVariant,
-                        fontWeight:
-                            i == step.index ? FontWeight.w700 : FontWeight.w500,
+                        fontWeight: i == step.index
+                            ? FontWeight.w700
+                            : FontWeight.w500,
                       ),
                     ),
                   ],
@@ -228,9 +236,8 @@ class _SourceStep extends StatelessWidget {
         final account = accounts[i - 1];
         return BankAccountCard(
           account: account,
-          onTap: () => context
-              .read<TransferBloc>()
-              .add(TransferSourceSelected(account)),
+          onTap: () =>
+              context.read<TransferBloc>().add(TransferSourceSelected(account)),
         );
       },
     );
@@ -309,9 +316,9 @@ class _RecipientStepState extends State<_RecipientStep> {
             onSelectionChanged: busy
                 ? null
                 : (s) => setState(() {
-                      _byPhone = s.first;
-                      _query.clear();
-                    }),
+                    _byPhone = s.first;
+                    _query.clear();
+                  }),
           ),
           const SizedBox(height: 16),
           AppTextField(
@@ -366,8 +373,9 @@ class _AmountStep extends StatefulWidget {
 
 class _AmountStepState extends State<_AmountStep> {
   late final _amount = TextEditingController(text: widget.state.amount);
-  late final _description =
-      TextEditingController(text: widget.state.description);
+  late final _description = TextEditingController(
+    text: widget.state.description,
+  );
 
   @override
   void dispose() {
@@ -412,7 +420,9 @@ class _AmountStepState extends State<_AmountStep> {
         const SizedBox(height: 8),
         _RecipientTile(
           recipient: recipient,
-          onChange: busy ? null : () => bloc.add(const TransferRecipientCleared()),
+          onChange: busy
+              ? null
+              : () => bloc.add(const TransferRecipientCleared()),
         ),
         const SizedBox(height: 16),
         if (state.currencyOptions.length > 1) ...[
@@ -436,7 +446,7 @@ class _AmountStepState extends State<_AmountStep> {
               : Icons.attach_money,
           helperText: currency == source.currency
               ? '${l10n.availableBalance}: '
-                  '${MoneyFormatter.format(source.availableBalance, source.currency)}'
+                    '${MoneyFormatter.format(source.availableBalance, source.currency)}'
               : null,
           errorText: amountError,
           enabled: !busy,
@@ -446,7 +456,9 @@ class _AmountStepState extends State<_AmountStep> {
           textInputAction: TextInputAction.next,
           inputFormatters: [
             FilteringTextInputFormatter.allow(
-              RegExp(Currencies.decimalsOf(currency) > 0 ? r'[0-9.,]' : r'[0-9,]'),
+              RegExp(
+                Currencies.decimalsOf(currency) > 0 ? r'[0-9.,]' : r'[0-9,]',
+              ),
             ),
           ],
           onChanged: (v) => bloc.add(TransferAmountChanged(v)),
@@ -488,8 +500,9 @@ class _ReviewStep extends StatelessWidget {
     final bloc = context.read<TransferBloc>();
     final messenger = ScaffoldMessenger.of(context);
     if (context.read<SettingsBloc>().state.settings.biometricEnabled) {
-      final ok = await sl<BiometricService>()
-          .authenticate(l10n.biometricReasonTransfer);
+      final ok = await sl<BiometricService>().authenticate(
+        l10n.biometricReasonTransfer,
+      );
       if (!ok) {
         messenger.showSnackBar(SnackBar(content: Text(l10n.biometricFailed)));
         return;
@@ -526,9 +539,13 @@ class _ReviewStep extends StatelessWidget {
                 const SizedBox(height: 4),
                 FittedBox(
                   child: Text(
-                    MoneyFormatter.format(quote.debitAmount, quote.debitCurrency),
-                    style: theme.textTheme.headlineMedium
-                        ?.copyWith(fontWeight: FontWeight.w800),
+                    MoneyFormatter.format(
+                      quote.debitAmount,
+                      quote.debitCurrency,
+                    ),
+                    style: theme.textTheme.headlineMedium?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 4),
@@ -549,12 +566,14 @@ class _ReviewStep extends StatelessWidget {
               children: [
                 DetailRow(
                   label: l10n.fromAccount,
-                  value: '${AccountPresenter.title(l10n, source)}\n'
+                  value:
+                      '${AccountPresenter.title(l10n, source)}\n'
                       '${source.maskedNumber}',
                 ),
                 DetailRow(
                   label: l10n.toAccount,
-                  value: '${quote.destinationName}\n'
+                  value:
+                      '${quote.destinationName}\n'
                       '${recipient.accountNumber}\n${recipient.bankName}',
                 ),
                 if (quote.isCrossCurrency) ...[
@@ -568,7 +587,8 @@ class _ReviewStep extends StatelessWidget {
                   if (quote.exchangeRate != null)
                     DetailRow(
                       label: l10n.exchangeRate,
-                      value: '1 ${quote.debitCurrency} = '
+                      value:
+                          '1 ${quote.debitCurrency} = '
                           '${MoneyFormatter.formatRate(quote.exchangeRate!)} '
                           '${quote.creditCurrency}',
                     ),
@@ -670,9 +690,11 @@ class _AccountSummaryTile extends StatelessWidget {
     final l10n = context.l10n;
     return Card(
       child: ListTile(
-        leading: Icon(account.isSavings
-            ? Icons.savings_outlined
-            : Icons.account_balance_wallet_outlined),
+        leading: Icon(
+          account.isSavings
+              ? Icons.savings_outlined
+              : Icons.account_balance_wallet_outlined,
+        ),
         title: Text(label),
         subtitle: Text(
           '${AccountPresenter.title(l10n, account)} · ${account.maskedNumber}\n'

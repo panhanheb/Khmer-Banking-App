@@ -8,7 +8,9 @@ class AccountPresenter {
   const AccountPresenter._();
 
   static String typeLabel(AppLocalizations l10n, String type) =>
-      type == AccountType.savings ? l10n.accountTypeSavings : l10n.accountTypeCurrent;
+      type == AccountType.savings
+      ? l10n.accountTypeSavings
+      : l10n.accountTypeCurrent;
 
   static String statusLabel(AppLocalizations l10n, String status) =>
       switch (status) {

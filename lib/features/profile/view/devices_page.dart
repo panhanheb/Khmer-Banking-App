@@ -26,8 +26,9 @@ class DevicesPage extends StatelessWidget {
           final message = state.error != null
               ? localizedError(l10n, state.error!)
               : l10n.deviceRevoked;
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(message)));
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(message)));
         },
         builder: (context, state) {
           if (state.devices.isEmpty) {
@@ -80,10 +81,10 @@ class _DeviceTile extends StatelessWidget {
   final bool revoking;
 
   IconData get _icon => switch (device.platform.toLowerCase()) {
-        'ios' || 'android' => Icons.smartphone,
-        'web' => Icons.language,
-        _ => Icons.computer,
-      };
+    'ios' || 'android' => Icons.smartphone,
+    'web' => Icons.language,
+    _ => Icons.computer,
+  };
 
   Future<void> _revoke(BuildContext context) async {
     final l10n = context.l10n;
@@ -113,16 +114,21 @@ class _DeviceTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (lastSeen != null)
-              Text(l10n.lastSeen(
-                DateFormatter.dateTime(lastSeen, context.languageCode),
-              )),
+              Text(
+                l10n.lastSeen(
+                  DateFormatter.dateTime(lastSeen, context.languageCode),
+                ),
+              ),
             if (device.current || device.trusted) ...[
               const SizedBox(height: 4),
               Wrap(
                 spacing: 6,
                 children: [
                   if (device.current)
-                    AppBadge(label: l10n.thisDevice, color: AppColors.royalBlue),
+                    AppBadge(
+                      label: l10n.thisDevice,
+                      color: AppColors.royalBlue,
+                    ),
                   if (device.trusted)
                     AppBadge(label: l10n.trusted, color: AppColors.success),
                 ],
@@ -133,17 +139,17 @@ class _DeviceTile extends StatelessWidget {
         trailing: device.current
             ? null
             : revoking
-                ? const SizedBox.square(
-                    dimension: 24,
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  )
-                : TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: theme.colorScheme.error,
-                    ),
-                    onPressed: () => _revoke(context),
-                    child: Text(l10n.revoke),
-                  ),
+            ? const SizedBox.square(
+                dimension: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              )
+            : TextButton(
+                style: TextButton.styleFrom(
+                  foregroundColor: theme.colorScheme.error,
+                ),
+                onPressed: () => _revoke(context),
+                child: Text(l10n.revoke),
+              ),
       ),
     );
   }

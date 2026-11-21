@@ -35,15 +35,20 @@ class _TransactionsPageState extends State<TransactionsPage> {
       final bloc = context.read<TransactionsBloc>();
       final q = value.trim();
       if ((bloc.state.filter.query ?? '') == q) return;
-      bloc.add(TransactionsFilterChanged(
-        bloc.state.filter.copyWith(query: () => q.isEmpty ? null : q),
-      ));
+      bloc.add(
+        TransactionsFilterChanged(
+          bloc.state.filter.copyWith(query: () => q.isEmpty ? null : q),
+        ),
+      );
     });
   }
 
   Future<void> _openFilters() async {
     final bloc = context.read<TransactionsBloc>();
-    final result = await TransactionFilterSheet.show(context, bloc.state.filter);
+    final result = await TransactionFilterSheet.show(
+      context,
+      bloc.state.filter,
+    );
     if (result != null && result != bloc.state.filter) {
       bloc.add(TransactionsFilterChanged(result));
     }

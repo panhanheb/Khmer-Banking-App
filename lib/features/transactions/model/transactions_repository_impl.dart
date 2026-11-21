@@ -14,8 +14,7 @@ class TransactionsRepositoryImpl implements TransactionsRepository {
     int page = 0,
     int size = 20,
     TransactionFilter filter = const TransactionFilter(),
-  }) =>
-      _remote.getTransactions(page: page, size: size, filter: filter);
+  }) => _remote.getTransactions(page: page, size: size, filter: filter);
 
   @override
   Future<BankTransaction> getTransaction(String id) =>

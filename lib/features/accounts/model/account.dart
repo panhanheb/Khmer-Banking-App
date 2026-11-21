@@ -47,16 +47,16 @@ class Account extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        accountNumber,
-        type,
-        currency,
-        status,
-        nickname,
-        balance,
-        availableBalance,
-        openedAt,
-      ];
+    id,
+    accountNumber,
+    type,
+    currency,
+    status,
+    nickname,
+    balance,
+    availableBalance,
+    openedAt,
+  ];
 }
 
 class OpenAccountParams extends Equatable {

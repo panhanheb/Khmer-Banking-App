@@ -11,16 +11,16 @@ class TxPresenter {
   const TxPresenter._();
 
   static String typeLabel(AppLocalizations l10n, String type) => switch (type) {
-        TransactionType.transfer => l10n.txTypeTransfer,
-        TransactionType.deposit => l10n.txTypeDeposit,
-        TransactionType.withdrawal => l10n.txTypeWithdrawal,
-        TransactionType.fee => l10n.txTypeFee,
-        TransactionType.reversal => l10n.txTypeReversal,
-        TransactionType.qrPayment => l10n.txTypeQrPayment,
-        TransactionType.billPayment => l10n.txTypeBillPayment,
-        TransactionType.topup => l10n.txTypeTopup,
-        _ => type,
-      };
+    TransactionType.transfer => l10n.txTypeTransfer,
+    TransactionType.deposit => l10n.txTypeDeposit,
+    TransactionType.withdrawal => l10n.txTypeWithdrawal,
+    TransactionType.fee => l10n.txTypeFee,
+    TransactionType.reversal => l10n.txTypeReversal,
+    TransactionType.qrPayment => l10n.txTypeQrPayment,
+    TransactionType.billPayment => l10n.txTypeBillPayment,
+    TransactionType.topup => l10n.txTypeTopup,
+    _ => type,
+  };
 
   static String statusLabel(AppLocalizations l10n, String status) =>
       switch (status) {
@@ -32,22 +32,22 @@ class TxPresenter {
       };
 
   static Color statusColor(String status) => switch (status) {
-        TransactionStatus.completed => AppColors.success,
-        TransactionStatus.failed => AppColors.error,
-        TransactionStatus.reversed => AppColors.textSecondary,
-        _ => AppColors.warning,
-      };
+    TransactionStatus.completed => AppColors.success,
+    TransactionStatus.failed => AppColors.error,
+    TransactionStatus.reversed => AppColors.textSecondary,
+    _ => AppColors.warning,
+  };
 
   static IconData icon(BankTransaction tx) => switch (tx.type) {
-        TransactionType.deposit => Icons.south_west_rounded,
-        TransactionType.withdrawal => Icons.local_atm_outlined,
-        TransactionType.fee => Icons.receipt_outlined,
-        TransactionType.reversal => Icons.undo_rounded,
-        TransactionType.qrPayment => Icons.qr_code_2_rounded,
-        TransactionType.billPayment => Icons.lightbulb_outline,
-        TransactionType.topup => Icons.phone_android_rounded,
-        _ => tx.isDebit ? Icons.north_east_rounded : Icons.south_west_rounded,
-      };
+    TransactionType.deposit => Icons.south_west_rounded,
+    TransactionType.withdrawal => Icons.local_atm_outlined,
+    TransactionType.fee => Icons.receipt_outlined,
+    TransactionType.reversal => Icons.undo_rounded,
+    TransactionType.qrPayment => Icons.qr_code_2_rounded,
+    TransactionType.billPayment => Icons.lightbulb_outline,
+    TransactionType.topup => Icons.phone_android_rounded,
+    _ => tx.isDebit ? Icons.north_east_rounded : Icons.south_west_rounded,
+  };
 
   static String title(AppLocalizations l10n, BankTransaction tx) {
     final name = tx.counterpartyName;

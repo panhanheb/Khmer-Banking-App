@@ -28,6 +28,5 @@ class SubmitTransferUseCase {
     TransferRequest request, {
     required String pin,
     required String idempotencyKey,
-  }) =>
-      _repository.submit(request, pin: pin, idempotencyKey: idempotencyKey);
+  }) => _repository.submit(request, pin: pin, idempotencyKey: idempotencyKey);
 }

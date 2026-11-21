@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/widgets/widgets.dart';
@@ -22,7 +22,7 @@ class AccountsPage extends StatelessWidget {
         actions: [
           IconButton(
             tooltip: l10n.openAccount,
-            onPressed: () => context.push(Routes.openAccount),
+            onPressed: () => context.pushPage(Pages.openAccount()),
             icon: const Icon(Icons.add),
           ),
         ],
@@ -34,9 +34,8 @@ class AccountsPage extends StatelessWidget {
               return AppErrorWidget(
                 message: localizedError(l10n, state.error!),
                 retryLabel: l10n.commonRetry,
-                onRetry: () => context
-                    .read<AccountsBloc>()
-                    .add(const AccountsRequested()),
+                onRetry: () =>
+                    context.read<AccountsBloc>().add(const AccountsRequested()),
               );
             }
             if (state.status.isLoading || state.status == LoadStatus.initial) {
@@ -54,7 +53,7 @@ class AccountsPage extends StatelessWidget {
               icon: Icons.account_balance_wallet_outlined,
               title: l10n.noAccountsYet,
               action: FilledButton.icon(
-                onPressed: () => context.push(Routes.openAccount),
+                onPressed: () => context.pushPage(Pages.openAccount()),
                 icon: const Icon(Icons.add),
                 label: Text(l10n.openAccount),
               ),
@@ -75,9 +74,8 @@ class AccountsPage extends StatelessWidget {
                 final account = state.accounts[i];
                 return BankAccountCard(
                   account: account,
-                  onTap: () => context.push(
-                    Routes.accountDetail(account.id),
-                    extra: account,
+                  onTap: () => context.pushPage(
+                    Pages.accountDetail(account.id, initial: account),
                   ),
                 );
               },

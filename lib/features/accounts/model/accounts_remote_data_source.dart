@@ -30,7 +30,9 @@ class AccountsRemoteDataSource {
     required int size,
     required TransactionFilter filter,
   }) async {
-    final query = filter.toQuery()..remove('currency')..remove('q');
+    final query = filter.toQuery()
+      ..remove('currency')
+      ..remove('q');
     final data = await _client.get(
       '/accounts/$accountId/transactions',
       query: {'page': page, 'size': size, ...query},

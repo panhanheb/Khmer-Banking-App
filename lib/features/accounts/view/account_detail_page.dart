@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
-import '../../../app/routes.dart';
+import '../../../app/navigation.dart';
+import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
 import '../../../core/l10n/l10n.dart';
 import '../../../core/theme/app_colors.dart';
@@ -34,9 +34,9 @@ class AccountDetailPage extends StatelessWidget {
               return AppErrorWidget(
                 message: localizedError(l10n, state.error!),
                 retryLabel: l10n.commonRetry,
-                onRetry: () => context
-                    .read<AccountDetailBloc>()
-                    .add(const AccountDetailRequested()),
+                onRetry: () => context.read<AccountDetailBloc>().add(
+                  const AccountDetailRequested(),
+                ),
               );
             }
             return Padding(
@@ -134,7 +134,10 @@ class _AccountSummary extends StatelessWidget {
                 ),
                 DetailRow(
                   label: l10n.ledgerBalance,
-                  value: MoneyFormatter.format(account.balance, account.currency),
+                  value: MoneyFormatter.format(
+                    account.balance,
+                    account.currency,
+                  ),
                 ),
                 DetailRow(
                   label: l10n.accountType,
@@ -164,7 +167,8 @@ class _AccountSummary extends StatelessWidget {
           label: l10n.actionTransfer,
           icon: Icons.send_rounded,
           onPressed: account.isActive
-              ? () => context.go(Routes.transferFrom(account.id))
+              ? () =>
+                    context.pushPage(Pages.transfer(fromAccountId: account.id))
               : null,
         ),
         const SizedBox(height: 8),

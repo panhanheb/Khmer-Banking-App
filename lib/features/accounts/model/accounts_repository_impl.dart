@@ -27,11 +27,10 @@ class AccountsRepositoryImpl implements AccountsRepository {
     int page = 0,
     int size = 20,
     TransactionFilter filter = const TransactionFilter(),
-  }) =>
-      _remote.getAccountTransactions(
-        accountId,
-        page: page,
-        size: size,
-        filter: filter,
-      );
+  }) => _remote.getAccountTransactions(
+    accountId,
+    page: page,
+    size: size,
+    filter: filter,
+  );
 }

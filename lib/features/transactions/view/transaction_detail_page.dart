@@ -108,7 +108,10 @@ class _Details extends StatelessWidget {
           Card(
             color: AppColors.warning.withValues(alpha: 0.1),
             child: ListTile(
-              leading: const Icon(Icons.science_outlined, color: AppColors.warning),
+              leading: const Icon(
+                Icons.science_outlined,
+                color: AppColors.warning,
+              ),
               title: Text(l10n.simulatedNotice),
             ),
           ),
@@ -144,7 +147,8 @@ class _Details extends StatelessWidget {
                     label: l10n.counterparty,
                     value: [
                       tx.counterpartyName!,
-                      if (tx.counterpartyAccount != null) tx.counterpartyAccount!,
+                      if (tx.counterpartyAccount != null)
+                        tx.counterpartyAccount!,
                     ].join('\n'),
                   ),
                 if (tx.description != null && tx.description!.isNotEmpty)

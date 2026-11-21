@@ -44,10 +44,12 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
           : null,
     );
     if (range != null) {
-      setState(() => _filter = _filter.copyWith(
-            from: () => range.start,
-            to: () => range.end,
-          ));
+      setState(
+        () => _filter = _filter.copyWith(
+          from: () => range.start,
+          to: () => range.end,
+        ),
+      );
     }
   }
 
@@ -58,16 +60,16 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
     final locale = context.languageCode;
 
     Widget section(String title, List<Widget> chips) => Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title, style: theme.textTheme.titleSmall),
-              const SizedBox(height: 8),
-              Wrap(spacing: 8, runSpacing: 8, children: chips),
-            ],
-          ),
-        );
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: theme.textTheme.titleSmall),
+          const SizedBox(height: 8),
+          Wrap(spacing: 8, runSpacing: 8, children: chips),
+        ],
+      ),
+    );
 
     ChoiceChip chip(String label, bool selected, VoidCallback onTap) =>
         ChoiceChip(
@@ -89,30 +91,60 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
           children: [
             Text(
               l10n.filters,
-              style: theme.textTheme.titleLarge
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: theme.textTheme.titleLarge?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 16),
             section(l10n.filterType, [
-              chip(l10n.commonAll, _filter.type == null,
-                  () => setState(() => _filter = _filter.copyWith(type: () => null))),
+              chip(
+                l10n.commonAll,
+                _filter.type == null,
+                () => setState(
+                  () => _filter = _filter.copyWith(type: () => null),
+                ),
+              ),
               for (final t in TransactionType.all)
-                chip(TxPresenter.typeLabel(l10n, t), _filter.type == t,
-                    () => setState(() => _filter = _filter.copyWith(type: () => t))),
+                chip(
+                  TxPresenter.typeLabel(l10n, t),
+                  _filter.type == t,
+                  () =>
+                      setState(() => _filter = _filter.copyWith(type: () => t)),
+                ),
             ]),
             section(l10n.filterStatus, [
-              chip(l10n.commonAll, _filter.status == null,
-                  () => setState(() => _filter = _filter.copyWith(status: () => null))),
+              chip(
+                l10n.commonAll,
+                _filter.status == null,
+                () => setState(
+                  () => _filter = _filter.copyWith(status: () => null),
+                ),
+              ),
               for (final s in TransactionStatus.all)
-                chip(TxPresenter.statusLabel(l10n, s), _filter.status == s,
-                    () => setState(() => _filter = _filter.copyWith(status: () => s))),
+                chip(
+                  TxPresenter.statusLabel(l10n, s),
+                  _filter.status == s,
+                  () => setState(
+                    () => _filter = _filter.copyWith(status: () => s),
+                  ),
+                ),
             ]),
             section(l10n.filterCurrency, [
-              chip(l10n.commonAll, _filter.currency == null,
-                  () => setState(() => _filter = _filter.copyWith(currency: () => null))),
+              chip(
+                l10n.commonAll,
+                _filter.currency == null,
+                () => setState(
+                  () => _filter = _filter.copyWith(currency: () => null),
+                ),
+              ),
               for (final c in Currencies.all)
-                chip(c, _filter.currency == c,
-                    () => setState(() => _filter = _filter.copyWith(currency: () => c))),
+                chip(
+                  c,
+                  _filter.currency == c,
+                  () => setState(
+                    () => _filter = _filter.copyWith(currency: () => c),
+                  ),
+                ),
             ]),
             section(l10n.filterDateRange, [
               ActionChip(
@@ -124,10 +156,12 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
                 ActionChip(
                   avatar: const Icon(Icons.close, size: 18),
                   label: Text(l10n.commonReset),
-                  onPressed: () => setState(() => _filter = _filter.copyWith(
-                        from: () => null,
-                        to: () => null,
-                      )),
+                  onPressed: () => setState(
+                    () => _filter = _filter.copyWith(
+                      from: () => null,
+                      to: () => null,
+                    ),
+                  ),
                 ),
             ]),
             const SizedBox(height: 8),
@@ -137,8 +171,9 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
                   child: AppButton(
                     label: l10n.commonReset,
                     variant: AppButtonVariant.outline,
-                    onPressed: () => Navigator.of(context)
-                        .pop(TransactionFilter(query: widget.initial.query)),
+                    onPressed: () => Navigator.of(
+                      context,
+                    ).pop(TransactionFilter(query: widget.initial.query)),
                   ),
                 ),
                 const SizedBox(width: 12),

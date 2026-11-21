@@ -14,12 +14,12 @@ enum Flavor { dev, sit, uat, preprod, prod }
 extension FlavorX on Flavor {
   /// Firebase app registered for this environment in `khmer-flutter-bank`.
   FirebaseOptions get firebaseOptions => switch (this) {
-        Flavor.dev => dev.DefaultFirebaseOptions.currentPlatform,
-        Flavor.sit => sit.DefaultFirebaseOptions.currentPlatform,
-        Flavor.uat => uat.DefaultFirebaseOptions.currentPlatform,
-        Flavor.preprod => preprod.DefaultFirebaseOptions.currentPlatform,
-        Flavor.prod => prod.DefaultFirebaseOptions.currentPlatform,
-      };
+    Flavor.dev => dev.DefaultFirebaseOptions.currentPlatform,
+    Flavor.sit => sit.DefaultFirebaseOptions.currentPlatform,
+    Flavor.uat => uat.DefaultFirebaseOptions.currentPlatform,
+    Flavor.preprod => preprod.DefaultFirebaseOptions.currentPlatform,
+    Flavor.prod => prod.DefaultFirebaseOptions.currentPlatform,
+  };
 
   bool get isProd => this == Flavor.prod;
 }

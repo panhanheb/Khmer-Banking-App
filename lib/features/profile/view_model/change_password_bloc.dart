@@ -11,8 +11,8 @@ export 'change_password_state.dart';
 class ChangePasswordBloc
     extends Bloc<ChangePasswordEvent, ChangePasswordState> {
   ChangePasswordBloc({required ChangePasswordUseCase changePassword})
-      : _changePassword = changePassword,
-        super(const ChangePasswordState()) {
+    : _changePassword = changePassword,
+      super(const ChangePasswordState()) {
     on<ChangePasswordSubmitted>(_onSubmitted);
   }
 

@@ -75,19 +75,19 @@ class BankTransaction extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
-        reference,
-        type,
-        status,
-        direction,
-        amount,
-        fee,
-        currency,
-        description,
-        counterpartyName,
-        counterpartyAccount,
-        accountId,
-        simulated,
-        createdAt,
-      ];
+    id,
+    reference,
+    type,
+    status,
+    direction,
+    amount,
+    fee,
+    currency,
+    description,
+    counterpartyName,
+    counterpartyAccount,
+    accountId,
+    simulated,
+    createdAt,
+  ];
 }

@@ -10,10 +10,12 @@ export 'open_account_event.dart';
 export 'open_account_state.dart';
 
 class OpenAccountBloc extends Bloc<OpenAccountEvent, OpenAccountState> {
-  OpenAccountBloc({required OpenAccountUseCase openAccount, AppEventBus? eventBus})
-      : _openAccount = openAccount,
-        _eventBus = eventBus,
-        super(const OpenAccountState()) {
+  OpenAccountBloc({
+    required OpenAccountUseCase openAccount,
+    AppEventBus? eventBus,
+  }) : _openAccount = openAccount,
+       _eventBus = eventBus,
+       super(const OpenAccountState()) {
     on<OpenAccountSubmitted>(_onSubmitted);
   }
 

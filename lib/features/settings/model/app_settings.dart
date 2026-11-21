@@ -19,12 +19,11 @@ class AppSettings extends Equatable {
     String? languageCode,
     ThemeMode? themeMode,
     bool? biometricEnabled,
-  }) =>
-      AppSettings(
-        languageCode: languageCode ?? this.languageCode,
-        themeMode: themeMode ?? this.themeMode,
-        biometricEnabled: biometricEnabled ?? this.biometricEnabled,
-      );
+  }) => AppSettings(
+    languageCode: languageCode ?? this.languageCode,
+    themeMode: themeMode ?? this.themeMode,
+    biometricEnabled: biometricEnabled ?? this.biometricEnabled,
+  );
 
   @override
   List<Object?> get props => [languageCode, themeMode, biometricEnabled];

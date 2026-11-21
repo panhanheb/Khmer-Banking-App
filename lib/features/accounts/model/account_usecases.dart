@@ -39,11 +39,10 @@ class GetAccountTransactionsUseCase {
     int page = 0,
     int size = 20,
     TransactionFilter filter = const TransactionFilter(),
-  }) =>
-      _repository.getAccountTransactions(
-        accountId,
-        page: page,
-        size: size,
-        filter: filter,
-      );
+  }) => _repository.getAccountTransactions(
+    accountId,
+    page: page,
+    size: size,
+    filter: filter,
+  );
 }
