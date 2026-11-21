@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/l10n.dart';
+import '../../../../core/language/language.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/utils/money.dart';
-import '../../../../core/widgets/app_button.dart';
 import '../../model/bank_transaction.dart';
 import '../../model/transaction_filter.dart';
 import 'transaction_presenter.dart';
+import '../../../../core/widgets/widgets.dart';
 
 /// Bottom sheet editing type / status / currency / date range.
 class TransactionFilterSheet extends StatefulWidget {
@@ -55,7 +55,6 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     final locale = context.languageCode;
 
@@ -64,7 +63,7 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: theme.textTheme.titleSmall),
+          AppLabel(title, style: theme.textTheme.titleSmall),
           const SizedBox(height: 8),
           Wrap(spacing: 8, runSpacing: 8, children: chips),
         ],
@@ -73,14 +72,14 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
 
     ChoiceChip chip(String label, bool selected, VoidCallback onTap) =>
         ChoiceChip(
-          label: Text(label),
+          label: AppLabel(label),
           selected: selected,
           onSelected: (_) => onTap(),
         );
 
     final dateLabel = _filter.from != null && _filter.to != null
         ? '${DateFormatter.date(_filter.from!, locale)} – ${DateFormatter.date(_filter.to!, locale)}'
-        : l10n.selectDateRange;
+        : 'selectDateRange'.tr;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
@@ -89,16 +88,16 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              l10n.filters,
+            AppLabel(
+              'filters'.tr,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 16),
-            section(l10n.filterType, [
+            section('filterType'.tr, [
               chip(
-                l10n.commonAll,
+                'commonAll'.tr,
                 _filter.type == null,
                 () => setState(
                   () => _filter = _filter.copyWith(type: () => null),
@@ -106,15 +105,15 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
               ),
               for (final t in TransactionType.all)
                 chip(
-                  TxPresenter.typeLabel(l10n, t),
+                  TxPresenter.typeLabel(t),
                   _filter.type == t,
                   () =>
                       setState(() => _filter = _filter.copyWith(type: () => t)),
                 ),
             ]),
-            section(l10n.filterStatus, [
+            section('filterStatus'.tr, [
               chip(
-                l10n.commonAll,
+                'commonAll'.tr,
                 _filter.status == null,
                 () => setState(
                   () => _filter = _filter.copyWith(status: () => null),
@@ -122,16 +121,16 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
               ),
               for (final s in TransactionStatus.all)
                 chip(
-                  TxPresenter.statusLabel(l10n, s),
+                  TxPresenter.statusLabel(s),
                   _filter.status == s,
                   () => setState(
                     () => _filter = _filter.copyWith(status: () => s),
                   ),
                 ),
             ]),
-            section(l10n.filterCurrency, [
+            section('filterCurrency'.tr, [
               chip(
-                l10n.commonAll,
+                'commonAll'.tr,
                 _filter.currency == null,
                 () => setState(
                   () => _filter = _filter.copyWith(currency: () => null),
@@ -146,16 +145,16 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
                   ),
                 ),
             ]),
-            section(l10n.filterDateRange, [
+            section('filterDateRange'.tr, [
               ActionChip(
                 avatar: const Icon(Icons.date_range, size: 18),
-                label: Text(dateLabel),
+                label: AppLabel(dateLabel),
                 onPressed: _pickDates,
               ),
               if (_filter.from != null)
                 ActionChip(
                   avatar: const Icon(Icons.close, size: 18),
-                  label: Text(l10n.commonReset),
+                  label: AppLabel('commonReset'.tr),
                   onPressed: () => setState(
                     () => _filter = _filter.copyWith(
                       from: () => null,
@@ -169,7 +168,7 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
               children: [
                 Expanded(
                   child: AppButton(
-                    label: l10n.commonReset,
+                    label: 'commonReset'.tr,
                     variant: AppButtonVariant.outline,
                     onPressed: () => Navigator.of(
                       context,
@@ -179,7 +178,7 @@ class _TransactionFilterSheetState extends State<TransactionFilterSheet> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: AppButton(
-                    label: l10n.commonApply,
+                    label: 'commonApply'.tr,
                     onPressed: () => Navigator.of(context).pop(_filter),
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'app_label.dart';
 
 /// Section title with an optional trailing action ("See all").
 class SectionHeader extends StatelessWidget {
@@ -20,16 +21,15 @@ class SectionHeader extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
+            child: AppLabel(
               title,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: Theme.of(
+                context,
+              ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
             ),
           ),
           if (actionLabel != null)
-            TextButton(onPressed: onAction, child: Text(actionLabel!)),
+            TextButton(onPressed: onAction, child: AppLabel(actionLabel!)),
         ],
       ),
     );
@@ -61,7 +61,7 @@ class DetailRow extends StatelessWidget {
         children: [
           Expanded(
             flex: 4,
-            child: Text(
+            child: AppLabel(
               label,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
@@ -71,13 +71,18 @@ class DetailRow extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             flex: 6,
-            child: Text(
+            child: AppLabel(
               value,
               textAlign: TextAlign.end,
-              style: (emphasize
-                      ? theme.textTheme.titleMedium
-                      : theme.textTheme.bodyLarge)
-                  ?.copyWith(fontWeight: emphasize ? FontWeight.w700 : FontWeight.w500),
+              style:
+                  (emphasize
+                          ? theme.textTheme.titleMedium
+                          : theme.textTheme.bodyLarge)
+                      ?.copyWith(
+                        fontWeight: emphasize
+                            ? FontWeight.w700
+                            : FontWeight.w500,
+                      ),
             ),
           ),
           if (trailing != null) ...[const SizedBox(width: 4), trailing!],

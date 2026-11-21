@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'app_button.dart';
+import 'app_label.dart';
 
 /// Modal bottom sheet asking the user to confirm an action.
 class ConfirmationBottomSheet extends StatelessWidget {
@@ -56,7 +57,9 @@ class ConfirmationBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final accent = destructive ? theme.colorScheme.error : theme.colorScheme.primary;
+    final accent = destructive
+        ? theme.colorScheme.error
+        : theme.colorScheme.primary;
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
       child: Column(
@@ -72,15 +75,16 @@ class ConfirmationBottomSheet extends StatelessWidget {
               child: Icon(icon, color: accent, size: 32),
             ),
           const SizedBox(height: 12),
-          Text(
+          AppLabel(
             title,
             textAlign: TextAlign.center,
-            style: theme.textTheme.titleLarge
-                ?.copyWith(fontWeight: FontWeight.w700),
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.w700,
+            ),
           ),
           if (message != null) ...[
             const SizedBox(height: 8),
-            Text(
+            AppLabel(
               message!,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
@@ -92,8 +96,9 @@ class ConfirmationBottomSheet extends StatelessWidget {
           const SizedBox(height: 24),
           AppButton(
             label: confirmLabel,
-            variant:
-                destructive ? AppButtonVariant.danger : AppButtonVariant.primary,
+            variant: destructive
+                ? AppButtonVariant.danger
+                : AppButtonVariant.primary,
             onPressed: () => Navigator.of(context).pop(true),
           ),
           const SizedBox(height: 8),

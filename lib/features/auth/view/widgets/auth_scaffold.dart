@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/l10n/l10n.dart';
+import '../../../../core/language/language.dart';
 import '../../../../core/widgets/brand_logo.dart';
 import '../../../settings/view_model/settings_bloc.dart';
+import '../../../../core/widgets/widgets.dart';
 
 /// Shared layout for the unauthenticated screens.
 class AuthScaffold extends StatelessWidget {
@@ -44,7 +45,7 @@ class AuthScaffold extends StatelessWidget {
                     const Center(child: BrandLogo(size: 64)),
                     const SizedBox(height: 20),
                   ],
-                  Text(
+                  AppLabel(
                     title,
                     textAlign: showLogo ? TextAlign.center : TextAlign.start,
                     style: theme.textTheme.headlineSmall?.copyWith(
@@ -53,7 +54,7 @@ class AuthScaffold extends StatelessWidget {
                   ),
                   if (subtitle != null) ...[
                     const SizedBox(height: 6),
-                    Text(
+                    AppLabel(
                       subtitle!,
                       textAlign: showLogo ? TextAlign.center : TextAlign.start,
                       style: theme.textTheme.bodyMedium?.copyWith(
@@ -85,9 +86,7 @@ class LanguageToggle extends StatelessWidget {
         SettingsLanguageChanged(isKm ? 'en' : 'km'),
       ),
       icon: const Icon(Icons.translate, size: 18),
-      label: Text(
-        isKm ? context.l10n.languageEnglish : context.l10n.languageKhmer,
-      ),
+      label: AppLabel(isKm ? 'languageEnglish'.tr : 'languageKhmer'.tr),
     );
   }
 }

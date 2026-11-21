@@ -1,6 +1,7 @@
 export 'account_card.dart';
 export 'app_bottom_navigation.dart';
 export 'app_button.dart';
+export 'app_label.dart';
 export 'app_text_field.dart';
 export 'badges.dart';
 export 'balance_card.dart';

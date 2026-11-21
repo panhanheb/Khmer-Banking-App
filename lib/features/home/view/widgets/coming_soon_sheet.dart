@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../../../../core/l10n/l10n.dart';
-import '../../../../core/widgets/app_button.dart';
+import '../../../../core/language/language.dart';
+import '../../../../core/widgets/widgets.dart';
 
 /// Shown for features whose backend is not live yet (QR, bills, top-up…).
 /// These require licensed external integrations (see docs/ARCHITECTURE.md §6).
@@ -12,7 +12,6 @@ Future<void> showComingSoonSheet(BuildContext context, String feature) {
     context: context,
     useSafeArea: true,
     builder: (context) {
-      final l10n = context.l10n;
       final theme = Theme.of(context);
       return Padding(
         padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
@@ -32,15 +31,15 @@ Future<void> showComingSoonSheet(BuildContext context, String feature) {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
-              l10n.comingSoonTitle,
+            AppLabel(
+              'comingSoonTitle'.tr,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w700,
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              l10n.comingSoonMessage(feature),
+            AppLabel(
+              'comingSoonMessage'.trParams({'feature': feature}),
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
@@ -48,7 +47,7 @@ Future<void> showComingSoonSheet(BuildContext context, String feature) {
             ),
             const SizedBox(height: 24),
             AppButton(
-              label: l10n.commonOk,
+              label: 'commonOk'.tr,
               onPressed: () => Navigator.of(context).pop(),
             ),
           ],

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/di.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/security/biometric_service.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../../core/widgets/brand_logo.dart';
@@ -32,7 +32,7 @@ class _LockPageState extends State<LockPage> {
     if (_busy) return;
     setState(() => _busy = true);
     final ok = await sl<BiometricService>().authenticate(
-      context.l10n.biometricReasonUnlock,
+      'biometricReasonUnlock'.tr,
     );
     if (!mounted) return;
     setState(() {
@@ -49,7 +49,6 @@ class _LockPageState extends State<LockPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     return Scaffold(
       body: SafeArea(
@@ -60,8 +59,8 @@ class _LockPageState extends State<LockPage> {
               const Spacer(),
               const BrandLogo(size: 80),
               const SizedBox(height: 24),
-              Text(
-                l10n.lockTitle,
+              AppLabel(
+                'lockTitle'.tr,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
@@ -75,20 +74,20 @@ class _LockPageState extends State<LockPage> {
               ),
               if (_failed) ...[
                 const SizedBox(height: 12),
-                Text(
-                  l10n.biometricFailed,
+                AppLabel(
+                  'biometricFailed'.tr,
                   style: TextStyle(color: theme.colorScheme.error),
                 ),
               ],
               const Spacer(),
               AppButton(
-                label: l10n.lockUnlockButton,
+                label: 'lockUnlockButton'.tr,
                 isLoading: _busy,
                 onPressed: _unlock,
               ),
               const SizedBox(height: 8),
               AppButton(
-                label: l10n.lockUsePassword,
+                label: 'lockUsePassword'.tr,
                 variant: AppButtonVariant.text,
                 onPressed: () =>
                     context.read<AuthBloc>().add(const AuthLogoutRequested()),

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/navigation.dart';
 
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/widgets.dart';
 import '../view_model/change_password_bloc.dart';
@@ -44,7 +44,6 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocConsumer<ChangePasswordBloc, ChangePasswordState>(
       listener: (context, state) {
         if (state.status.isSuccess) {
@@ -52,19 +51,19 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           TextInput.finishAutofillContext();
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text(l10n.passwordChanged)));
+          ).showSnackBar(SnackBar(content: AppLabel('passwordChanged'.tr)));
           context.popPage();
         } else if (state.status.isFailure) {
           HapticFeedback.heavyImpact();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(localizedError(l10n, state.error!))),
+            SnackBar(content: AppLabel(localizedError(state.error!))),
           );
         }
       },
       builder: (context, state) {
         final busy = state.status.isLoading;
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.changePassword)),
+          appBar: AppBar(title: AppLabel('changePassword'.tr)),
           body: AutofillGroup(
             child: Form(
               key: _formKey,
@@ -73,21 +72,21 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                 children: [
                   AppTextField(
                     controller: _current,
-                    label: l10n.currentPasswordLabel,
+                    label: 'currentPasswordLabel'.tr,
                     prefixIcon: Icons.lock_outline,
                     obscure: true,
                     enabled: !busy,
                     textInputAction: TextInputAction.next,
                     autofillHints: const [AutofillHints.password],
                     validator: (v) => (v == null || v.isEmpty)
-                        ? l10n.validationRequired
+                        ? 'validationRequired'.tr
                         : null,
                   ),
                   const SizedBox(height: 16),
                   AppTextField(
                     controller: _new,
-                    label: l10n.newPasswordLabel,
-                    helperText: l10n.passwordPolicyHint,
+                    label: 'newPasswordLabel'.tr,
+                    helperText: 'passwordPolicyHint'.tr,
                     prefixIcon: Icons.lock_reset,
                     obscure: true,
                     enabled: !busy,
@@ -95,17 +94,17 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     autofillHints: const [AutofillHints.newPassword],
                     validator: (v) {
                       if (v == null || v.isEmpty) {
-                        return l10n.validationRequired;
+                        return 'validationRequired'.tr;
                       }
                       return Validators.isStrongPassword(v)
                           ? null
-                          : l10n.validationPassword;
+                          : 'validationPassword'.tr;
                     },
                   ),
                   const SizedBox(height: 16),
                   AppTextField(
                     controller: _confirm,
-                    label: l10n.confirmPasswordLabel,
+                    label: 'confirmPasswordLabel'.tr,
                     prefixIcon: Icons.lock_reset,
                     obscure: true,
                     enabled: !busy,
@@ -113,11 +112,11 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                     autofillHints: const [AutofillHints.newPassword],
                     onSubmitted: (_) => _submit(),
                     validator: (v) =>
-                        v == _new.text ? null : l10n.validationPasswordMatch,
+                        v == _new.text ? null : 'validationPasswordMatch'.tr,
                   ),
                   const SizedBox(height: 24),
                   AppButton(
-                    label: l10n.commonSave,
+                    label: 'commonSave'.tr,
                     isLoading: busy,
                     onPressed: _submit,
                   ),

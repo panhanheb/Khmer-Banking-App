@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../app/navigation.dart';
 import '../../../../app/pages.dart';
 import '../../../../core/bloc/load_status.dart';
-import '../../../../core/l10n/l10n.dart';
+import '../../../../core/language/language.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../model/bank_transaction.dart';
@@ -21,7 +21,6 @@ class TransactionsSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocBuilder<TransactionsBloc, TransactionsState>(
       builder: (context, state) {
         if (state.items.isEmpty) {
@@ -35,8 +34,8 @@ class TransactionsSliver extends StatelessWidget {
             return SliverFillRemaining(
               hasScrollBody: false,
               child: AppErrorWidget(
-                message: localizedError(l10n, state.error!),
-                retryLabel: l10n.commonRetry,
+                message: localizedError(state.error!),
+                retryLabel: 'commonRetry'.tr,
                 onRetry: () => context.read<TransactionsBloc>().add(
                   const TransactionsRefreshed(),
                 ),
@@ -51,8 +50,8 @@ class TransactionsSliver extends StatelessWidget {
                   emptyTitle ??
                   (state.filter.hasActiveFilters ||
                           (state.filter.query ?? '').isNotEmpty
-                      ? l10n.noTransactionsFound
-                      : l10n.noTransactionsYet),
+                      ? 'noTransactionsFound'.tr
+                      : 'noTransactionsYet'.tr),
             ),
           );
         }
@@ -69,7 +68,7 @@ class TransactionsSliver extends StatelessWidget {
                   const TransactionsNextPageRequested(),
                 ),
                 icon: const Icon(Icons.refresh),
-                label: Text(l10n.commonLoadMoreFailed),
+                label: AppLabel('commonLoadMoreFailed'.tr),
               )
             : const SizedBox(height: 24);
         return SliverPadding(
@@ -97,7 +96,7 @@ class TransactionsSliver extends StatelessWidget {
           rows.add(
             Padding(
               padding: const EdgeInsets.only(top: 16, bottom: 4),
-              child: Text(
+              child: AppLabel(
                 day,
                 style: theme.textTheme.labelLarge?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,

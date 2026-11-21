@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../core/l10n/l10n.dart';
+import '../core/language/language.dart';
 import '../core/widgets/app_bottom_navigation.dart';
 import 'navigation.dart';
 import 'pages.dart';
@@ -31,7 +31,6 @@ class _MainShellState extends State<MainShell> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return ValueListenableBuilder<MainTab>(
       valueListenable: mainTab,
       builder: (context, current, _) {
@@ -51,22 +50,22 @@ class _MainShellState extends State<MainShell> {
               AppNavItem(
                 icon: Icons.home_outlined,
                 selectedIcon: Icons.home_rounded,
-                label: l10n.navHome,
+                label: 'navHome'.tr,
               ),
               AppNavItem(
                 icon: Icons.receipt_long_outlined,
                 selectedIcon: Icons.receipt_long,
-                label: l10n.navTransactions,
+                label: 'navTransactions'.tr,
               ),
               AppNavItem(
                 icon: Icons.swap_horiz_outlined,
                 selectedIcon: Icons.swap_horiz_rounded,
-                label: l10n.navTransfer,
+                label: 'navTransfer'.tr,
               ),
               AppNavItem(
                 icon: Icons.person_outline,
                 selectedIcon: Icons.person,
-                label: l10n.navProfile,
+                label: 'navProfile'.tr,
               ),
             ],
           ),

@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../view_model/transactions_bloc.dart';
 import 'widgets/transaction_filter_sheet.dart';
 import 'widgets/transactions_sliver.dart';
+import '../../../core/widgets/widgets.dart';
 
 /// Full history with search, filters and infinite scroll.
 class TransactionsPage extends StatefulWidget {
@@ -56,9 +57,8 @@ class _TransactionsPageState extends State<TransactionsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.transactionsTitle)),
+      appBar: AppBar(title: AppLabel('transactionsTitle'.tr)),
       body: InfiniteScrollListener(
         child: RefreshIndicator(
           onRefresh: () async {
@@ -80,7 +80,7 @@ class _TransactionsPageState extends State<TransactionsPage> {
                           onChanged: _onSearchChanged,
                           textInputAction: TextInputAction.search,
                           decoration: InputDecoration(
-                            hintText: l10n.searchTransactionsHint,
+                            hintText: 'searchTransactionsHint'.tr,
                             prefixIcon: const Icon(Icons.search),
                             isDense: true,
                           ),
@@ -93,9 +93,9 @@ class _TransactionsPageState extends State<TransactionsPage> {
                           final count = state.filter.activeFilterCount;
                           return Badge(
                             isLabelVisible: count > 0,
-                            label: Text('$count'),
+                            label: AppLabel('$count'),
                             child: IconButton.filledTonal(
-                              tooltip: l10n.filters,
+                              tooltip: 'filters'.tr,
                               onPressed: _openFilters,
                               icon: const Icon(Icons.tune),
                             ),

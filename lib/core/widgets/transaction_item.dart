@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../utils/money.dart';
 import 'badges.dart';
+import 'app_label.dart';
 
 /// One row in a transaction list.
 class TransactionItem extends StatelessWidget {
@@ -40,7 +41,9 @@ class TransactionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final amountColor = isDebit ? theme.colorScheme.onSurface : AppColors.success;
+    final amountColor = isDebit
+        ? theme.colorScheme.onSurface
+        : AppColors.success;
     final amountText = hidden
         ? MoneyFormatter.hiddenMask
         : MoneyFormatter.format(
@@ -74,12 +77,13 @@ class TransactionItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AppLabel(
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: theme.textTheme.bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.w600),
+                    style: theme.textTheme.bodyLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Wrap(
@@ -87,7 +91,7 @@ class TransactionItem extends StatelessWidget {
                     runSpacing: 4,
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
-                      Text(
+                      AppLabel(
                         subtitle,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
@@ -106,7 +110,7 @@ class TransactionItem extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Text(
+            AppLabel(
               amountText,
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: amountColor,

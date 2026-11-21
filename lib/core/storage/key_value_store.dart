@@ -10,7 +10,7 @@ abstract class KeyValueStore {
 /// Keychain (iOS) / Android Keystore-backed storage.
 class SecureKeyValueStore implements KeyValueStore {
   SecureKeyValueStore([FlutterSecureStorage? storage])
-      : _storage = storage ?? const FlutterSecureStorage();
+    : _storage = storage ?? const FlutterSecureStorage();
 
   final FlutterSecureStorage _storage;
 
@@ -28,7 +28,7 @@ class SecureKeyValueStore implements KeyValueStore {
 /// Volatile store (tests, previews).
 class InMemoryKeyValueStore implements KeyValueStore {
   InMemoryKeyValueStore([Map<String, String>? initial])
-      : _values = {...?initial};
+    : _values = {...?initial};
 
   final Map<String, String> _values;
 

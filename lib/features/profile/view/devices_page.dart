@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/date_formatter.dart';
 import '../../../core/widgets/widgets.dart';
@@ -15,27 +15,26 @@ class DevicesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.devices)),
+      appBar: AppBar(title: AppLabel('devices'.tr)),
       body: BlocConsumer<DevicesBloc, DevicesState>(
         listenWhen: (a, b) =>
             (b.revokedId != null && a.revokedId != b.revokedId) ||
             (b.error != null && b.devices.isNotEmpty && a.error != b.error),
         listener: (context, state) {
           final message = state.error != null
-              ? localizedError(l10n, state.error!)
-              : l10n.deviceRevoked;
+              ? localizedError(state.error!)
+              : 'deviceRevoked'.tr;
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text(message)));
+          ).showSnackBar(SnackBar(content: AppLabel(message)));
         },
         builder: (context, state) {
           if (state.devices.isEmpty) {
             if (state.status.isFailure) {
               return AppErrorWidget(
-                message: localizedError(l10n, state.error!),
-                retryLabel: l10n.commonRetry,
+                message: localizedError(state.error!),
+                retryLabel: 'commonRetry'.tr,
                 onRetry: () =>
                     context.read<DevicesBloc>().add(const DevicesRequested()),
               );
@@ -48,7 +47,7 @@ class DevicesPage extends StatelessWidget {
             }
             return EmptyStateWidget(
               icon: Icons.devices_other,
-              title: l10n.noDevices,
+              title: 'noDevices'.tr,
             );
           }
           return RefreshIndicator(
@@ -87,15 +86,14 @@ class _DeviceTile extends StatelessWidget {
   };
 
   Future<void> _revoke(BuildContext context) async {
-    final l10n = context.l10n;
     final bloc = context.read<DevicesBloc>();
     final confirmed = await ConfirmationBottomSheet.show(
       context,
-      title: l10n.revoke,
-      message: l10n.revokeDeviceConfirm(device.deviceName),
+      title: 'revoke'.tr,
+      message: 'revokeDeviceConfirm'.trParams({'device': device.deviceName}),
       icon: Icons.phonelink_erase,
-      confirmLabel: l10n.revoke,
-      cancelLabel: l10n.commonCancel,
+      confirmLabel: 'revoke'.tr,
+      cancelLabel: 'commonCancel'.tr,
       destructive: true,
     );
     if (confirmed) bloc.add(DeviceRevokeRequested(device.id));
@@ -103,21 +101,23 @@ class _DeviceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     final lastSeen = device.lastSeenAt;
     return Card(
       child: ListTile(
         leading: Icon(_icon, color: theme.colorScheme.primary),
-        title: Text(device.deviceName),
+        title: AppLabel(device.deviceName),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (lastSeen != null)
-              Text(
-                l10n.lastSeen(
-                  DateFormatter.dateTime(lastSeen, context.languageCode),
-                ),
+              AppLabel(
+                'lastSeen'.trParams({
+                  'date': DateFormatter.dateTime(
+                    lastSeen,
+                    context.languageCode,
+                  ),
+                }),
               ),
             if (device.current || device.trusted) ...[
               const SizedBox(height: 4),
@@ -126,11 +126,11 @@ class _DeviceTile extends StatelessWidget {
                 children: [
                   if (device.current)
                     AppBadge(
-                      label: l10n.thisDevice,
+                      label: 'thisDevice'.tr,
                       color: AppColors.royalBlue,
                     ),
                   if (device.trusted)
-                    AppBadge(label: l10n.trusted, color: AppColors.success),
+                    AppBadge(label: 'trusted'.tr, color: AppColors.success),
                 ],
               ),
             ],
@@ -148,7 +148,7 @@ class _DeviceTile extends StatelessWidget {
                   foregroundColor: theme.colorScheme.error,
                 ),
                 onPressed: () => _revoke(context),
-                child: Text(l10n.revoke),
+                child: AppLabel('revoke'.tr),
               ),
       ),
     );

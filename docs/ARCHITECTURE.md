@@ -135,7 +135,7 @@ lib/
 │   ├── storage/                  secure token storage
 │   ├── utils/                    money formatting (decimal strings, no doubles)
 │   └── widgets/                  AppButton, AppTextField, BalanceCard, PinInput, …
-├── l10n/                         app_en.arb, app_km.arb (gen-l10n)
+├── core/language/                en.dart / km.dart maps, 'key'.tr / .trParams
 └── features/<feature>/
     ├── model/                    entities, JSON models, remote data sources,
     │                             repository contracts + impls, use cases
@@ -179,7 +179,7 @@ profile. Mock transactions are flagged `simulated = true` in the database and sh
 | Phase | Scope | Status |
 |---|---|---|
 | 1 | Requirements, architecture, ER design, API contract | ✅ this document, `DATABASE.md`, `API.md` |
-| 2 | Design system (tokens, themes, reusable widgets), Khmer/English l10n | ✅ foundation |
+| 2 | Design system (tokens, themes, reusable widgets), Khmer/English translations | ✅ foundation |
 | 3 | DB schema + migrations, backend foundation, Docker | ✅ |
 | 4 | Auth: register, OTP, login + device MFA, refresh rotation, PIN, lockout, devices | ✅ |
 | 5 | Accounts: open USD/KHR current & savings accounts, balances, history | ✅ |

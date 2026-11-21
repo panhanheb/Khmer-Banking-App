@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'app_label.dart';
 
 enum AppButtonVariant { primary, secondary, outline, text, danger }
 
@@ -59,37 +60,39 @@ class AppButton extends StatelessWidget {
                   Icon(icon, size: 20),
                   const SizedBox(width: 8),
                 ],
-                Flexible(child: Text(label, overflow: TextOverflow.ellipsis)),
+                Flexible(
+                  child: AppLabel(label, overflow: TextOverflow.ellipsis),
+                ),
               ],
             ),
     );
 
     final Widget button = switch (variant) {
       AppButtonVariant.primary => FilledButton(
-          onPressed: enabled ? handlePress : null,
-          child: child,
-        ),
+        onPressed: enabled ? handlePress : null,
+        child: child,
+      ),
       AppButtonVariant.danger => FilledButton(
-          style: FilledButton.styleFrom(backgroundColor: scheme.error),
-          onPressed: enabled ? handlePress : null,
-          child: child,
-        ),
+        style: FilledButton.styleFrom(backgroundColor: scheme.error),
+        onPressed: enabled ? handlePress : null,
+        child: child,
+      ),
       AppButtonVariant.secondary => FilledButton(
-          style: FilledButton.styleFrom(
-            backgroundColor: scheme.secondary,
-            foregroundColor: scheme.onSecondary,
-          ),
-          onPressed: enabled ? handlePress : null,
-          child: child,
+        style: FilledButton.styleFrom(
+          backgroundColor: scheme.secondary,
+          foregroundColor: scheme.onSecondary,
         ),
+        onPressed: enabled ? handlePress : null,
+        child: child,
+      ),
       AppButtonVariant.outline => OutlinedButton(
-          onPressed: enabled ? handlePress : null,
-          child: child,
-        ),
+        onPressed: enabled ? handlePress : null,
+        child: child,
+      ),
       AppButtonVariant.text => TextButton(
-          onPressed: enabled ? handlePress : null,
-          child: child,
-        ),
+        onPressed: enabled ? handlePress : null,
+        child: child,
+      ),
     };
 
     if (!expand) return button;

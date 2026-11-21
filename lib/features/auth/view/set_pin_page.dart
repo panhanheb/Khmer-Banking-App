@@ -6,7 +6,7 @@ import '../../../app/di.dart';
 import '../../../app/navigation.dart';
 import '../../../core/bloc/app_event_bus.dart';
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/widgets/widgets.dart';
 import '../view_model/pin_setup_bloc.dart';
 
@@ -31,14 +31,13 @@ class _SetPinPageState extends State<SetPinPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: AppLabel(
           widget.mode == PinSetupMode.change
-              ? l10n.changePinTitle
-              : l10n.setPinTitle,
+              ? 'changePinTitle'.tr
+              : 'setPinTitle'.tr,
         ),
       ),
       body: BlocConsumer<PinSetupBloc, PinSetupState>(
@@ -50,21 +49,20 @@ class _SetPinPageState extends State<SetPinPage> {
             sl<AppEventBus>().emit(AppEvent.profileChanged);
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text(l10n.pinSetSuccess)));
+            ).showSnackBar(SnackBar(content: AppLabel('pinSetSuccess'.tr)));
             context.popPage(true);
           }
         },
         builder: (context, state) {
           final prompt = switch (state.step) {
-            PinSetupStep.current => l10n.pinEnterCurrent,
-            PinSetupStep.enterNew => l10n.pinEnterNew,
-            PinSetupStep.confirm => l10n.pinConfirmNew,
+            PinSetupStep.current => 'pinEnterCurrent'.tr,
+            PinSetupStep.enterNew => 'pinEnterNew'.tr,
+            PinSetupStep.confirm => 'pinConfirmNew'.tr,
           };
           final error = switch (state.localError) {
-            PinLocalError.weak => l10n.pinWeak,
-            PinLocalError.mismatch => l10n.pinMismatch,
-            null =>
-              state.error == null ? null : localizedError(l10n, state.error!),
+            PinLocalError.weak => 'pinWeak'.tr,
+            PinLocalError.mismatch => 'pinMismatch'.tr,
+            null => state.error == null ? null : localizedError(state.error!),
           };
           return SafeArea(
             child: Column(
@@ -78,7 +76,7 @@ class _SetPinPageState extends State<SetPinPage> {
                 const SizedBox(height: 16),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 200),
-                  child: Text(
+                  child: AppLabel(
                     prompt,
                     key: ValueKey(prompt),
                     textAlign: TextAlign.center,

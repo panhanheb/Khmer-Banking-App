@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/date_formatter.dart';
 import '../../../core/utils/money.dart';
@@ -17,17 +17,16 @@ class TransactionDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.transactionDetails)),
+      appBar: AppBar(title: AppLabel('transactionDetails'.tr)),
       body: BlocBuilder<TransactionDetailBloc, TransactionDetailState>(
         builder: (context, state) {
           final tx = state.transaction;
           if (tx == null) {
             if (state.status.isFailure) {
               return AppErrorWidget(
-                message: localizedError(l10n, state.error!),
-                retryLabel: l10n.commonRetry,
+                message: localizedError(state.error!),
+                retryLabel: 'commonRetry'.tr,
               );
             }
             return Padding(
@@ -49,7 +48,6 @@ class _Details extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     final locale = context.languageCode;
     final statusColor = TxPresenter.statusColor(tx.status);
@@ -72,14 +70,14 @@ class _Details extends StatelessWidget {
                   child: Icon(TxPresenter.icon(tx), color: statusColor),
                 ),
                 const SizedBox(height: 12),
-                Text(
-                  TxPresenter.title(l10n, tx),
+                AppLabel(
+                  TxPresenter.title(tx),
                   textAlign: TextAlign.center,
                   style: theme.textTheme.titleMedium,
                 ),
                 const SizedBox(height: 8),
                 FittedBox(
-                  child: Text(
+                  child: AppLabel(
                     amount,
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.w800,
@@ -93,10 +91,10 @@ class _Details extends StatelessWidget {
                   alignment: WrapAlignment.center,
                   children: [
                     AppBadge(
-                      label: TxPresenter.statusLabel(l10n, tx.status),
+                      label: TxPresenter.statusLabel(tx.status),
                       color: statusColor,
                     ),
-                    if (tx.simulated) AppBadge.simulated(l10n.simulatedBadge),
+                    if (tx.simulated) AppBadge.simulated('simulatedBadge'.tr),
                   ],
                 ),
               ],
@@ -112,7 +110,7 @@ class _Details extends StatelessWidget {
                 Icons.science_outlined,
                 color: AppColors.warning,
               ),
-              title: Text(l10n.simulatedNotice),
+              title: AppLabel('simulatedNotice'.tr),
             ),
           ),
         ],
@@ -123,28 +121,28 @@ class _Details extends StatelessWidget {
             child: Column(
               children: [
                 DetailRow(
-                  label: l10n.reference,
+                  label: 'reference'.tr,
                   value: tx.reference,
                   trailing: IconButton(
                     visualDensity: VisualDensity.compact,
-                    tooltip: l10n.commonCopy,
+                    tooltip: 'commonCopy'.tr,
                     icon: const Icon(Icons.copy, size: 18),
                     onPressed: () {
                       Clipboard.setData(ClipboardData(text: tx.reference));
                       HapticFeedback.selectionClick();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.commonCopied)),
+                        SnackBar(content: AppLabel('commonCopied'.tr)),
                       );
                     },
                   ),
                 ),
                 DetailRow(
-                  label: l10n.filterType,
-                  value: TxPresenter.typeLabel(l10n, tx.type),
+                  label: 'filterType'.tr,
+                  value: TxPresenter.typeLabel(tx.type),
                 ),
                 if (tx.counterpartyName != null)
                   DetailRow(
-                    label: l10n.counterparty,
+                    label: 'counterparty'.tr,
                     value: [
                       tx.counterpartyName!,
                       if (tx.counterpartyAccount != null)
@@ -152,16 +150,16 @@ class _Details extends StatelessWidget {
                     ].join('\n'),
                   ),
                 if (tx.description != null && tx.description!.isNotEmpty)
-                  DetailRow(label: l10n.description, value: tx.description!),
+                  DetailRow(label: 'description'.tr, value: tx.description!),
                 DetailRow(
-                  label: l10n.fee,
+                  label: 'fee'.tr,
                   value: DecimalAmount.tryParse(tx.fee)?.isZero ?? true
-                      ? l10n.free
+                      ? 'free'.tr
                       : MoneyFormatter.format(tx.fee, tx.currency),
                 ),
                 if (tx.createdAt != null)
                   DetailRow(
-                    label: l10n.dateTime,
+                    label: 'dateTime'.tr,
                     value: DateFormatter.dateTime(tx.createdAt!, locale),
                   ),
               ],

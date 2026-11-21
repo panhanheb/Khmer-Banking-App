@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../theme/app_colors.dart';
 import '../utils/money.dart';
+import 'app_label.dart';
 
 /// Card-style bank account tile used in carousels and lists.
 class AccountCard extends StatelessWidget {
@@ -62,12 +63,12 @@ class AccountCard extends StatelessWidget {
               gradient: savings
                   ? AppColors.savingsGradient
                   : (currency == Currencies.khr
-                      ? const LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [AppColors.navy, Color(0xFF3A2E10)],
-                        )
-                      : AppColors.brandGradient),
+                        ? const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [AppColors.navy, Color(0xFF3A2E10)],
+                          )
+                        : AppColors.brandGradient),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
@@ -76,7 +77,7 @@ class AccountCard extends StatelessWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text(
+                      child: AppLabel(
                         title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -96,7 +97,7 @@ class AccountCard extends StatelessWidget {
                         color: AppColors.gold.withValues(alpha: 0.22),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Text(
+                      child: AppLabel(
                         currency,
                         style: const TextStyle(
                           color: AppColors.gold,
@@ -108,7 +109,7 @@ class AccountCard extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 2),
-                Text(
+                AppLabel(
                   statusLabel == null ? typeLabel : '$typeLabel · $statusLabel',
                   style: const TextStyle(color: Colors.white60, fontSize: 12),
                 ),
@@ -116,7 +117,7 @@ class AccountCard extends StatelessWidget {
                 FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: AppLabel(
                     hidden
                         ? MoneyFormatter.hiddenMask
                         : MoneyFormatter.format(balance, currency),
@@ -129,7 +130,7 @@ class AccountCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Text(
+                AppLabel(
                   groupAccountNumber(accountNumber),
                   style: const TextStyle(
                     color: Colors.white70,

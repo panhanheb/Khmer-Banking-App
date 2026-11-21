@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/navigation.dart';
 import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/utils/date_formatter.dart';
 import '../../../core/utils/money.dart';
@@ -23,17 +23,16 @@ class AccountDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.accountDetails)),
+      appBar: AppBar(title: AppLabel('accountDetails'.tr)),
       body: BlocBuilder<AccountDetailBloc, AccountDetailState>(
         builder: (context, state) {
           final account = state.account;
           if (account == null) {
             if (state.status.isFailure) {
               return AppErrorWidget(
-                message: localizedError(l10n, state.error!),
-                retryLabel: l10n.commonRetry,
+                message: localizedError(state.error!),
+                retryLabel: 'commonRetry'.tr,
                 onRetry: () => context.read<AccountDetailBloc>().add(
                   const AccountDetailRequested(),
                 ),
@@ -68,7 +67,7 @@ class AccountDetailPage extends StatelessWidget {
                   SliverPadding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     sliver: SliverToBoxAdapter(
-                      child: SectionHeader(title: l10n.accountHistory),
+                      child: SectionHeader(title: 'accountHistory'.tr),
                     ),
                   ),
                   const TransactionsSliver(),
@@ -89,7 +88,6 @@ class _AccountSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final locale = context.languageCode;
     final statusColor = switch (account.status) {
       AccountStatus.active => AppColors.success,
@@ -107,11 +105,11 @@ class _AccountSummary extends StatelessWidget {
             child: Column(
               children: [
                 DetailRow(
-                  label: l10n.accountNumber,
+                  label: 'accountNumber'.tr,
                   value: AccountCard.groupAccountNumber(account.accountNumber),
                   trailing: IconButton(
                     visualDensity: VisualDensity.compact,
-                    tooltip: l10n.commonCopy,
+                    tooltip: 'commonCopy'.tr,
                     icon: const Icon(Icons.copy, size: 18),
                     onPressed: () {
                       Clipboard.setData(
@@ -119,13 +117,13 @@ class _AccountSummary extends StatelessWidget {
                       );
                       HapticFeedback.selectionClick();
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(l10n.commonCopied)),
+                        SnackBar(content: AppLabel('commonCopied'.tr)),
                       );
                     },
                   ),
                 ),
                 DetailRow(
-                  label: l10n.availableBalance,
+                  label: 'availableBalance'.tr,
                   value: MoneyFormatter.format(
                     account.availableBalance,
                     account.currency,
@@ -133,30 +131,30 @@ class _AccountSummary extends StatelessWidget {
                   emphasize: true,
                 ),
                 DetailRow(
-                  label: l10n.ledgerBalance,
+                  label: 'ledgerBalance'.tr,
                   value: MoneyFormatter.format(
                     account.balance,
                     account.currency,
                   ),
                 ),
                 DetailRow(
-                  label: l10n.accountType,
-                  value: AccountPresenter.typeLabel(l10n, account.type),
+                  label: 'accountType'.tr,
+                  value: AccountPresenter.typeLabel(account.type),
                 ),
                 DetailRow(
-                  label: l10n.accountStatus,
+                  label: 'accountStatus'.tr,
                   value: '',
                   trailing: AppBadge(
-                    label: AccountPresenter.statusLabel(l10n, account.status),
+                    label: AccountPresenter.statusLabel(account.status),
                     color: statusColor,
                   ),
                 ),
                 if (account.openedAt != null)
                   DetailRow(
-                    label: l10n.dateTime,
-                    value: l10n.openedOn(
-                      DateFormatter.date(account.openedAt!, locale),
-                    ),
+                    label: 'dateTime'.tr,
+                    value: 'openedOn'.trParams({
+                      'date': DateFormatter.date(account.openedAt!, locale),
+                    }),
                   ),
               ],
             ),
@@ -164,7 +162,7 @@ class _AccountSummary extends StatelessWidget {
         ),
         const SizedBox(height: 12),
         AppButton(
-          label: l10n.actionTransfer,
+          label: 'actionTransfer'.tr,
           icon: Icons.send_rounded,
           onPressed: account.isActive
               ? () =>

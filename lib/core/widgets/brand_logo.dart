@@ -43,7 +43,11 @@ class _MonogramPainter extends CustomPainter {
       ..strokeJoin = StrokeJoin.round;
 
     // Stem of the K.
-    canvas.drawLine(Offset(w * 0.34, h * 0.26), Offset(w * 0.34, h * 0.74), paint);
+    canvas.drawLine(
+      Offset(w * 0.34, h * 0.26),
+      Offset(w * 0.34, h * 0.74),
+      paint,
+    );
     // Arms shaped like lotus petals.
     final upper = Path()
       ..moveTo(w * 0.36, h * 0.52)

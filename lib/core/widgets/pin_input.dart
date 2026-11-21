@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'app_label.dart';
 
 /// 6-digit transaction PIN entry with its own numeric keypad.
 ///
@@ -60,8 +61,9 @@ class PinInputState extends State<PinInput>
   void didUpdateWidget(covariant PinInput oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.controller != widget.controller) {
-      (oldWidget.controller ?? _ownController)
-          ?.removeListener(_onControllerChanged);
+      (oldWidget.controller ?? _ownController)?.removeListener(
+        _onControllerChanged,
+      );
       _controller.addListener(_onControllerChanged);
     }
     if (widget.errorText != null && widget.errorText != oldWidget.errorText) {
@@ -111,9 +113,8 @@ class PinInputState extends State<PinInput>
         AnimatedBuilder(
           animation: _shake,
           builder: (context, child) {
-            final dx = math.sin(_shake.value * math.pi * 6) *
-                10 *
-                (1 - _shake.value);
+            final dx =
+                math.sin(_shake.value * math.pi * 6) * 10 * (1 - _shake.value);
             return Transform.translate(offset: Offset(dx, 0), child: child);
           },
           child: Row(
@@ -144,7 +145,7 @@ class PinInputState extends State<PinInput>
           height: 36,
           child: Center(
             child: hasError
-                ? Text(
+                ? AppLabel(
                     widget.errorText!,
                     key: const Key('pin_error'),
                     textAlign: TextAlign.center,
@@ -180,13 +181,13 @@ class _Keypad extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget digit(String d) => _KeypadButton(
-          key: Key('pin_key_$d'),
-          onTap: enabled ? () => onDigit(d) : null,
-          child: Text(
-            d,
-            style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
-          ),
-        );
+      key: Key('pin_key_$d'),
+      onTap: enabled ? () => onDigit(d) : null,
+      child: AppLabel(
+        d,
+        style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w600),
+      ),
+    );
 
     final rows = [
       ['1', '2', '3'],
@@ -238,10 +239,9 @@ class _KeypadButton extends StatelessWidget {
         width: 76,
         height: 60,
         child: Material(
-          color: Theme.of(context)
-              .colorScheme
-              .surfaceContainerHighest
-              .withValues(alpha: 0.6),
+          color: Theme.of(
+            context,
+          ).colorScheme.surfaceContainerHighest.withValues(alpha: 0.6),
           borderRadius: BorderRadius.circular(18),
           child: InkWell(
             borderRadius: BorderRadius.circular(18),

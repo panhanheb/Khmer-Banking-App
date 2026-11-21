@@ -120,8 +120,7 @@ class DecimalAmount implements Comparable<DecimalAmount> {
   int get hashCode => round(significantScale).unscaled.hashCode;
 
   /// Integer part (absolute value) as a [BigInt].
-  BigInt get _absIntegerPart =>
-      unscaled.abs() ~/ BigInt.from(10).pow(scale);
+  BigInt get _absIntegerPart => unscaled.abs() ~/ BigInt.from(10).pow(scale);
 
   /// Fraction digits (absolute value), zero padded to [scale].
   String get _fractionDigits {
@@ -249,8 +248,9 @@ class MoneyInput {
   static String? normalize(String raw, String currency) {
     final cleaned = raw.replaceAll(',', '').replaceAll(' ', '').trim();
     if (cleaned.isEmpty || !_typed.hasMatch(cleaned)) return null;
-    final withoutTrailingDot =
-        cleaned.endsWith('.') ? cleaned.substring(0, cleaned.length - 1) : cleaned;
+    final withoutTrailingDot = cleaned.endsWith('.')
+        ? cleaned.substring(0, cleaned.length - 1)
+        : cleaned;
     final parsed = DecimalAmount.tryParse(withoutTrailingDot);
     if (parsed == null || !parsed.isPositive) return null;
     if (parsed.significantScale > Currencies.decimalsOf(currency)) return null;

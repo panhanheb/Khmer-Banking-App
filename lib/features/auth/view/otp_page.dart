@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/widgets.dart';
 import '../view_model/auth_bloc.dart';
@@ -36,14 +36,13 @@ class _OtpPageState extends State<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final isRegistration = widget.args.purpose == OtpPurpose.registration;
     return BlocConsumer<OtpBloc, OtpState>(
       listener: (context, state) {
         if (state.status.isSuccess) {
           if (isRegistration) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(l10n.otpVerifiedRegistration)),
+              SnackBar(content: AppLabel('otpVerifiedRegistration'.tr)),
             );
           }
           // Either way the user is now signed in to Firebase.
@@ -55,9 +54,9 @@ class _OtpPageState extends State<OtpPage> {
       builder: (context, state) {
         final busy = state.status.isLoading;
         return AuthScaffold(
-          title: isRegistration ? l10n.otpTitle : l10n.otpLoginTitle,
+          title: isRegistration ? 'otpTitle'.tr : 'otpLoginTitle'.tr,
           subtitle: [
-            l10n.otpSubtitle,
+            'otpSubtitle'.tr,
             if (widget.args.phone != null) widget.args.phone!,
           ].join('\n'),
           showBack: true,
@@ -68,13 +67,13 @@ class _OtpPageState extends State<OtpPage> {
                 controller: _controller,
                 enabled: !busy,
                 errorText: state.status.isFailure
-                    ? localizedError(l10n, state.error!)
+                    ? localizedError(state.error!)
                     : null,
                 onCompleted: (_) => _submit(),
               ),
               const SizedBox(height: 28),
               AppButton(
-                label: l10n.otpVerifyButton,
+                label: 'otpVerifyButton'.tr,
                 isLoading: busy,
                 onPressed: _submit,
               ),

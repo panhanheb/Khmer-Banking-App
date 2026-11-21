@@ -5,7 +5,7 @@ import '../../../app/di.dart';
 import '../../../app/navigation.dart';
 import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/security/biometric_service.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
@@ -20,17 +20,16 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.profileTitle)),
+      appBar: AppBar(title: AppLabel('profileTitle'.tr)),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           final user = state.user;
           if (user == null) {
             if (state.status.isFailure) {
               return AppErrorWidget(
-                message: localizedError(l10n, state.error!),
-                retryLabel: l10n.commonRetry,
+                message: localizedError(state.error!),
+                retryLabel: 'commonRetry'.tr,
                 onRetry: () =>
                     context.read<ProfileBloc>().add(const ProfileRequested()),
               );
@@ -52,17 +51,17 @@ class ProfilePage extends StatelessWidget {
               children: [
                 _ProfileHeader(user: user),
                 const SizedBox(height: 16),
-                SectionHeader(title: l10n.personalInfo),
+                SectionHeader(title: 'personalInfo'.tr),
                 _PersonalInfo(user: user),
                 const SizedBox(height: 8),
-                SectionHeader(title: l10n.settings),
+                SectionHeader(title: 'settings'.tr),
                 const _SettingsSection(),
                 const SizedBox(height: 8),
-                SectionHeader(title: l10n.security),
+                SectionHeader(title: 'security'.tr),
                 _SecuritySection(user: user),
                 const SizedBox(height: 24),
                 AppButton(
-                  label: l10n.logout,
+                  label: 'logout'.tr,
                   icon: Icons.logout,
                   variant: AppButtonVariant.outline,
                   onPressed: () => _logout(context),
@@ -76,14 +75,13 @@ class ProfilePage extends StatelessWidget {
   }
 
   Future<void> _logout(BuildContext context) async {
-    final l10n = context.l10n;
     final confirmed = await ConfirmationBottomSheet.show(
       context,
-      title: l10n.logout,
-      message: l10n.logoutConfirm,
+      title: 'logout'.tr,
+      message: 'logoutConfirm'.tr,
       icon: Icons.logout,
-      confirmLabel: l10n.logout,
-      cancelLabel: l10n.commonCancel,
+      confirmLabel: 'logout'.tr,
+      cancelLabel: 'commonCancel'.tr,
       destructive: true,
     );
     if (confirmed && context.mounted) {
@@ -105,7 +103,7 @@ class _ProfileHeader extends StatelessWidget {
         CircleAvatar(
           radius: 32,
           backgroundColor: AppColors.gold.withValues(alpha: 0.25),
-          child: Text(
+          child: AppLabel(
             user.initials,
             style: const TextStyle(
               color: AppColors.navy,
@@ -119,7 +117,7 @@ class _ProfileHeader extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              AppLabel(
                 user.displayName(context.languageCode),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -128,7 +126,7 @@ class _ProfileHeader extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 2),
-              Text(
+              AppLabel(
                 user.phone,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
@@ -149,11 +147,10 @@ class _PersonalInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final (kycLabel, kycColor) = switch (user.kycStatus) {
-      'VERIFIED' => (l10n.kycVerified, AppColors.success),
-      'REJECTED' => (l10n.kycRejected, AppColors.error),
-      _ => (l10n.kycPending, AppColors.warning),
+      'VERIFIED' => ('kycVerified'.tr, AppColors.success),
+      'REJECTED' => ('kycRejected'.tr, AppColors.error),
+      _ => ('kycPending'.tr, AppColors.warning),
     };
     final nameKm = user.fullNameKm;
     final email = user.email;
@@ -162,14 +159,14 @@ class _PersonalInfo extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
-            DetailRow(label: l10n.fullNameEnLabel, value: user.fullNameEn),
+            DetailRow(label: 'fullNameEnLabel'.tr, value: user.fullNameEn),
             if (nameKm != null && nameKm.trim().isNotEmpty)
-              DetailRow(label: l10n.fullNameKmLabel, value: nameKm),
-            DetailRow(label: l10n.phoneLabel, value: user.phone),
+              DetailRow(label: 'fullNameKmLabel'.tr, value: nameKm),
+            DetailRow(label: 'phoneLabel'.tr, value: user.phone),
             if (email != null && email.isNotEmpty)
-              DetailRow(label: l10n.emailLabel, value: email),
+              DetailRow(label: 'emailLabel'.tr, value: email),
             DetailRow(
-              label: l10n.kycStatus,
+              label: 'kycStatus'.tr,
               value: '',
               trailing: AppBadge(label: kycLabel, color: kycColor),
             ),
@@ -185,7 +182,6 @@ class _SettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, state) {
         final settings = state.settings;
@@ -196,15 +192,18 @@ class _SettingsSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(l10n.language),
+                AppLabel('language'.tr),
                 const SizedBox(height: 8),
                 SegmentedButton<String>(
                   showSelectedIcon: false,
                   segments: [
-                    ButtonSegment(value: 'km', label: Text(l10n.languageKhmer)),
+                    ButtonSegment(
+                      value: 'km',
+                      label: AppLabel('languageKhmer'.tr),
+                    ),
                     ButtonSegment(
                       value: 'en',
-                      label: Text(l10n.languageEnglish),
+                      label: AppLabel('languageEnglish'.tr),
                     ),
                   ],
                   selected: {language},
@@ -213,7 +212,7 @@ class _SettingsSection extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(l10n.theme),
+                AppLabel('theme'.tr),
                 const SizedBox(height: 8),
                 SegmentedButton<ThemeMode>(
                   showSelectedIcon: false,
@@ -221,17 +220,17 @@ class _SettingsSection extends StatelessWidget {
                     ButtonSegment(
                       value: ThemeMode.light,
                       icon: const Icon(Icons.light_mode_outlined),
-                      label: Text(l10n.themeLight),
+                      label: AppLabel('themeLight'.tr),
                     ),
                     ButtonSegment(
                       value: ThemeMode.dark,
                       icon: const Icon(Icons.dark_mode_outlined),
-                      label: Text(l10n.themeDark),
+                      label: AppLabel('themeDark'.tr),
                     ),
                     ButtonSegment(
                       value: ThemeMode.system,
                       icon: const Icon(Icons.brightness_auto_outlined),
-                      label: Text(l10n.themeSystem),
+                      label: AppLabel('themeSystem'.tr),
                     ),
                   ],
                   selected: {settings.themeMode},
@@ -254,7 +253,6 @@ class _SecuritySection extends StatelessWidget {
   final UserProfile user;
 
   Future<void> _toggleBiometric(BuildContext context, bool enable) async {
-    final l10n = context.l10n;
     final settings = context.read<SettingsBloc>();
     final messenger = ScaffoldMessenger.of(context);
     if (!enable) {
@@ -264,21 +262,20 @@ class _SecuritySection extends StatelessWidget {
     final biometrics = sl<BiometricService>();
     if (!await biometrics.isAvailable()) {
       messenger.showSnackBar(
-        SnackBar(content: Text(l10n.biometricUnavailable)),
+        SnackBar(content: AppLabel('biometricUnavailable'.tr)),
       );
       return;
     }
-    final ok = await biometrics.authenticate(l10n.biometricReasonUnlock);
+    final ok = await biometrics.authenticate('biometricReasonUnlock'.tr);
     if (ok) {
       settings.add(const SettingsBiometricChanged(true));
     } else {
-      messenger.showSnackBar(SnackBar(content: Text(l10n.biometricFailed)));
+      messenger.showSnackBar(SnackBar(content: AppLabel('biometricFailed'.tr)));
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Card(
       clipBehavior: Clip.antiAlias,
       child: Column(
@@ -288,8 +285,8 @@ class _SecuritySection extends StatelessWidget {
                 a.settings.biometricEnabled != b.settings.biometricEnabled,
             builder: (context, state) => SwitchListTile(
               secondary: const Icon(Icons.fingerprint),
-              title: Text(l10n.biometricUnlock),
-              subtitle: Text(l10n.biometricUnlockSubtitle),
+              title: AppLabel('biometricUnlock'.tr),
+              subtitle: AppLabel('biometricUnlockSubtitle'.tr),
               value: state.settings.biometricEnabled,
               onChanged: (v) => _toggleBiometric(context, v),
             ),
@@ -297,7 +294,7 @@ class _SecuritySection extends StatelessWidget {
           const Divider(height: 1),
           ListTile(
             leading: const Icon(Icons.pin_outlined),
-            title: Text(user.pinSet ? l10n.changePin : l10n.setPinAction),
+            title: AppLabel(user.pinSet ? 'changePin'.tr : 'setPinAction'.tr),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.pushPage(
               Pages.setPin(
@@ -308,15 +305,15 @@ class _SecuritySection extends StatelessWidget {
           const Divider(height: 1),
           ListTile(
             leading: const Icon(Icons.lock_reset),
-            title: Text(l10n.changePassword),
+            title: AppLabel('changePassword'.tr),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.pushPage(Pages.changePassword()),
           ),
           const Divider(height: 1),
           ListTile(
             leading: const Icon(Icons.devices_other),
-            title: Text(l10n.devices),
-            subtitle: Text(l10n.devicesSubtitle),
+            title: AppLabel('devices'.tr),
+            subtitle: AppLabel('devicesSubtitle'.tr),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => context.pushPage(Pages.devices()),
           ),

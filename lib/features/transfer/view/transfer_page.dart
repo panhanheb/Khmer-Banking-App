@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/di.dart';
 import '../../../app/navigation.dart';
 import '../../../app/pages.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/network/api_exception.dart';
 import '../../../core/security/biometric_service.dart';
 import '../../../core/utils/money.dart';
@@ -26,7 +26,6 @@ class TransferPage extends StatelessWidget {
   final String? preselectedAccountId;
 
   void _onStateChanged(BuildContext context, TransferState state) {
-    final l10n = context.l10n;
     final bloc = context.read<TransferBloc>();
     final receipt = state.receipt;
     if (receipt != null) {
@@ -45,10 +44,10 @@ class TransferPage extends StatelessWidget {
         error is ApiException && error.code == ApiException.pinNotSet;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(localizedError(l10n, error)),
+        content: AppLabel(localizedError(error)),
         action: pinNotSet
             ? SnackBarAction(
-                label: l10n.setPinAction,
+                label: 'setPinAction'.tr,
                 onPressed: () =>
                     context.pushPage(Pages.setPin(PinSetupMode.set)),
               )
@@ -60,7 +59,6 @@ class TransferPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocConsumer<TransferBloc, TransferState>(
       listenWhen: (a, b) =>
           (b.receipt != null && a.receipt != b.receipt) ||
@@ -77,7 +75,7 @@ class TransferPage extends StatelessWidget {
           },
           child: Scaffold(
             appBar: AppBar(
-              title: Text(l10n.transferTitle),
+              title: AppLabel('transferTitle'.tr),
               leading: canGoBack
                   ? BackButton(
                       onPressed: () => context.read<TransferBloc>().add(
@@ -94,13 +92,12 @@ class TransferPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context, TransferState state) {
-    final l10n = context.l10n;
     if (!state.accountsLoaded) {
       if (state.error != null &&
           state.errorOrigin == TransferOperation.loadAccounts) {
         return AppErrorWidget(
-          message: localizedError(l10n, state.error!),
-          retryLabel: l10n.commonRetry,
+          message: localizedError(state.error!),
+          retryLabel: 'commonRetry'.tr,
           onRetry: () => context.read<TransferBloc>().add(
             TransferStarted(preselectedAccountId: preselectedAccountId),
           ),
@@ -114,11 +111,11 @@ class TransferPage extends StatelessWidget {
     if (state.activeAccounts.isEmpty) {
       return EmptyStateWidget(
         icon: Icons.account_balance_wallet_outlined,
-        title: l10n.noAccountsYet,
+        title: 'noAccountsYet'.tr,
         action: FilledButton.icon(
           onPressed: () => context.pushPage(Pages.openAccount()),
           icon: const Icon(Icons.add),
-          label: Text(l10n.openAccount),
+          label: AppLabel('openAccount'.tr),
         ),
       );
     }
@@ -160,13 +157,12 @@ class _StepIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     final labels = [
-      l10n.stepFrom,
-      l10n.stepTo,
-      l10n.stepAmount,
-      l10n.stepReview,
+      'stepFrom'.tr,
+      'stepTo'.tr,
+      'stepAmount'.tr,
+      'stepReview'.tr,
     ];
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
@@ -192,7 +188,7 @@ class _StepIndicator extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 6),
-                    Text(
+                    AppLabel(
                       labels[i],
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -225,14 +221,13 @@ class _SourceStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final accounts = state.activeAccounts;
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
       itemCount: accounts.length + 1,
       separatorBuilder: (_, i) => SizedBox(height: i == 0 ? 0 : 12),
       itemBuilder: (context, i) {
-        if (i == 0) return SectionHeader(title: l10n.selectSourceAccount);
+        if (i == 0) return SectionHeader(title: 'selectSourceAccount'.tr);
         final account = accounts[i - 1];
         return BankAccountCard(
           account: account,
@@ -282,7 +277,6 @@ class _RecipientStepState extends State<_RecipientStep> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final state = widget.state;
     final busy = state.pending == TransferOperation.lookup;
     return Form(
@@ -292,24 +286,24 @@ class _RecipientStepState extends State<_RecipientStep> {
         children: [
           if (state.source != null)
             _AccountSummaryTile(
-              label: l10n.fromAccount,
+              label: 'fromAccount'.tr,
               account: state.source!,
               onChange: () =>
                   context.read<TransferBloc>().add(const TransferStepBack()),
             ),
-          SectionHeader(title: l10n.recipientTitle),
+          SectionHeader(title: 'recipientTitle'.tr),
           SegmentedButton<bool>(
             showSelectedIcon: false,
             segments: [
               ButtonSegment(
                 value: false,
                 icon: const Icon(Icons.numbers),
-                label: Text(l10n.byAccountNumber),
+                label: AppLabel('byAccountNumber'.tr),
               ),
               ButtonSegment(
                 value: true,
                 icon: const Icon(Icons.phone_iphone),
-                label: Text(l10n.byPhone),
+                label: AppLabel('byPhone'.tr),
               ),
             ],
             selected: {_byPhone},
@@ -324,8 +318,8 @@ class _RecipientStepState extends State<_RecipientStep> {
           AppTextField(
             key: ValueKey(_byPhone),
             controller: _query,
-            label: _byPhone ? l10n.phoneLabel : l10n.accountNumber,
-            hint: _byPhone ? l10n.phoneHint : null,
+            label: _byPhone ? 'phoneLabel'.tr : 'accountNumber'.tr,
+            hint: _byPhone ? 'phoneHint'.tr : null,
             prefixIcon: _byPhone ? Icons.phone_iphone : Icons.numbers,
             keyboardType: _byPhone ? TextInputType.phone : TextInputType.number,
             textInputAction: TextInputAction.search,
@@ -337,18 +331,18 @@ class _RecipientStepState extends State<_RecipientStep> {
             ],
             onSubmitted: (_) => _lookup(),
             validator: (v) {
-              if (v == null || v.trim().isEmpty) return l10n.validationRequired;
+              if (v == null || v.trim().isEmpty) return 'validationRequired'.tr;
               if (_byPhone) {
-                return Validators.isValidPhone(v) ? null : l10n.validationPhone;
+                return Validators.isValidPhone(v) ? null : 'validationPhone'.tr;
               }
               return Validators.isValidAccountNumber(v)
                   ? null
-                  : l10n.validationAccountNumber;
+                  : 'validationAccountNumber'.tr;
             },
           ),
           const SizedBox(height: 24),
           AppButton(
-            label: l10n.findRecipient,
+            label: 'findRecipient'.tr,
             icon: Icons.search,
             isLoading: busy,
             onPressed: _lookup,
@@ -391,7 +385,6 @@ class _AmountStepState extends State<_AmountStep> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final state = widget.state;
     final bloc = context.read<TransferBloc>();
     final source = state.source!;
@@ -399,15 +392,15 @@ class _AmountStepState extends State<_AmountStep> {
     final currency = state.effectiveCurrency;
     final busy = state.pending == TransferOperation.quote;
     final amountError = switch (state.amountError) {
-      AmountError.invalid => l10n.validationAmount,
-      AmountError.exceedsBalance => l10n.validationAmountExceedsBalance,
+      AmountError.invalid => 'validationAmount'.tr,
+      AmountError.exceedsBalance => 'validationAmountExceedsBalance'.tr,
       null => null,
     };
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
       children: [
         _AccountSummaryTile(
-          label: l10n.fromAccount,
+          label: 'fromAccount'.tr,
           account: source,
           onChange: busy
               ? null
@@ -426,7 +419,10 @@ class _AmountStepState extends State<_AmountStep> {
         ),
         const SizedBox(height: 16),
         if (state.currencyOptions.length > 1) ...[
-          Text(l10n.currency, style: Theme.of(context).textTheme.titleSmall),
+          AppLabel(
+            'currency'.tr,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
           const SizedBox(height: 8),
           IgnorePointer(
             ignoring: busy,
@@ -440,12 +436,12 @@ class _AmountStepState extends State<_AmountStep> {
         ],
         AppTextField(
           controller: _amount,
-          label: l10n.amountLabel,
+          label: 'amountLabel'.tr,
           prefixIcon: currency == Currencies.khr
               ? Icons.currency_exchange
               : Icons.attach_money,
           helperText: currency == source.currency
-              ? '${l10n.availableBalance}: '
+              ? '${'availableBalance'.tr}: '
                     '${MoneyFormatter.format(source.availableBalance, source.currency)}'
               : null,
           errorText: amountError,
@@ -466,9 +462,9 @@ class _AmountStepState extends State<_AmountStep> {
         const SizedBox(height: 16),
         AppTextField(
           controller: _description,
-          label: l10n.description,
-          hint: l10n.descriptionHint,
-          helperText: l10n.commonOptional,
+          label: 'description'.tr,
+          hint: 'descriptionHint'.tr,
+          helperText: 'commonOptional'.tr,
           prefixIcon: Icons.notes,
           maxLength: 100,
           enabled: !busy,
@@ -478,7 +474,7 @@ class _AmountStepState extends State<_AmountStep> {
         ),
         const SizedBox(height: 24),
         AppButton(
-          label: l10n.reviewButton,
+          label: 'reviewButton'.tr,
           isLoading: busy,
           onPressed: state.canRequestReview ? _review : null,
         ),
@@ -496,15 +492,16 @@ class _ReviewStep extends StatelessWidget {
   final TransferState state;
 
   Future<void> _confirm(BuildContext context) async {
-    final l10n = context.l10n;
     final bloc = context.read<TransferBloc>();
     final messenger = ScaffoldMessenger.of(context);
     if (context.read<SettingsBloc>().state.settings.biometricEnabled) {
       final ok = await sl<BiometricService>().authenticate(
-        l10n.biometricReasonTransfer,
+        'biometricReasonTransfer'.tr,
       );
       if (!ok) {
-        messenger.showSnackBar(SnackBar(content: Text(l10n.biometricFailed)));
+        messenger.showSnackBar(
+          SnackBar(content: AppLabel('biometricFailed'.tr)),
+        );
         return;
       }
     }
@@ -515,7 +512,6 @@ class _ReviewStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     final quote = state.quote!;
     final source = state.source!;
@@ -530,15 +526,15 @@ class _ReviewStep extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Text(
-                  l10n.youSend,
+                AppLabel(
+                  'youSend'.tr,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
                 ),
                 const SizedBox(height: 4),
                 FittedBox(
-                  child: Text(
+                  child: AppLabel(
                     MoneyFormatter.format(
                       quote.debitAmount,
                       quote.debitCurrency,
@@ -549,7 +545,7 @@ class _ReviewStep extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
+                AppLabel(
                   quote.destinationName,
                   textAlign: TextAlign.center,
                   style: theme.textTheme.titleMedium,
@@ -565,20 +561,20 @@ class _ReviewStep extends StatelessWidget {
             child: Column(
               children: [
                 DetailRow(
-                  label: l10n.fromAccount,
+                  label: 'fromAccount'.tr,
                   value:
-                      '${AccountPresenter.title(l10n, source)}\n'
+                      '${AccountPresenter.title(source)}\n'
                       '${source.maskedNumber}',
                 ),
                 DetailRow(
-                  label: l10n.toAccount,
+                  label: 'toAccount'.tr,
                   value:
                       '${quote.destinationName}\n'
                       '${recipient.accountNumber}\n${recipient.bankName}',
                 ),
                 if (quote.isCrossCurrency) ...[
                   DetailRow(
-                    label: l10n.recipientGets,
+                    label: 'recipientGets'.tr,
                     value: MoneyFormatter.format(
                       quote.creditAmount,
                       quote.creditCurrency,
@@ -586,7 +582,7 @@ class _ReviewStep extends StatelessWidget {
                   ),
                   if (quote.exchangeRate != null)
                     DetailRow(
-                      label: l10n.exchangeRate,
+                      label: 'exchangeRate'.tr,
                       value:
                           '1 ${quote.debitCurrency} = '
                           '${MoneyFormatter.formatRate(quote.exchangeRate!)} '
@@ -594,15 +590,15 @@ class _ReviewStep extends StatelessWidget {
                     ),
                 ],
                 DetailRow(
-                  label: l10n.fee,
+                  label: 'fee'.tr,
                   value: feeIsZero
-                      ? l10n.free
+                      ? 'free'.tr
                       : MoneyFormatter.format(quote.fee, quote.feeCurrency),
                 ),
                 if (description != null)
-                  DetailRow(label: l10n.description, value: description),
+                  DetailRow(label: 'description'.tr, value: description),
                 DetailRow(
-                  label: l10n.totalDebit,
+                  label: 'totalDebit'.tr,
                   value: MoneyFormatter.format(
                     quote.totalDebit,
                     quote.debitCurrency,
@@ -611,7 +607,7 @@ class _ReviewStep extends StatelessWidget {
                 ),
                 if (quote.dailyLimitRemaining != null)
                   DetailRow(
-                    label: l10n.dailyLimitRemaining,
+                    label: 'dailyLimitRemaining'.tr,
                     value: MoneyFormatter.format(
                       quote.dailyLimitRemaining!,
                       quote.debitCurrency,
@@ -623,7 +619,7 @@ class _ReviewStep extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         AppButton(
-          label: state.isSubmitting ? l10n.processing : l10n.confirmAndSend,
+          label: state.isSubmitting ? 'processing'.tr : 'confirmAndSend'.tr,
           icon: Icons.lock_outline,
           isLoading: state.isSubmitting,
           onPressed: () => _confirm(context),
@@ -647,17 +643,16 @@ class _PinSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(l10n.enterPinTitle, style: theme.textTheme.titleLarge),
+          AppLabel('enterPinTitle'.tr, style: theme.textTheme.titleLarge),
           const SizedBox(height: 4),
-          Text(
-            l10n.enterPinSubtitle,
+          AppLabel(
+            'enterPinSubtitle'.tr,
             textAlign: TextAlign.center,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: theme.colorScheme.onSurfaceVariant,
@@ -687,7 +682,6 @@ class _AccountSummaryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Card(
       child: ListTile(
         leading: Icon(
@@ -695,15 +689,15 @@ class _AccountSummaryTile extends StatelessWidget {
               ? Icons.savings_outlined
               : Icons.account_balance_wallet_outlined,
         ),
-        title: Text(label),
-        subtitle: Text(
-          '${AccountPresenter.title(l10n, account)} · ${account.maskedNumber}\n'
+        title: AppLabel(label),
+        subtitle: AppLabel(
+          '${AccountPresenter.title(account)} · ${account.maskedNumber}\n'
           '${MoneyFormatter.format(account.availableBalance, account.currency)}',
         ),
         isThreeLine: true,
         trailing: TextButton(
           onPressed: onChange,
-          child: Text(l10n.commonChange),
+          child: AppLabel('commonChange'.tr),
         ),
       ),
     );
@@ -718,19 +712,18 @@ class _RecipientTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Card(
       child: ListTile(
         leading: const Icon(Icons.person_outline),
-        title: Text(recipient.accountName),
-        subtitle: Text(
+        title: AppLabel(recipient.accountName),
+        subtitle: AppLabel(
           '${recipient.accountNumber} · ${recipient.currency}\n'
           '${recipient.bankName}',
         ),
         isThreeLine: true,
         trailing: TextButton(
           onPressed: onChange,
-          child: Text(l10n.commonChange),
+          child: AppLabel('commonChange'.tr),
         ),
       ),
     );

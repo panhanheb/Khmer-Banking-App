@@ -20,17 +20,16 @@ class AppTheme {
   static String? _inter() => GoogleFonts.inter().fontFamily;
   static String? _khmer() => GoogleFonts.notoSansKhmer().fontFamily;
 
-  static ThemeData light({bool khmer = false}) => _build(
-        brightness: Brightness.light,
-        khmer: khmer,
-      );
+  static ThemeData light({bool khmer = false}) =>
+      _build(brightness: Brightness.light, khmer: khmer);
 
-  static ThemeData dark({bool khmer = false}) => _build(
-        brightness: Brightness.dark,
-        khmer: khmer,
-      );
+  static ThemeData dark({bool khmer = false}) =>
+      _build(brightness: Brightness.dark, khmer: khmer);
 
-  static ThemeData _build({required Brightness brightness, required bool khmer}) {
+  static ThemeData _build({
+    required Brightness brightness,
+    required bool khmer,
+  }) {
     final isDark = brightness == Brightness.dark;
     final inter = _inter();
     final notoKhmer = _khmer();
@@ -40,24 +39,27 @@ class AppTheme {
       if (!khmer && notoKhmer != null) notoKhmer,
     ];
 
-    final scheme = ColorScheme.fromSeed(
-      seedColor: AppColors.royalBlue,
-      brightness: brightness,
-    ).copyWith(
-      primary: isDark ? AppColors.darkPrimary : AppColors.royalBlue,
-      onPrimary: Colors.white,
-      secondary: AppColors.gold,
-      onSecondary: AppColors.navy,
-      tertiary: AppColors.navy,
-      error: AppColors.error,
-      surface: isDark ? AppColors.darkSurface : AppColors.surface,
-      onSurface: isDark ? Colors.white : AppColors.textPrimary,
-      onSurfaceVariant:
-          isDark ? AppColors.darkTextSecondary : AppColors.textSecondary,
-      surfaceContainerHighest:
-          isDark ? AppColors.darkSurfaceHigh : const Color(0xFFEDF1F8),
-      outlineVariant: isDark ? const Color(0xFF26324F) : AppColors.divider,
-    );
+    final scheme =
+        ColorScheme.fromSeed(
+          seedColor: AppColors.royalBlue,
+          brightness: brightness,
+        ).copyWith(
+          primary: isDark ? AppColors.darkPrimary : AppColors.royalBlue,
+          onPrimary: Colors.white,
+          secondary: AppColors.gold,
+          onSecondary: AppColors.navy,
+          tertiary: AppColors.navy,
+          error: AppColors.error,
+          surface: isDark ? AppColors.darkSurface : AppColors.surface,
+          onSurface: isDark ? Colors.white : AppColors.textPrimary,
+          onSurfaceVariant: isDark
+              ? AppColors.darkTextSecondary
+              : AppColors.textSecondary,
+          surfaceContainerHighest: isDark
+              ? AppColors.darkSurfaceHigh
+              : const Color(0xFFEDF1F8),
+          outlineVariant: isDark ? const Color(0xFF26324F) : AppColors.divider,
+        );
 
     final base = ThemeData(
       useMaterial3: true,
@@ -65,8 +67,9 @@ class AppTheme {
       colorScheme: scheme,
       fontFamily: family,
       fontFamilyFallback: fallback,
-      scaffoldBackgroundColor:
-          isDark ? AppColors.darkBackground : AppColors.background,
+      scaffoldBackgroundColor: isDark
+          ? AppColors.darkBackground
+          : AppColors.background,
     );
 
     final shape = RoundedRectangleBorder(
@@ -79,8 +82,9 @@ class AppTheme {
         displayColor: scheme.onSurface,
       ),
       appBarTheme: AppBarTheme(
-        backgroundColor:
-            isDark ? AppColors.darkBackground : AppColors.background,
+        backgroundColor: isDark
+            ? AppColors.darkBackground
+            : AppColors.background,
         foregroundColor: scheme.onSurface,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -92,22 +96,23 @@ class AppTheme {
           fontWeight: FontWeight.w700,
           color: scheme.onSurface,
         ),
-        systemOverlayStyle:
-            isDark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+        systemOverlayStyle: isDark
+            ? SystemUiOverlayStyle.light
+            : SystemUiOverlayStyle.dark,
       ),
       cardTheme: CardThemeData(
         color: scheme.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: shape.copyWith(
-          side: BorderSide(color: scheme.outlineVariant),
-        ),
+        shape: shape.copyWith(side: BorderSide(color: scheme.outlineVariant)),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: isDark ? AppColors.darkSurfaceHigh : Colors.white,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius),
           borderSide: BorderSide(color: scheme.outlineVariant),
@@ -187,7 +192,9 @@ class AppTheme {
         backgroundColor: scheme.surface,
         showDragHandle: true,
         shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(radiusLarge)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(radiusLarge),
+          ),
         ),
       ),
       dialogTheme: DialogThemeData(
@@ -201,10 +208,7 @@ class AppTheme {
         shape: shape,
       ),
       dividerTheme: DividerThemeData(color: scheme.outlineVariant, space: 1),
-      listTileTheme: ListTileThemeData(
-        shape: shape,
-        iconColor: scheme.primary,
-      ),
+      listTileTheme: ListTileThemeData(shape: shape, iconColor: scheme.primary),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: FadeForwardsPageTransitionsBuilder(),

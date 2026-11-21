@@ -5,7 +5,7 @@ import 'tr.dart';
 
 export 'tr.dart';
 
-extension L10nX on BuildContext {
+extension LanguageX on BuildContext {
   /// Current language code (`km` or `en`).
   String get languageCode => Localizations.localeOf(this).languageCode;
 }

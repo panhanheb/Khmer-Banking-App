@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/l10n/l10n.dart';
+import '../../../../core/language/language.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/date_formatter.dart';
 import '../../../../core/widgets/transaction_item.dart';
@@ -10,26 +10,25 @@ import '../../model/bank_transaction.dart';
 class TxPresenter {
   const TxPresenter._();
 
-  static String typeLabel(AppLocalizations l10n, String type) => switch (type) {
-    TransactionType.transfer => l10n.txTypeTransfer,
-    TransactionType.deposit => l10n.txTypeDeposit,
-    TransactionType.withdrawal => l10n.txTypeWithdrawal,
-    TransactionType.fee => l10n.txTypeFee,
-    TransactionType.reversal => l10n.txTypeReversal,
-    TransactionType.qrPayment => l10n.txTypeQrPayment,
-    TransactionType.billPayment => l10n.txTypeBillPayment,
-    TransactionType.topup => l10n.txTypeTopup,
+  static String typeLabel(String type) => switch (type) {
+    TransactionType.transfer => 'txTypeTransfer'.tr,
+    TransactionType.deposit => 'txTypeDeposit'.tr,
+    TransactionType.withdrawal => 'txTypeWithdrawal'.tr,
+    TransactionType.fee => 'txTypeFee'.tr,
+    TransactionType.reversal => 'txTypeReversal'.tr,
+    TransactionType.qrPayment => 'txTypeQrPayment'.tr,
+    TransactionType.billPayment => 'txTypeBillPayment'.tr,
+    TransactionType.topup => 'txTypeTopup'.tr,
     _ => type,
   };
 
-  static String statusLabel(AppLocalizations l10n, String status) =>
-      switch (status) {
-        TransactionStatus.pending => l10n.txStatusPending,
-        TransactionStatus.completed => l10n.txStatusCompleted,
-        TransactionStatus.failed => l10n.txStatusFailed,
-        TransactionStatus.reversed => l10n.txStatusReversed,
-        _ => status,
-      };
+  static String statusLabel(String status) => switch (status) {
+    TransactionStatus.pending => 'txStatusPending'.tr,
+    TransactionStatus.completed => 'txStatusCompleted'.tr,
+    TransactionStatus.failed => 'txStatusFailed'.tr,
+    TransactionStatus.reversed => 'txStatusReversed'.tr,
+    _ => status,
+  };
 
   static Color statusColor(String status) => switch (status) {
     TransactionStatus.completed => AppColors.success,
@@ -49,12 +48,12 @@ class TxPresenter {
     _ => tx.isDebit ? Icons.north_east_rounded : Icons.south_west_rounded,
   };
 
-  static String title(AppLocalizations l10n, BankTransaction tx) {
+  static String title(BankTransaction tx) {
     final name = tx.counterpartyName;
     if (name != null && name.trim().isNotEmpty) return name;
     final desc = tx.description;
     if (desc != null && desc.trim().isNotEmpty) return desc;
-    return typeLabel(l10n, tx.type);
+    return typeLabel(tx.type);
   }
 }
 
@@ -73,15 +72,14 @@ class BankTransactionTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final tx = transaction;
     final created = tx.createdAt;
     final subtitle = [
-      TxPresenter.typeLabel(l10n, tx.type),
+      TxPresenter.typeLabel(tx.type),
       if (created != null) DateFormatter.time(created, context.languageCode),
     ].join(' · ');
     return TransactionItem(
-      title: TxPresenter.title(l10n, tx),
+      title: TxPresenter.title(tx),
       subtitle: subtitle,
       amount: tx.amount,
       currency: tx.currency,
@@ -90,9 +88,9 @@ class BankTransactionTile extends StatelessWidget {
       hidden: hidden,
       statusLabel: tx.status == TransactionStatus.completed
           ? null
-          : TxPresenter.statusLabel(l10n, tx.status),
+          : TxPresenter.statusLabel(tx.status),
       statusColor: TxPresenter.statusColor(tx.status),
-      simulatedLabel: tx.simulated ? l10n.simulatedBadge : null,
+      simulatedLabel: tx.simulated ? 'simulatedBadge'.tr : null,
       onTap: onTap,
     );
   }

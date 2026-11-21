@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../../app/navigation.dart';
-import '../../../../core/l10n/l10n.dart';
+import '../../../../core/language/language.dart';
 import 'coming_soon_sheet.dart';
+import '../../../../core/widgets/widgets.dart';
 
 class _QuickAction {
   const _QuickAction(this.icon, this.label, this.onTap);
@@ -19,41 +20,40 @@ class QuickActionsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final actions = [
       _QuickAction(
         Icons.swap_horiz_rounded,
-        l10n.actionTransfer,
+        'actionTransfer'.tr,
         (c) => c.showTab(MainTab.transfer),
       ),
       _QuickAction(
         Icons.qr_code_scanner_rounded,
-        l10n.actionScanQr,
-        (c) => showComingSoonSheet(c, l10n.actionScanQr),
+        'actionScanQr'.tr,
+        (c) => showComingSoonSheet(c, 'actionScanQr'.tr),
       ),
       _QuickAction(
         Icons.add_card_rounded,
-        l10n.actionDeposit,
-        (c) => showComingSoonSheet(c, l10n.actionDeposit),
+        'actionDeposit'.tr,
+        (c) => showComingSoonSheet(c, 'actionDeposit'.tr),
       ),
       _QuickAction(
         Icons.local_atm_rounded,
-        l10n.actionWithdraw,
-        (c) => showComingSoonSheet(c, l10n.actionWithdraw),
+        'actionWithdraw'.tr,
+        (c) => showComingSoonSheet(c, 'actionWithdraw'.tr),
       ),
       _QuickAction(
         Icons.receipt_rounded,
-        l10n.actionPayBills,
-        (c) => showComingSoonSheet(c, l10n.actionPayBills),
+        'actionPayBills'.tr,
+        (c) => showComingSoonSheet(c, 'actionPayBills'.tr),
       ),
       _QuickAction(
         Icons.phone_android_rounded,
-        l10n.actionTopUp,
-        (c) => showComingSoonSheet(c, l10n.actionTopUp),
+        'actionTopUp'.tr,
+        (c) => showComingSoonSheet(c, 'actionTopUp'.tr),
       ),
       _QuickAction(
         Icons.history_rounded,
-        l10n.actionHistory,
+        'actionHistory'.tr,
         (c) => c.showTab(MainTab.transactions),
       ),
     ];
@@ -115,7 +115,7 @@ class _ActionButton extends StatelessWidget {
               child: Icon(action.icon, color: scheme.primary),
             ),
             const SizedBox(height: 6),
-            Text(
+            AppLabel(
               action.label,
               maxLines: 2,
               textAlign: TextAlign.center,

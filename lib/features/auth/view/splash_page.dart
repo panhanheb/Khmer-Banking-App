@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/brand_logo.dart';
+import '../../../core/widgets/widgets.dart';
 
 /// Shown while [AuthBloc] decides the initial route from stored tokens.
 class SplashPage extends StatelessWidget {
@@ -10,7 +11,6 @@ class SplashPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(gradient: AppColors.brandGradient),
@@ -28,8 +28,8 @@ class SplashPage extends StatelessWidget {
               children: [
                 const BrandLogo(size: 96),
                 const SizedBox(height: 24),
-                Text(
-                  l10n.appName,
+                AppLabel(
+                  'appName'.tr,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
@@ -37,8 +37,8 @@ class SplashPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Text(
-                  l10n.appTagline,
+                AppLabel(
+                  'appTagline'.tr,
                   style: const TextStyle(color: Colors.white70),
                 ),
                 const SizedBox(height: 32),

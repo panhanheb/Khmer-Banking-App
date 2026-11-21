@@ -5,7 +5,7 @@ import 'package:local_auth/local_auth.dart';
 /// transaction PIN for money movement.
 class BiometricService {
   BiometricService([LocalAuthentication? auth])
-      : _auth = auth ?? LocalAuthentication();
+    : _auth = auth ?? LocalAuthentication();
 
   final LocalAuthentication _auth;
 

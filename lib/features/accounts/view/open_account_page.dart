@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/navigation.dart';
 import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/widgets.dart';
 import '../model/account.dart';
@@ -47,7 +47,6 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     return BlocConsumer<OpenAccountBloc, OpenAccountState>(
       listener: (context, state) {
@@ -55,25 +54,25 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
           HapticFeedback.mediumImpact();
           ScaffoldMessenger.of(
             context,
-          ).showSnackBar(SnackBar(content: Text(l10n.accountOpened)));
+          ).showSnackBar(SnackBar(content: AppLabel('accountOpened'.tr)));
           context.replacePage(
             Pages.accountDetail(state.account!.id, initial: state.account),
           );
         } else if (state.status.isFailure) {
           HapticFeedback.heavyImpact();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(localizedError(l10n, state.error!))),
+            SnackBar(content: AppLabel(localizedError(state.error!))),
           );
         }
       },
       builder: (context, state) {
         final busy = state.status.isLoading;
         return Scaffold(
-          appBar: AppBar(title: Text(l10n.openAccountTitle)),
+          appBar: AppBar(title: AppLabel('openAccountTitle'.tr)),
           body: ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              Text(l10n.accountType, style: theme.textTheme.titleSmall),
+              AppLabel('accountType'.tr, style: theme.textTheme.titleSmall),
               const SizedBox(height: 8),
               SegmentedButton<String>(
                 showSelectedIcon: false,
@@ -86,7 +85,7 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
                             ? Icons.savings_outlined
                             : Icons.account_balance_wallet_outlined,
                       ),
-                      label: Text(AccountPresenter.typeLabel(l10n, type)),
+                      label: AppLabel(AccountPresenter.typeLabel(type)),
                     ),
                 ],
                 selected: {_type},
@@ -95,7 +94,7 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
                     : (s) => setState(() => _type = s.first),
               ),
               const SizedBox(height: 20),
-              Text(l10n.currency, style: theme.textTheme.titleSmall),
+              AppLabel('currency'.tr, style: theme.textTheme.titleSmall),
               const SizedBox(height: 8),
               IgnorePointer(
                 ignoring: busy,
@@ -107,8 +106,8 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
               const SizedBox(height: 20),
               AppTextField(
                 controller: _nickname,
-                label: l10n.nicknameLabel,
-                helperText: l10n.commonOptional,
+                label: 'nicknameLabel'.tr,
+                helperText: 'commonOptional'.tr,
                 prefixIcon: Icons.label_outline,
                 maxLength: 40,
                 enabled: !busy,
@@ -118,7 +117,7 @@ class _OpenAccountPageState extends State<OpenAccountPage> {
               ),
               const SizedBox(height: 24),
               AppButton(
-                label: l10n.openAccount,
+                label: 'openAccount'.tr,
                 isLoading: busy,
                 onPressed: _submit,
               ),

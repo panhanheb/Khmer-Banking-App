@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../theme/app_colors.dart';
 import '../utils/money.dart';
+import 'app_label.dart';
 
 /// Hero card showing total balances per currency with a hide/show toggle.
 class BalanceCard extends StatelessWidget {
@@ -60,7 +61,7 @@ class BalanceCard extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: Text(
+                    child: AppLabel(
                       title,
                       style: const TextStyle(
                         color: Colors.white70,
@@ -127,7 +128,7 @@ class _AmountText extends StatelessWidget {
         key: ValueKey(text),
         fit: BoxFit.scaleDown,
         alignment: Alignment.centerLeft,
-        child: Text(
+        child: AppLabel(
           text,
           style: TextStyle(
             color: large ? Colors.white : AppColors.gold,

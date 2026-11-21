@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../utils/money.dart';
+import 'app_label.dart';
 
 /// Segmented USD / KHR picker.
 class CurrencySelector extends StatelessWidget {
@@ -27,7 +28,7 @@ class CurrencySelector extends StatelessWidget {
         for (final c in currencies)
           ButtonSegment<String>(
             value: c,
-            label: Text('${symbolOf(c)}  $c'),
+            label: AppLabel('${symbolOf(c)}  $c'),
           ),
       ],
       selected: {selected},

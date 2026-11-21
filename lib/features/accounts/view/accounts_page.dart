@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/navigation.dart';
 import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/widgets/widgets.dart';
 import '../view_model/accounts_bloc.dart';
 import 'widgets/account_presenter.dart';
@@ -15,13 +15,12 @@ class AccountsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.accountsTitle),
+        title: AppLabel('accountsTitle'.tr),
         actions: [
           IconButton(
-            tooltip: l10n.openAccount,
+            tooltip: 'openAccount'.tr,
             onPressed: () => context.pushPage(Pages.openAccount()),
             icon: const Icon(Icons.add),
           ),
@@ -32,8 +31,8 @@ class AccountsPage extends StatelessWidget {
           if (state.accounts.isEmpty) {
             if (state.status.isFailure) {
               return AppErrorWidget(
-                message: localizedError(l10n, state.error!),
-                retryLabel: l10n.commonRetry,
+                message: localizedError(state.error!),
+                retryLabel: 'commonRetry'.tr,
                 onRetry: () =>
                     context.read<AccountsBloc>().add(const AccountsRequested()),
               );
@@ -51,11 +50,11 @@ class AccountsPage extends StatelessWidget {
             }
             return EmptyStateWidget(
               icon: Icons.account_balance_wallet_outlined,
-              title: l10n.noAccountsYet,
+              title: 'noAccountsYet'.tr,
               action: FilledButton.icon(
                 onPressed: () => context.pushPage(Pages.openAccount()),
                 icon: const Icon(Icons.add),
-                label: Text(l10n.openAccount),
+                label: AppLabel('openAccount'.tr),
               ),
             );
           }

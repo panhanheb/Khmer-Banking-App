@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/navigation.dart';
 import '../../../app/pages.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/widgets.dart';
 import '../view_model/auth_bloc.dart';
@@ -54,9 +54,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     String? required(String? v) =>
-        (v == null || v.trim().isEmpty) ? l10n.validationRequired : null;
+        (v == null || v.trim().isEmpty) ? 'validationRequired'.tr : null;
 
     return BlocConsumer<LoginBloc, LoginState>(
       listener: (context, state) {
@@ -79,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
           case LoginStatus.failure:
             HapticFeedback.heavyImpact();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(localizedError(l10n, state.error!))),
+              SnackBar(content: AppLabel(localizedError(state.error!))),
             );
           case LoginStatus.initial:
           case LoginStatus.submitting:
@@ -90,8 +89,8 @@ class _LoginPageState extends State<LoginPage> {
         final busy = state.status == LoginStatus.submitting;
         final isEmail = _method == _LoginMethod.email;
         return AuthScaffold(
-          title: l10n.loginTitle,
-          subtitle: l10n.loginSubtitle,
+          title: 'loginTitle'.tr,
+          subtitle: 'loginSubtitle'.tr,
           child: AutofillGroup(
             child: Form(
               key: _formKey,
@@ -103,12 +102,12 @@ class _LoginPageState extends State<LoginPage> {
                       ButtonSegment(
                         value: _LoginMethod.email,
                         icon: const Icon(Icons.alternate_email),
-                        label: Text(l10n.loginMethodEmail),
+                        label: AppLabel('loginMethodEmail'.tr),
                       ),
                       ButtonSegment(
                         value: _LoginMethod.phone,
                         icon: const Icon(Icons.phone_iphone),
-                        label: Text(l10n.loginMethodPhone),
+                        label: AppLabel('loginMethodPhone'.tr),
                       ),
                     ],
                     selected: {_method},
@@ -124,7 +123,7 @@ class _LoginPageState extends State<LoginPage> {
                     AppTextField(
                       key: const ValueKey('email'),
                       controller: _email,
-                      label: l10n.emailLabel,
+                      label: 'emailLabel'.tr,
                       prefixIcon: Icons.alternate_email,
                       keyboardType: TextInputType.emailAddress,
                       textInputAction: TextInputAction.next,
@@ -133,20 +132,20 @@ class _LoginPageState extends State<LoginPage> {
                           required(v) ??
                           (Validators.isValidEmail(v!)
                               ? null
-                              : l10n.validationEmail),
+                              : 'validationEmail'.tr),
                     ),
                     const SizedBox(height: 16),
                     AppTextField(
                       key: const ValueKey('password'),
                       controller: _password,
-                      label: l10n.passwordLabel,
+                      label: 'passwordLabel'.tr,
                       prefixIcon: Icons.lock_outline,
                       obscure: true,
                       textInputAction: TextInputAction.done,
                       autofillHints: const [AutofillHints.password],
                       onSubmitted: (_) => _submit(),
                       validator: (v) => (v == null || v.isEmpty)
-                          ? l10n.validationRequired
+                          ? 'validationRequired'.tr
                           : null,
                     ),
                     Align(
@@ -155,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: busy
                             ? null
                             : () => context.pushPage(Pages.forgotPassword()),
-                        child: Text(l10n.forgotPasswordLink),
+                        child: AppLabel('forgotPasswordLink'.tr),
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -163,8 +162,8 @@ class _LoginPageState extends State<LoginPage> {
                     AppTextField(
                       key: const ValueKey('phone'),
                       controller: _phone,
-                      label: l10n.phoneLabel,
-                      hint: l10n.phoneHint,
+                      label: 'phoneLabel'.tr,
+                      hint: 'phoneHint'.tr,
                       prefixIcon: Icons.phone_iphone,
                       keyboardType: TextInputType.phone,
                       textInputAction: TextInputAction.done,
@@ -177,12 +176,12 @@ class _LoginPageState extends State<LoginPage> {
                           required(v) ??
                           (Validators.isValidPhone(v!)
                               ? null
-                              : l10n.validationPhone),
+                              : 'validationPhone'.tr),
                     ),
                     const SizedBox(height: 24),
                   ],
                   AppButton(
-                    label: isEmail ? l10n.loginButton : l10n.sendCodeButton,
+                    label: isEmail ? 'loginButton'.tr : 'sendCodeButton'.tr,
                     isLoading: busy,
                     onPressed: _submit,
                   ),
@@ -190,12 +189,12 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Flexible(child: Text(l10n.noAccountPrompt)),
+                      Flexible(child: AppLabel('noAccountPrompt'.tr)),
                       TextButton(
                         onPressed: busy
                             ? null
                             : () => context.pushPage(Pages.register()),
-                        child: Text(l10n.registerLink),
+                        child: AppLabel('registerLink'.tr),
                       ),
                     ],
                   ),

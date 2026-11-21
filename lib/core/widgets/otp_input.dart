@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'app_label.dart';
 
 /// 6-box one-time-code input backed by a single hidden text field, so SMS
 /// autofill (`AutofillHints.oneTimeCode`) and paste work.
@@ -81,11 +82,11 @@ class _OtpInputState extends State<OtpInput> {
                           color: hasError
                               ? scheme.error
                               : (_focus.hasFocus && i == text.length
-                                  ? scheme.primary
-                                  : scheme.outlineVariant),
+                                    ? scheme.primary
+                                    : scheme.outlineVariant),
                         ),
                       ),
-                      child: Text(
+                      child: AppLabel(
                         i < text.length ? text[i] : '',
                         style: const TextStyle(
                           fontSize: 22,
@@ -131,7 +132,7 @@ class _OtpInputState extends State<OtpInput> {
         if (hasError)
           Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: Text(
+            child: AppLabel(
               widget.errorText!,
               textAlign: TextAlign.center,
               style: TextStyle(color: scheme.error, fontSize: 13),

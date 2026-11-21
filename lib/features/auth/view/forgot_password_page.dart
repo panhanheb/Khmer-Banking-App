@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../app/navigation.dart';
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/utils/validators.dart';
 import '../../../core/widgets/widgets.dart';
 import '../view_model/password_reset_bloc.dart';
@@ -38,25 +38,28 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return BlocConsumer<PasswordResetBloc, PasswordResetState>(
       listener: (context, state) {
         if (state.status.isSuccess) {
           HapticFeedback.mediumImpact();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(l10n.resetLinkSent(state.email ?? ''))),
+            SnackBar(
+              content: AppLabel(
+                'resetLinkSent'.trParams({'email': state.email ?? ''}),
+              ),
+            ),
           );
           context.popPage();
         } else if (state.status.isFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(localizedError(l10n, state.error!))),
+            SnackBar(content: AppLabel(localizedError(state.error!))),
           );
         }
       },
       builder: (context, state) {
         return AuthScaffold(
-          title: l10n.forgotTitle,
-          subtitle: l10n.forgotSubtitle,
+          title: 'forgotTitle'.tr,
+          subtitle: 'forgotSubtitle'.tr,
           showBack: true,
           showLogo: false,
           child: Form(
@@ -66,20 +69,20 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               children: [
                 AppTextField(
                   controller: _email,
-                  label: l10n.emailLabel,
+                  label: 'emailLabel'.tr,
                   prefixIcon: Icons.alternate_email,
                   keyboardType: TextInputType.emailAddress,
                   autofillHints: const [AutofillHints.email],
                   onSubmitted: (_) => _send(),
                   validator: (v) => (v == null || v.trim().isEmpty)
-                      ? l10n.validationRequired
+                      ? 'validationRequired'.tr
                       : (Validators.isValidEmail(v)
                             ? null
-                            : l10n.validationEmail),
+                            : 'validationEmail'.tr),
                 ),
                 const SizedBox(height: 24),
                 AppButton(
-                  label: l10n.sendResetLinkButton,
+                  label: 'sendResetLinkButton'.tr,
                   isLoading: state.status.isLoading,
                   onPressed: _send,
                 ),

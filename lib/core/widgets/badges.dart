@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../theme/app_colors.dart';
+import 'app_label.dart';
 
 /// Small rounded label (status, "SIMULATED", "This device", …).
 class AppBadge extends StatelessWidget {
@@ -17,11 +18,11 @@ class AppBadge extends StatelessWidget {
 
   /// Amber badge flagging dev-only simulated money movement.
   factory AppBadge.simulated(String label, {Key? key}) => AppBadge(
-        key: key,
-        label: label,
-        color: AppColors.warning,
-        icon: Icons.science_outlined,
-      );
+    key: key,
+    label: label,
+    color: AppColors.warning,
+    icon: Icons.science_outlined,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class AppBadge extends StatelessWidget {
             Icon(icon, size: 12, color: color),
             const SizedBox(width: 4),
           ],
-          Text(
+          AppLabel(
             label,
             style: TextStyle(
               color: color,

@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../app/navigation.dart';
 import '../../../app/pages.dart';
 import '../../../core/bloc/load_status.dart';
-import '../../../core/l10n/l10n.dart';
+import '../../../core/language/language.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../accounts/view/widgets/account_presenter.dart';
@@ -19,10 +19,10 @@ import 'widgets/quick_actions_grid.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  static String greeting(AppLocalizations l10n, DateTime now) {
-    if (now.hour < 12) return l10n.greetingMorning;
-    if (now.hour < 17) return l10n.greetingAfternoon;
-    return l10n.greetingEvening;
+  static String greeting(DateTime now) {
+    if (now.hour < 12) return 'greetingMorning'.tr;
+    if (now.hour < 17) return 'greetingAfternoon'.tr;
+    return 'greetingEvening'.tr;
   }
 
   Future<void> _refresh(BuildContext context) {
@@ -33,7 +33,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<HomeBloc, HomeState>(
@@ -41,8 +40,8 @@ class HomePage extends StatelessWidget {
             if (!state.hasData) {
               if (state.status.isFailure) {
                 return AppErrorWidget(
-                  message: localizedError(l10n, state.error!),
-                  retryLabel: l10n.commonRetry,
+                  message: localizedError(state.error!),
+                  retryLabel: 'commonRetry'.tr,
                   onRetry: () =>
                       context.read<HomeBloc>().add(const HomeStarted()),
                 );
@@ -64,36 +63,36 @@ class HomePage extends StatelessWidget {
                     const SizedBox(height: 16),
                   ],
                   BalanceCard(
-                    title: l10n.totalBalance,
+                    title: 'totalBalance'.tr,
                     totals: state.totals,
                     hidden: state.balanceHidden,
                     toggleTooltip: state.balanceHidden
-                        ? l10n.showBalance
-                        : l10n.hideBalance,
+                        ? 'showBalance'.tr
+                        : 'hideBalance'.tr,
                     onToggleVisibility: () => context.read<HomeBloc>().add(
                       const HomeBalanceVisibilityToggled(),
                     ),
                   ),
                   const SizedBox(height: 20),
-                  SectionHeader(title: l10n.quickActions),
+                  SectionHeader(title: 'quickActions'.tr),
                   const QuickActionsGrid(),
                   const SizedBox(height: 12),
                   SectionHeader(
-                    title: l10n.myAccounts,
-                    actionLabel: l10n.commonSeeAll,
+                    title: 'myAccounts'.tr,
+                    actionLabel: 'commonSeeAll'.tr,
                     onAction: () => context.pushPage(Pages.accounts()),
                   ),
                   _AccountsCarousel(state: state),
                   const SizedBox(height: 12),
                   SectionHeader(
-                    title: l10n.recentTransactions,
-                    actionLabel: l10n.commonSeeAll,
+                    title: 'recentTransactions'.tr,
+                    actionLabel: 'commonSeeAll'.tr,
                     onAction: () => context.showTab(MainTab.transactions),
                   ),
                   if (state.recentTransactions.isEmpty)
                     EmptyStateWidget(
                       icon: Icons.receipt_long_outlined,
-                      title: l10n.noTransactionsYet,
+                      title: 'noTransactionsYet'.tr,
                     )
                   else
                     Card(
@@ -133,7 +132,6 @@ class _Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final theme = Theme.of(context);
     final user = state.user!;
     return Row(
@@ -143,7 +141,7 @@ class _Header extends StatelessWidget {
           child: CircleAvatar(
             radius: 24,
             backgroundColor: AppColors.gold.withValues(alpha: 0.25),
-            child: Text(
+            child: AppLabel(
               user.initials,
               style: const TextStyle(
                 color: AppColors.navy,
@@ -157,13 +155,13 @@ class _Header extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                HomePage.greeting(l10n, DateTime.now()),
+              AppLabel(
+                HomePage.greeting(DateTime.now()),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
               ),
-              Text(
+              AppLabel(
                 user.displayName(context.languageCode),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -175,7 +173,7 @@ class _Header extends StatelessWidget {
           ),
         ),
         IconButton.filledTonal(
-          onPressed: () => showComingSoonSheet(context, l10n.navHome),
+          onPressed: () => showComingSoonSheet(context, 'navHome'.tr),
           icon: const Icon(Icons.notifications_none_rounded),
         ),
       ],
@@ -188,15 +186,14 @@ class _PinBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Card(
       color: AppColors.gold.withValues(alpha: 0.16),
       child: ListTile(
         leading: const Icon(Icons.pin_outlined, color: AppColors.navy),
-        title: Text(l10n.pinNotSetBanner),
+        title: AppLabel('pinNotSetBanner'.tr),
         trailing: FilledButton.tonal(
           onPressed: () => context.pushPage(Pages.setPin(PinSetupMode.set)),
-          child: Text(l10n.setPinAction),
+          child: AppLabel('setPinAction'.tr),
         ),
       ),
     );
@@ -210,7 +207,6 @@ class _AccountsCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     final accounts = state.accounts;
     return SizedBox(
       height: 172,
@@ -237,16 +233,16 @@ class _AccountsCarousel extends StatelessWidget {
                           color: Theme.of(context).colorScheme.primary,
                         ),
                         const SizedBox(height: 8),
-                        Text(
+                        AppLabel(
                           accounts.isEmpty
-                              ? l10n.noAccountsYet
-                              : l10n.openAccount,
+                              ? 'noAccountsYet'.tr
+                              : 'openAccount'.tr,
                           textAlign: TextAlign.center,
                         ),
                         if (accounts.isEmpty) ...[
                           const SizedBox(height: 4),
-                          Text(
-                            l10n.openAccount,
+                          AppLabel(
+                            'openAccount'.tr,
                             style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.w700,

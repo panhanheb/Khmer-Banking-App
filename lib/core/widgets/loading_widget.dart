@@ -26,7 +26,9 @@ class _ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final base = isDark ? const Color(0xFF1C2848) : const Color(0xFFE6EBF3);
-    final highlight = isDark ? const Color(0xFF2A3A63) : const Color(0xFFF7F9FC);
+    final highlight = isDark
+        ? const Color(0xFF2A3A63)
+        : const Color(0xFFF7F9FC);
     return AnimatedBuilder(
       animation: _controller,
       child: widget.child,
@@ -90,32 +92,32 @@ class LoadingWidget extends StatelessWidget {
 
   /// A list of [count] transaction-like rows.
   factory LoadingWidget.list({Key? key, int count = 6}) => LoadingWidget._(
-        (context) => Column(
-          children: [for (var i = 0; i < count; i++) const _SkeletonRow()],
-        ),
-        key: key,
-      );
+    (context) => Column(
+      children: [for (var i = 0; i < count; i++) const _SkeletonRow()],
+    ),
+    key: key,
+  );
 
   /// A dashboard skeleton (balance card + actions + rows).
   factory LoadingWidget.dashboard({Key? key}) => LoadingWidget._(
-        (context) => const Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SkeletonBox(width: 160, height: 18),
-            SizedBox(height: 8),
-            SkeletonBox(width: 220, height: 26),
-            SizedBox(height: 20),
-            SkeletonBox(height: 150, radius: 24),
-            SizedBox(height: 24),
-            SkeletonBox(height: 90, radius: 18),
-            SizedBox(height: 24),
-            _SkeletonRow(),
-            _SkeletonRow(),
-            _SkeletonRow(),
-          ],
-        ),
-        key: key,
-      );
+    (context) => const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SkeletonBox(width: 160, height: 18),
+        SizedBox(height: 8),
+        SkeletonBox(width: 220, height: 26),
+        SizedBox(height: 20),
+        SkeletonBox(height: 150, radius: 24),
+        SizedBox(height: 24),
+        SkeletonBox(height: 90, radius: 18),
+        SizedBox(height: 24),
+        _SkeletonRow(),
+        _SkeletonRow(),
+        _SkeletonRow(),
+      ],
+    ),
+    key: key,
+  );
 
   /// A single card-sized block.
   factory LoadingWidget.card({Key? key, double height = 160}) =>

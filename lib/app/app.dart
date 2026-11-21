@@ -2,14 +2,16 @@ import 'dart:ui' show PlatformDispatcher;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-import '../core/l10n/l10n.dart';
+import '../core/language/language.dart';
 import '../core/theme/app_theme.dart';
 import '../features/auth/view_model/auth_bloc.dart';
 import '../features/settings/view_model/settings_bloc.dart';
 import 'di.dart';
 import 'auth_gate.dart';
 import 'navigation.dart';
+import '../core/widgets/widgets.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
@@ -24,6 +26,17 @@ class KhmerBankApp extends StatefulWidget {
 
 class _KhmerBankAppState extends State<KhmerBankApp> {
   late final AuthBloc _authBloc = sl<AuthBloc>()..add(const AuthStarted());
+  bool _languageInitialized = false;
+
+  /// Keeps the '.tr' language in sync with the settings.
+  void _applyLanguage(String code) {
+    if (_languageInitialized) {
+      Tr.setLanguage(code);
+    } else {
+      Tr.init(code);
+      _languageInitialized = true;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,25 +53,26 @@ class _KhmerBankAppState extends State<KhmerBankApp> {
               (PlatformDispatcher.instance.locale.languageCode == 'km'
                   ? 'km'
                   : 'en');
+          _applyLanguage(code);
           final khmer = code == 'km';
           return MaterialApp(
             navigatorKey: rootNavigatorKey,
             debugShowCheckedModeBanner: false,
-            onGenerateTitle: (context) => context.l10n.appName,
+            onGenerateTitle: (context) => 'appName'.tr,
             scaffoldMessengerKey: scaffoldMessengerKey,
             theme: AppTheme.light(khmer: khmer),
             darkTheme: AppTheme.dark(khmer: khmer),
             themeMode: settings.themeMode,
             locale: Locale(code),
-            supportedLocales: AppLocalizations.supportedLocales,
-            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: Tr.supportedLocales,
+            localizationsDelegates: GlobalMaterialLocalizations.delegates,
             home: const AuthGate(),
             builder: (context, child) => BlocListener<AuthBloc, AuthState>(
               listenWhen: (prev, curr) =>
                   curr.sessionExpired && !prev.sessionExpired,
               listener: (context, _) {
                 scaffoldMessengerKey.currentState?.showSnackBar(
-                  SnackBar(content: Text(context.l10n.sessionExpired)),
+                  SnackBar(content: AppLabel('sessionExpired'.tr)),
                 );
               },
               child: child ?? const SizedBox.shrink(),

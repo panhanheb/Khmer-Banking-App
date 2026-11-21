@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '905465248798',
     projectId: 'khmer-flutter-bank',
     storageBucket: 'khmer-flutter-bank.firebasestorage.app',
-    androidClientId: '905465248798-2o9m79htkjblvhdk87eki39vkcsrl6ss.apps.googleusercontent.com',
-    iosClientId: '905465248798-j513mpircdbkgbu7l9qc4ce9g4dckvd2.apps.googleusercontent.com',
+    androidClientId:
+        '905465248798-2o9m79htkjblvhdk87eki39vkcsrl6ss.apps.googleusercontent.com',
+    iosClientId:
+        '905465248798-j513mpircdbkgbu7l9qc4ce9g4dckvd2.apps.googleusercontent.com',
     iosBundleId: 'com.khmerflutterbank.uat',
   );
 }

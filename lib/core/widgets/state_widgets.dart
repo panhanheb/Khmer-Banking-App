@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'app_button.dart';
+import 'app_label.dart';
 
 /// Error state with optional retry.
 class AppErrorWidget extends StatelessWidget {
@@ -39,7 +40,7 @@ class AppErrorWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16),
-            Text(
+            AppLabel(
               message,
               textAlign: TextAlign.center,
               style: theme.textTheme.bodyLarge,
@@ -94,15 +95,16 @@ class EmptyStateWidget extends StatelessWidget {
               child: Icon(icon, size: 40, color: theme.colorScheme.primary),
             ),
             const SizedBox(height: 16),
-            Text(
+            AppLabel(
               title,
               textAlign: TextAlign.center,
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
             ),
             if (message != null) ...[
               const SizedBox(height: 6),
-              Text(
+              AppLabel(
                 message!,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
